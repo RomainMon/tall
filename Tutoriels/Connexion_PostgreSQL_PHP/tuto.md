@@ -73,11 +73,9 @@ Dans ce nouveau cas, il s'agit de faire tout à fait l'inverse de ce que nous av
 
 Le fichier php se décompose en trois phases :
 
-*Connexion à la base de données,
-
-*Sélection des données à afficher via une requête sql,
-
-*Envoi des données
+* Connexion à la base de données,
+* Sélection des données à afficher via une requête sql,
+* Envoi des données
 
 Il y a un soucis avec la méthode développée avec la propriété geojson qui vient des deux méthodes suivantes : St_asGeosjson et St_transform qui permet d'afficher les données. Or dans cette propriété, il n'y a que la geométrie et non la totalité des informations qui sont liés aux éléments, nous ne pouvons donc pas effectué des discrétisation par exemple.
 La solution peut venir en transformant directement les données en 4326, avant de mettre les données dans la base SQL.Pour le calculs liés au générateur de potentialité, la transformation se fera pour les couches concernées directement en sql avant de lancer les scripts.
