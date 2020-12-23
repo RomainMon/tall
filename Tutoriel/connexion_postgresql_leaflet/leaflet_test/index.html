@@ -1,0 +1,65 @@
+<! DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8" />
+        <title> Titre </title>
+        <script src="leaflet/leaflet.js"></script>      
+        <link rel = "stylesheet" href="leaflet/leaflet.css" />
+        <link rel = "stylesheet" href="css/style.css" />
+    </head>    
+    <body>
+        <div id = "bloc_page">
+            <header>                    
+                <div id="logo">
+                    <a href="index.html">
+                        <img src = img/wima.png alt = "wima">
+                    </a>                            
+                </div> 
+                <nav>
+                    <ul>
+                        <li><a id="accueil_on" href ="index.html">Accueil</a></li>
+                        <li><a id="connexion_off" href ="connexion.html">Connexion</a></li>
+                        <li><a id="information_off" href ="info.html">S'informer</a></li>
+                        <li><a id="association_off" href ="association.html">Associations</a></li>
+                    </ul>
+                </nav>   
+            </header>
+            <div id="fenetre_principale">                    
+                <aside>
+                    <div id="search">                           
+                        <input type="text" placeholder="Search.." class="searchbar">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                    <p id = "tall">Gestion des données que vous souhaitez afficher</p>
+                    <form class= "sidebar">
+                        <h3>Equipements</h3>                      
+                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
+                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
+                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>                            
+                    </form> 
+                </aside>                
+                <div id = "map"></div>
+            </div>
+            <footer>
+                <div id="footer_text">
+                    <p> CCBR - Teams enhaced by Virtual scriptor.com - tall@gmail.com</p>
+                </div>                    
+                <div id="lien_footer">                    
+                    <a class="picto-item" aria-label="Site du master Geonum" href="https://mastergeonum.org/" target="_blank">
+                        <img src = img/geonum.png id ="logo_geonum" alt="geonum">
+                    </a>
+                    <a class="picto-item" aria-label="Site de l'université Lyon 2" href="https://www.univ-lyon2.fr/" target="_blank">
+                        <img src = img/Lyon_2.png id ="logo_lyon2" alt="lyon2">
+                    </a>
+                    <a class="picto-item" aria-label="Site de l'ENS" href="http://www.ens-lyon.fr//" target="_blank">
+                        <img src = img/Ens.png id ="logo_ens" alt="ens">
+                    </a>
+                    <a class="picto-item" aria-label="Site d'Anciela" href="https://www.anciela.info/" target="_blank">
+                        <img src = img/anciela.jpg id ="logo_anciela" alt="anciela">
+                    </a>
+                </div>
+            </footer>
+        </div>           
+    </body>
+    <script src ="js/script.js"></script>
+</html>
