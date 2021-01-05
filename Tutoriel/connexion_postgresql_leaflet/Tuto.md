@@ -1,5 +1,72 @@
 # Tutoriel Postgresql / PHP / Leaflet
 
+Ce tutoriel a pour vocation d'expliquer comment se connecter à une base de données postgresql avec le langage dédié serveur PHP, récupérer des données depuis une interface web leaflet, envoyer des données vers leaflet, enfin la gestion des utilisateurs et des sessions sur le site web.
+
+## Table des matières 
+
+[Utilisation de PDO](#Utilisation de PDO)
+
+[Récupérer des données depuis leaflet](#Récupérer des données depuis leaflet)
+
+[Afficher des données depuis postgresql dans Leaflet](#Afficher des données depuis postgresql dans Leaflet)
+
+## Utilisation de PDO
+
+Afin de faciliter la connexion et le requêtage de la base de données nous allons utiliser PDO (pour PHP Data Object).
+
+>L'extension PHP Data Objects (PDO) définit une excellente interface pour accéder à une base de données depuis PHP. Chaque pilote de base de données implémenté dans l'interface PDO peut utiliser des fonctionnalités spécifiques de chacune des bases de données en utilisant des extensions de fonctions [...].
+PDO fournit une interface d'abstraction à l'accès de données, ce qui signifie que vous utilisez les mêmes fonctions pour exécuter des requêtes ou récupérer les données quel que soit la base de données utilisée. 
+
+Source : [php.net](https://www.php.net/manual/fr/intro.pdo.php)
+
+### Connexion à la base de données
+
+La connexion à la base de données est définie une bonne fois pour toute dans un fichier php que l'on va nommer database.php.
+
+Ci-dessous le détail du code du fichier :
+
+    <?php
+    // paramètrage de la connexion vers la DB avec les informations classiques de connexions :
+    $host = 'localhost'; // par défaut localhost
+    $dbname = 'base_de_données_postgres'; // Base de données sur laquelle on souhaite se connecter
+    $username = 'postgres'; // par défaut postgres, si un autre user a été défini il afut changer ici
+    $password = 'mot_de_passe_postgres'; // mot de passe de connexion à postgressql, par défaut postgres
+    $port = '5432'; // port local, par défaut 5432, à changer si besoin
+
+    //écriture du détail de la connexion
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;user=$username;password=$password";
+    
+    // Test de la connexion et envoi d'un message d'erreur en cas d'erreur de connexion  
+    try{
+        $db = new PDO($dsn); // envoi de la connexion à la base de données dans une variable nommée db que l'on appelera dans les autres fichiers
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //message de connexion ok commenté, comme la connexion est appelée dans diverses pages, il s'affiche à chaque fois sur les pages de manière tout à fait déplaisante (à décommenter pour test)
+        //echo "Connecté à $dbname avec succès!";
+
+        } catch (PDOException $e){
+        echo $e->getMessage();
+    }
+    ?>
+
+Ce fichier est enregistré dans un dossier include dans la racine du répertoire. (A voir si c'est le plus pertinent ou rassembler dans un dossier php)
+
+Pour les questions de connexions à la base de données [cf.](https://www.php.net/manual/fr/pdo.connections.php).
+
+### Requêtes sur la base de données
+
+Il existe plusieurs types de fonction pour exécuter des requêtes sur la base de données. Pour faire simple nous allons en citer deux :
+
+* Les requêtes simples : avec la fonction exec("SELECT * FROM ma_table;")
+
+* Les requêtes préparées qui fonctionnent en deux temps avec les fonctions :
+
+    prepare("SELECT * FROM ma_table WHERE id = :id;") // préparation de la requête ici le paramètre qui n'est sera défini lors de l'exécution de la requête est le champs id. 
+
+    execute(['id' => 'id_que_l'on_veut']) // le lancement de la requête va permettre de récupérer le tuple qui concerne rentré en paramètre dans la fonction execute.
+
+A noter qu'il existe d'autres syntaxes pour la préparation des requêtes, celle-ci doit-être adaptée en fonction des besoins. Tout ce trouve dans la [documentation](https://www.php.net/manual/fr/pdo.prepared-statements.php).
+
+Pour notre exemple nous avons utilisé les deux types de requêtes vus précédemment cf. infra.
 
 ## Récupérer des données depuis leaflet :
 
@@ -10,9 +77,11 @@ Dans ce tutoriel, nous allons récupérer l'emplacement de point lors d'un clic 
 
 C'est dans le fichier php que la connexion à la base de données se fait, puis la récupération des variables et enfin le remplissage de la base de données.
 
-    //Connexion à la base de donnée postgresql :
-    $dbconn = pg_connect('host=localhost dbname=votre_base_de_donnee user=votre_user password=votre_mdp')
-    or die('Could not connect: ' . pg_last_error());
+    <?php
+    // Connexion à la BDD en utilisant l'appel au fichier database.php grâce à la fonction include
+    include '../include/database.php';
+    //  recupération de la varibable db pour faire des requêtes
+    global $db;
 
     //Récupération des variables lat et longitude :
     $lat = $_POST['lat'];
@@ -22,10 +91,11 @@ C'est dans le fichier php que la connexion à la base de données se fait, puis 
     $query = "INSERT INTO point (geom) VALUES (ST_SetSRID( ST_Point( " . strval($lng) . ", " . strval($lat) . "), 4326));";
 
     //lancement de la requête :
-    $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+    $db -> exec($query);
 
     //affichage dans le navigateur dans l'onglet réseau :
-    echo = $query
+    echo = echo ('coordonnées ajoutées');
+    ?>
 
 #### Fichier js
 
@@ -61,11 +131,11 @@ Source : [MDN Web Docs](https://developer.mozilla.org/fr/docs/Web/API/XMLHttpReq
         xhttp.open("POST", "php/test.php", true);
         //
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //envoie des données
+        //envoi des données
         xhttp.send("lat="+lat+"&lng="+lng);
     }
 
-## Afficher des données depuis postgresql :
+## Afficher des données depuis postgresql dans Leaflet :
 
 Dans ce nouveau cas, il s'agit de faire tout à fait l'inverse de ce que nous avons fait dans la première partie. Nous allons récupérer des données depuis la base postgresql et les afficher sur la carte leaflet générée sur la page web. De la même façon que pour la première opération, nous allons utiliser les requêtes xhr pour accèder au contenu de la base de données.
 
@@ -73,155 +143,162 @@ Dans ce nouveau cas, il s'agit de faire tout à fait l'inverse de ce que nous av
 
 Le fichier php se décompose en trois phases :
 
-*Connexion à la base de données,
-*Sélection des données à afficher via une requête sql,
-*Envoi des données
+* Connexion à la base de données,
+
+* Sélection des données à afficher via une requête sql,
+
+* Envoi des données
 
 Il y a un soucis avec la méthode développée avec la propriété geojson qui vient des deux méthodes suivantes : St_asGeosjson et St_transform qui permet d'afficher les données. Or dans cette propriété, il n'y a que la geométrie et non la totalité des informations qui sont liés aux éléments, nous ne pouvons donc pas effectué des discrétisation par exemple.
 La solution peut venir en transformant directement les données en 4326, avant de mettre les données dans la base SQL.Pour le calculs liés au générateur de potentialité, la transformation se fera pour les couches concernées directement en sql avant de lancer les scripts.
 
     <?php
-    //Connexion à la base de donnée postgresql :
-    $dbconn = pg_connect("host=localhost port=5432 dbname=asso_test_2 user=postgres password=Romainduris")
-    or die('Could not connect: '. preg_last_error());
+    // Connexion à la BDD en utilisant l'appel au fichier database.php grâce à la fonction include
+    include '../include/database.php';
+    //  recupération de la varibable db pour faire des requêtes
+    global $db;
     
-    //Méthode avec St_AsGeojson et St_Transform (ouche utilisée commune)
+    //Méthode avec St_AsGeojson et St_Transform (couche utilisée commune)
     //Création de la requête de sélection des données avec une transformation dans l'EPSG 4326 et ajout d'un champs geojson à partir du st_AsGeojson
     //Préparation de la requête :
-    $query = "SELECT * ,st_AsGeojson(ST_Transform(geom, 4326)) as geojson from commune;";
-    //récupération du résultat de la requête dans une variable :
-    $result = pg_query($query) or die('Query failed: ' . pg_last_error());
-    //Traitement de la requête pour récupérer un tableau
-    $array = pg_fetch_all($result);
+    $q = $db->prepare("SELECT * ,st_AsGeojson(ST_Transform(geom, 4326)) as geojson from commune;");
+    $q->execute();
+    //récupération du résultat de la requête dans une variable qui sera un tableau (utilisation de fetchAll) :
+    $result= $q->fetchAll(); 
     //Envoi du tableau
-    echo json_encode($array);
-    ?>
-
+    echo json_encode($result);
+  
     //Appel de la couche équipement pour test sur une couche de points.
-    //L'appel se fait différement au lieu de renvoyer un tableau, nous renvoyons la première ligne du tableau qui correspond
+    //L'appel se fait différement au lieu de renvoyer un tableau, nous renvoyons la première ligne du tableau qui correspond au fichier geojson entier. Ceci permet de naviguer plus facilement dans le fichier geojson et surtout d'utiliser les propriétes des objets.
     <?php
-    // Connexion à la BDD
-    $dbconn = pg_connect("host=localhost port=5432 dbname=asso_test_2 user=postgres password=Romainduris")
-    or die('Could not connect: '. preg_last_error());
-    //Préparation de la requête :
-    $query = "SELECT json_build_object(
+    // Connexion à la BDD en utilisant l'appel au fichier database.php grâce à la fonction include
+    include '../include/database.php';
+    //  recupération de la varibable db pour faire des requêtes
+    global $db;
+
+    //Préparation de la requête : celle-ci est complexe pour récupérer les informations de la commune
+    $q = $db->prepare("with equip_com as(
+        SELECT equip_4326.*, commune.nom_com, commune.code_post from equip_4326 join commune on (equip_4326.insee_com = commune.insee_com))    
+        SELECT json_build_object (
             'type', 'FeatureCollection',
-            'features', json_agg(ST_AsGeoJSON(equip_4326.*)::json)
-        ) 
-        from equip_4326;";
+            'features', json_agg(ST_AsGeoJSON(equip_com.*)::json)
+        ) as equipement //nom donnée au seul champs qui sera présent dans le tableau renvoyé
+        from equip_com;"
+    );
 
-    //récupération du résultat de la requête dans une variable :
-    $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+    //exécution de la requête 
+    $q->execute();
 
-    //Renvoi du résultat : nous extrayons la première ligne du tableau (même si il n'y en a qu'une en réalité)
-    echo pg_fetch_result($result, 0, 0);
+    //récupération du résultat de la requête dans une variable, extraction de la seule première ligne du tableau (utilisation de la commande fetch) :
+    $result = $q->fetch();
 
+    //Renvoi du résultat, en appelant le seul champs créé dans le tableau qui possède qu'une seule ligne :
+    echo ($result['equipement']);
     ?>
 
 #### Fichier JS
 
     //création de la variable map
-var map = L.map('map');
-//appel osm
-var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-//attribution osm
-var osmAttrib='Map data © OpenStreetMap contributors';
-//création de la couche osm
-var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
-//centrage de la carte
-map.setView([45.7175, 4.919], 9);
+    var map = L.map('map');
+    //appel osm
+    var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    //attribution osm
+    var osmAttrib='Map data © OpenStreetMap contributors';
+    //création de la couche osm
+    var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
+    //centrage de la carte
+    map.setView([45.7175, 4.919], 9);
 
-// Appel du script php
-//style pour la couche commune
-var style_commune = {
-    "color": "#fff",
-    "weight": 2,
-    "opacity": 0.65
-};
-
-//Création d'un style pour les communes
-var myStyle = {
-    "color": "#000000",
-    "weight": 2,
-    "opacity": 0.65
-};
-
-//Création d'une fonction de style pour changer les icones selon le type d'équipement :
-function PoIstile(feature, latlng) {
-    switch(feature.properties["type_equip"]) {
-        case "AMAP":
-            var amapIcon = new L.icon({
-                iconUrl: 'img/AMAP.png',//Chemin de l'image 
-                iconSize:     [15, 15], // Taille de l'icone
-                iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-                popupAnchor:  [-3, -15], // Point d'insertion de la popup
-                shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-                shadowUrl: 'img/marker-shadow.png'//Chemin de l'image d'ombre
-            });
-            return L.marker(latlng, {icon: amapIcon});
-        case "compost":
-            var composteurIcon = new L.icon({
-                iconUrl: 'img/composteur.png',//Chemin de l'image 
-                iconSize:     [15, 15], // Taille de l'icone
-                iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-                popupAnchor:  [-3, -15], // Point d'insertion de la popup
-                shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-                shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
-            });
-            return L.marker(latlng, {icon: composteurIcon});              
-        }       
-};
-
-//Appel de la couche commune
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-    //lecture de la connexion au fichier php (2 variables cf. biblio)
-    if (this.readyState == 4 && this.status ==200) {
-        //récupération du résultat de la requête sql et parcours de la couche :        
-        let response = JSON.parse(xhttp.responseText)                   
-        //transformation du tableau récupéré en couche geojson
-        response.forEach((el) => {
-            L.geoJSON(JSON.parse(el.geojson),{
-            //application du style
-            style: myStyle,
-            }).addTo(map)
-            })
-        }
+    //style pour la couche commune
+    var style_commune = {
+        "color": "#fff",
+        "weight": 2,
+        "opacity": 0.65
     };
-//requête du fichier php
-xhttp.open("GET", "php/commune.php",true);
-//envoie de la commande au fichier
-xhttp.send();
 
-//Appel de la couche equipement
-var xhttp2 = new XMLHttpRequest();
-//lecture de la connexion au fichier php (2 variables cf. biblio)
-xhttp2.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status ==200) {
-        //récupération du résultat de la requête sql et parcours de la couche :
-        let response = JSON.parse(xhttp2.responseText)
-        //appel de la couche
-        L.geoJSON(response, {
-            //application du style
-            pointToLayer : PoIstile,
-            //appel de popup
-            onEachFeature: function(feature, layer) {
-                layer.bindPopup(
-                "Type : "+ feature.properties.type_equip +
-                "<br>Nom : " + feature.properties.nom+
-                "<br>Adresse : "+ feature.properties.adresse + 
-                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
-                "<br>Précision d'emplacement : " + feature.properties.infoloc +
-                "<br>Type de site : " + feature.properties.type_site +
-                "<br>Site Internet : " + feature.properties.site_inter +
-                "<br>Mail : " + feature.properties.mail               
-                )
+    //Création d'un style pour les communes
+    var myStyle = {
+        "color": "#000000",
+        "weight": 2,
+        "opacity": 0.65
+    };
+
+    //Création d'une fonction de style pour changer les icones selon le type d'équipement :
+    function PoIstile(feature, latlng) {
+        switch(feature.properties["type_equip"]) {
+            case "AMAP":
+                var amapIcon = new L.icon({
+                    iconUrl: 'img/AMAP.png',//Chemin de l'image 
+                    iconSize:     [15, 15], // Taille de l'icone
+                    iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
+                    popupAnchor:  [-3, -15], // Point d'insertion de la popup
+                    shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
+                    shadowUrl: 'img/marker-shadow.png'//Chemin de l'image d'ombre
+                });
+                return L.marker(latlng, {icon: amapIcon});
+            case "compost":
+                var composteurIcon = new L.icon({
+                    iconUrl: 'img/composteur.png',//Chemin de l'image 
+                    iconSize:     [15, 15], // Taille de l'icone
+                    iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
+                    popupAnchor:  [-3, -15], // Point d'insertion de la popup
+                    shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
+                    shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
+                });
+                return L.marker(latlng, {icon: composteurIcon});              
+            }       
+    };
+
+    //Appel de la couche commune
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        //lecture de la connexion au fichier php (2 variables cf. biblio)
+        if (this.readyState == 4 && this.status ==200) {
+            //récupération du résultat de la requête sql et parcours de la couche :        
+            let response = JSON.parse(xhttp.responseText)                   
+            //transformation du tableau récupéré en couche geojson
+            response.forEach((el) => {
+                L.geoJSON(JSON.parse(el.geojson),{
+                //application du style
+                style: myStyle,
+                }).addTo(map)
+                })
             }
-        }).addTo(map)
-    }
-    };
-xhttp2.open("GET", "php/equipement.php",true);
-xhttp2.send();
+        };
+    //requête du fichier php
+    xhttp.open("GET", "php/commune.php",true);
+    //envoie de la commande au fichier
+    xhttp.send();
+
+    //Appel de la couche equipement
+    var xhttp2 = new XMLHttpRequest();
+    //lecture de la connexion au fichier php (2 variables cf. biblio)
+    xhttp2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status ==200) {
+            //récupération du résultat de la requête sql et parcours de la couche :
+            let response = JSON.parse(xhttp2.responseText)
+            //appel de la couche
+            L.geoJSON(response, {
+                //application du style
+                pointToLayer : PoIstile,
+                //appel de popup
+                onEachFeature: function(feature, layer) {
+                    layer.bindPopup(
+                    "Type : "+ feature.properties.type_equip +
+                    "<br>Nom : " + feature.properties.nom+
+                    "<br>Adresse : "+ feature.properties.adresse + 
+                    "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
+                    "<br>Précision d'emplacement : " + feature.properties.infoloc +
+                    "<br>Type de site : " + feature.properties.type_site +
+                    "<br>Site Internet : " + feature.properties.site_inter +
+                    "<br>Mail : " + feature.properties.mail               
+                    )
+                }
+            }).addTo(map)
+        }
+        };
+    xhttp2.open("GET", "php/equipement.php",true);
+    xhttp2.send();
 
 ## Fichiers communs
 
@@ -582,3 +659,6 @@ xhttp2.send();
 ### Bibliographie
 
 Requête [XMLHttpRequest (XHR)](https://developer.mozilla.org/fr/docs/Web/API/XMLHttpRequest)
+
+PDO [php.net](https://www.php.net/manual/fr/book.pdo.php)
+
