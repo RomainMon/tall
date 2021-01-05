@@ -4,13 +4,15 @@ Ce tutoriel a pour vocation d'expliquer comment se connecter à une base de donn
 
 ## Table des matières 
 
-[Utilisation de PDO](#Utilisation de PDO)
+[Utilisation de PDO](#pdo)
 
-[Récupérer des données depuis leaflet](#Récupérer des données depuis leaflet)
+[Récupérer des données depuis leaflet](#recup_leaflet)
 
-[Afficher des données depuis postgresql dans Leaflet](#Afficher des données depuis postgresql dans Leaflet)
+[Afficher des données depuis postgresql dans Leaflet](#vers_leaflet)
 
-## Utilisation de PDO
+[Fichiers Communs][#fichiers_communs]
+
+## Utilisation de PDO <a name="pdo"></a>
 
 Afin de faciliter la connexion et le requêtage de la base de données nous allons utiliser PDO (pour PHP Data Object).
 
@@ -50,7 +52,7 @@ Ci-dessous le détail du code du fichier :
 
 Ce fichier est enregistré dans un dossier include dans la racine du répertoire. (A voir si c'est le plus pertinent ou rassembler dans un dossier php)
 
-Pour les questions de connexions à la base de données [cf.](https://www.php.net/manual/fr/pdo.connections.php).
+Pour les questions de connexions à la base de données [cf. documentation](https://www.php.net/manual/fr/pdo.connections.php).
 
 ### Requêtes sur la base de données
 
@@ -60,15 +62,16 @@ Il existe plusieurs types de fonction pour exécuter des requêtes sur la base d
 
 * Les requêtes préparées qui fonctionnent en deux temps avec les fonctions :
 
+
     prepare("SELECT * FROM ma_table WHERE id = :id;") // préparation de la requête ici le paramètre qui n'est sera défini lors de l'exécution de la requête est le champs id. 
 
     execute(['id' => 'id_que_l'on_veut']) // le lancement de la requête va permettre de récupérer le tuple qui concerne rentré en paramètre dans la fonction execute.
 
-A noter qu'il existe d'autres syntaxes pour la préparation des requêtes, celle-ci doit-être adaptée en fonction des besoins. Tout ce trouve dans la [documentation](https://www.php.net/manual/fr/pdo.prepared-statements.php).
+A noter qu'il existe d'autres syntaxes pour la préparation des requêtes, celle-ci doit-être adaptée en fonction des besoins. Tout se trouve dans la [documentation](https://www.php.net/manual/fr/pdo.prepared-statements.php).
 
 Pour notre exemple nous avons utilisé les deux types de requêtes vus précédemment cf. infra.
 
-## Récupérer des données depuis leaflet :
+## Récupérer des données depuis leaflet <a name="recup_leaflet"></a>
 
 Dans ce tutoriel, nous allons récupérer l'emplacement de point lors d'un clic avec la souris. Pour réaliser cette opération, nous avons besoin de quatre fichiers différents, le fichier HTML pour l'affichage web, le fichier js pour la définition des variables à afficher et enfin le fichier css pour le style des éléments. 
 
@@ -135,7 +138,7 @@ Source : [MDN Web Docs](https://developer.mozilla.org/fr/docs/Web/API/XMLHttpReq
         xhttp.send("lat="+lat+"&lng="+lng);
     }
 
-## Afficher des données depuis postgresql dans Leaflet :
+## Afficher des données depuis postgresql dans Leaflet <a name="vers_leaflet"></a>
 
 Dans ce nouveau cas, il s'agit de faire tout à fait l'inverse de ce que nous avons fait dans la première partie. Nous allons récupérer des données depuis la base postgresql et les afficher sur la carte leaflet générée sur la page web. De la même façon que pour la première opération, nous allons utiliser les requêtes xhr pour accèder au contenu de la base de données.
 
@@ -300,7 +303,7 @@ La solution peut venir en transformant directement les données en 4326, avant d
     xhttp2.open("GET", "php/equipement.php",true);
     xhttp2.send();
 
-## Fichiers communs
+## Fichiers communs <a name="fichiers_communs"></a>
 
 #### Fichier HMTL 
 
