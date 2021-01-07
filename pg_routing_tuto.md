@@ -81,8 +81,11 @@ Ces 3 éléments définis précédemment se retrouvent dans la SGBDR comme nous 
 Pour créer la topologie de nos routes, nous allons rédiger un ensemble de requêtes SQL.
 Ouvrez pgAdmin.
 
+Entrez la requête qui suit dans pgAdmin :
 
+-- Requête 1
+-- créer la topology des routes : créer un nouveau schéma
 
-
+SELECT topology.CreateTopology('routes_topo',4326)
 
 
