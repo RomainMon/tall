@@ -133,7 +133,8 @@ Ouvrez la table attributaire de « edge_data ». On remarque les nœuds, les ar�
 Pour calculer le plus court chemin, entrez la requête suivante :
 
     -- Requête 6
-    -- calculer l'itinéraire le plus court. 3985 est le noeud de départ et 912 le noeud d'arrivé.
+    -- pgr_dijkstra est la fonction qui permet de requêter le graph réseau que nous avons préalablement créé
+    -- calculer l'itinéraire le plus court. 3985 est le noeud de départ et 912 le noeud d'arrivé. false indique qu'il n'y a pas de sens de circulation au réseau
 
     select * from
     pgr_dijkstra('select edge_id as id,start_node as  source,end_node as target, longueur as cost from routes_topo.edge_data', 3985, 912, false)
