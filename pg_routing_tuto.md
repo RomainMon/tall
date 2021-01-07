@@ -70,7 +70,7 @@ Par défaut vous avez la couche de routes qui est proposé en « source », si c
 
 Dans ce cas, convertissez vos données en WGS84 (ou autre système de projection) puis recommencer.
 
-## Étape 4 : les bases de la topologie et création de la topologie au jeu de données routes. <a name="etape4"></a>
+## Étape 4 : les bases de la topologie et création de la topologie au jeu de données routes <a name="etape4"></a>
 
 Dans le domaine des SIG, « la topologie est un ensemble de règles qui définissent comment des points, des lignes ou des polygones partagent des géométries coïncidentes » .
 Une topologie est composée de 3 éléments de bases :
@@ -88,4 +88,87 @@ Entrez la requête qui suit dans pgAdmin :
 
     SELECT topology.CreateTopology('routes_topo',4326)
 
+Ceci crée un nouveau schéma « routes_topo » avec une nouvelle topologie se composant de 4 tables (cf. figure 8). 
+
+<div align=center>Figure 8 : Tables créées</div>
+
+Ajoutez la colonne "topo_geom" de type topogeometry à la table de vos routes, dans mon cas « routes_grand_lyon_84 » :
+
+    -- Requête 2
+    -- ajout d'une colonne "topo_geom" de type topogeometry à la table routes_grand_lyon_84
+
+    SELECT topology.AddTopoGeometryColumn('routes_topo', 'public','routes_grand_lyon_84', 'topo_geom','LINESTRING')
+    
+Convertissez la géométrie initiale des routes en des références topologiques :
+ 
+    -- Requête 3
+    -- Convertissez la géométrie initiale des routes en des références topologiques
+
+    UPDATE routes_grand_lyon_84 set topo_geom = topology.toTopoGeom(geom,'routes_topo', 1)
+ 
+Ajoutez une colonne « longueur » en double précision dans la table « edge_data » dans le schéma « routes_topo » :
+ 
+    -- Requête 4
+    -- ajout colonne longueur en double précision
+
+    alter table routes_topo.edge_data add column longueur double precision
+    
+    -- Requête 5
+    -- MAJ colonne longueur
+
+    UPDATE routes_topo.edge_data set longueur=ST_Length(geom)
+ 
+## Étape 5 : calculer le plus court chemin <a name="etape5"></a>
+
+Glissez-déposez dans l’espace « couches » de QGIS la donnée « edge_data » de PostGIS. Le réseau routier topologique s’affiche.
+Ouvrez la table attributaire de « edge_data ». On remarque les nœuds, les arêtes et les faces de la topologie définis précédemment (cf. figure 9).
+
+ <div align=center>Figure 9 : Table attributaire</div>
+ 
+Pour calculer le plus court chemin, entrez la requête suivante :
+
+    -- Requête 6
+    -- calculer l'itinéraire le plus court. 3985 est le noeud de départ et 912 le noeud d'arrivé.
+
+    select * from
+    pgr_dijkstra('select edge_id as id,start_node as  source,end_node as target, longueur as cost from routes_topo.edge_data', 3985, 912, false)
+ 
+Pour calculer le plus court chemin et l’afficher dans QGIS, allez dans le « gestionnaire BD » de QGIS --> sélectionnez le schéma détenant les routes topologiques --> appuyez sur la touche « F2 » --> entrez la requête suivante :
+
+    -- Requête 7
+    -- calculer l'itinéraire le plus court et récupérer sa géométrie pour l'afficher dans qgis. 3985 est le noeud de départ et 912 le noeud d'arrivé
+
+    with dijkstra as (
+    select * from
+    pgr_dijkstra('select edge_id as id,start_node as  source,end_node as target, longueur as cost from routes_topo.edge_data', 3985, 912, false))
+    select edge_id as id, geom
+    from routes_topo.edge cross join dijkstra
+    where edge_id = dijkstra.edge
+
+Cliquez sur « chargez en tant que nouvelle couche » puis « charger ».
+Le tronçon sélectionné est à présent visible sur la carte.
+
+## Étape 6 : permettre au client d’élaborer un itinéraire<a name="etape6"></a>
+
+Pour que le client puisse établir un itinéraire, nous allons demander qu’il clique sur un lieu de départ et un lieu d’arrivée.
+Tout d’abord, lorsque le client clique sur la carte Leaflet, il nous faut récupérer les coordonnées des deux clics.
+Dans le code PHP, il y aura la requête vue précédemment qui permet de calculer le plus court chemin et de récupérer les géométries pour les afficher, mais aussi une nouvelle requête SQL qui permet de trouver le nœud de départ et le nœud d’arrivée qui soient les plus proches de là où l’utilisateur a cliqué (cf. requête qui suit).
+
+    -- Requête 8
+    -- calculer l'itinéraire en fonction des coordonées entrée au clic par l'utilisateur à mettre dans le PHP
+
+    WITH dijkstra AS (SELECT * FROM pgr_dijkstra('select edge_id as id,start_node as  source,end_node as target, longueur as cost from routes_topo.edge_data',
+    (SELECT node_id FROM routes_topo.node
+    WHERE ST_Expand(ST_GeomFromText('POINT(coordonées_utilisateur_départ)',4326),1000)&&geom
+    ORDER BY ST_Distance(geom,ST_GeomFromText('POINT(coordonées_utilisateur_départ)',4326))LIMIT 1),
+    (SELECT node_id FROM routes_topo.node
+    WHERE ST_Expand(ST_GeomFromText('POINT(coordonées_utilisateur_arrivée)',4326),1000)&&geom
+    ORDER BY ST_Distance(geom,ST_GeomFromText('POINT(coordonées_utilisateur_arrivée)',4326))LIMIT 1),
+    false
+    ))
+    select edge_id as id, geom
+    from routes_topo.edge cross join dijkstra
+    where edge_id = dijkstra.edge
+
+Là où il y a « coordonées_utilisateur_départ » et « coordonées_utilisateur_arrivée » il faut mettre les coordonnées de l’utilisateur.
 
