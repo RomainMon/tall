@@ -35,13 +35,13 @@ Dans pgAdmin créer une nouvelle « data base » et ajoutez à cette dernière l
 2.	PostGIS_topology
 3.	Pg_routing
 
-<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931275-56ae5100-5120-11eb-93fe-d587045d3039.png"></div>
+<div align=center><img width="200" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931275-56ae5100-5120-11eb-93fe-d587045d3039.png"></div>
 <div align=center>Figure 1 : Extensions correctement installées</div>
 
 Certaines versions de PostGIS ont nativement pg_routing. Si ce n’est pas le cas, il est nécessaire d’installer pg_routing. Pour cela rendez-vous sur https://pgrouting.org/.
 Une fois les extensions installées, connectez QGIS à votre « data base ». Il suffit de faire un clic droit sur l’icône PostGIS dans l’explorateur QGIS et de faire « nouvelle connexion ».
 
-<div align=center><img width="200" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931300-60d04f80-5120-11eb-974a-def5001fab5e.png"></div>
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931300-60d04f80-5120-11eb-974a-def5001fab5e.png"></div>
 <div align=center>Figure 2 : Connexion à la data base</div>
 
 ## Étape 2 : choisir son jeu de données et le préparer <a name="etape2"></a>
@@ -53,7 +53,7 @@ Dans ce tuto, j’utilise la base de données « Route 500 » de l’IGN. Elle e
 ## Étape 3 : importer la donnée dans la data base « webmapping » via QGIS <a name="etape3"></a>
 Dans QGIS cliquez sur « Base de données » puis « DB manager » (cf. figure3).
 
-<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931317-66c63080-5120-11eb-969a-98acc812453f.png"></div>
+<div align=center><img width="200" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931317-66c63080-5120-11eb-969a-98acc812453f.png"></div>
 <div align=center>Figure 3 : Accès à DB manager</div>
 
 Sélectionnez votre schéma contenant votre « data base » (cf. figure 4).
