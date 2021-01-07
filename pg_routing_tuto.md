@@ -6,8 +6,6 @@ Pour l’utilisateur curieux de comprendre les paramètres des requêtes pgRouti
 
 Une grande partie de ce travail a été possible grâce à l’ouvrage de [« Géomatique Webmapping en Open Source » édition 2019 de David Collado](https://www.decitre.fr/livres/geomatique-webmapping-en-open-source-9782340029682.html).
 
-<div align=center>https://www.decitre.fr/livres/geomatique-webmapping-en-open-source-9782340029682.html</div>
-
 
 ## Table des matières
 
