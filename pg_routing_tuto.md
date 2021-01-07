@@ -83,9 +83,9 @@ Ouvrez pgAdmin.
 
 Entrez la requête qui suit dans pgAdmin :
 
--- Requête 1
--- créer la topology des routes : créer un nouveau schéma
+    -- Requête 1
+    -- créer la topology des routes : créer un nouveau schéma
 
-SELECT topology.CreateTopology('routes_topo',4326)
+    SELECT topology.CreateTopology('routes_topo',4326)
 
 
