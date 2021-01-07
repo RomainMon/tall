@@ -41,7 +41,7 @@ Dans pgAdmin créer une nouvelle « data base » et ajoutez à cette dernière l
 Certaines versions de PostGIS ont nativement pg_routing. Si ce n’est pas le cas, il est nécessaire d’installer pg_routing. Pour cela rendez-vous sur https://pgrouting.org/.
 Une fois les extensions installées, connectez QGIS à votre « data base ». Il suffit de faire un clic droit sur l’icône PostGIS dans l’explorateur QGIS et de faire « nouvelle connexion ».
 
-<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931300-60d04f80-5120-11eb-974a-def5001fab5e.png"></div>
+<div align=center><img width="200" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931300-60d04f80-5120-11eb-974a-def5001fab5e.png"></div>
 <div align=center>Figure 2 : Connexion à la data base</div>
 
 ## Étape 2 : choisir son jeu de données et le préparer <a name="etape2"></a>
@@ -68,7 +68,7 @@ Cliquez sur « Import de couche/fichier » (cf. figure 5).
 
 Par défaut vous avez la couche de routes qui est proposé en « source », si ce n’est pas le cas sélectionnez là. Laissez les paramètres par défaut et cliquez seulement dans « options » sur « créer un index spatial » (cf. figure 6).
 
-<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931362-79d90080-5120-11eb-952a-df11256ad123.png"></div>
+<div align=center><img width="400" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931362-79d90080-5120-11eb-952a-df11256ad123.png"></div>
 <div align=center>Figure 6 : paramétrage de la couche à importer</div>
 
 <span style="color:red">Attention !</span> Parfois l’import de données en « Lambert 93 » n’est pas fonctionnel, une erreur apparait (cf. figure 7).
@@ -132,7 +132,7 @@ Ajoutez une colonne « longueur » en double précision dans la table « edge_da
 Glissez-déposez dans l’espace « couches » de QGIS la donnée « edge_data » de PostGIS. Le réseau routier topologique s’affiche.
 Ouvrez la table attributaire de « edge_data ». On remarque les nœuds, les arêtes et les faces de la topologie définis précédemment (cf. figure 9).
 
-<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931429-9412de80-5120-11eb-889b-80a46594100b.png"></div>
+<div align=center><img width="500" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931429-9412de80-5120-11eb-889b-80a46594100b.png"></div>
 <div align=center>Figure 9 : Table attributaire</div>
  
 Pour calculer le plus court chemin, entrez la requête suivante :
