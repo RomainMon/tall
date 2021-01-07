@@ -4,9 +4,11 @@ Pour suivre ce tutoriel, il est nécessaire d’avoir préalablement installé P
 Ce tutoriel a été réalisé avec QGIS 3.14, PostgreSQL 13, pgAdmin 4 et le système d’exploitation Windows 10.
 Un fichier texte avec les requêtes SQL abordé dans ce tutoriel est fourni.
 Pour l’utilisateur curieux de comprendre les paramètres des requêtes pgRouting, voici le lien vers la documentation pgRouting :
+
 <div align=center>https://docs.pgrouting.org/pdf/en/pgRoutingDocumentation-2.6.0.pdf</div>
 
 Une grande partie de ce travail a été possible grâce à l’ouvrage de « Géomatique Webmapping en Open Source » édition 2019 de David Collado.
+
 <div align=center>https://www.decitre.fr/livres/geomatique-webmapping-en-open-source-9782340029682.html</div>
 
 
@@ -16,7 +18,7 @@ Une grande partie de ce travail a été possible grâce à l’ouvrage de « Gé
 
 [Étape 2 : choisir son jeu de données et le préparer](#etape2)
 
-[Étape 3 : importer la couche dans la base de données «webmapping» via QGIS](#etape3)
+[Étape 3 : importer la donnée dans la base de données «webmapping» via QGIS](#etape3)
 
 [Étape 4 : les bases de la topologie et création de la topologie au jeu de données routes](#etape3)
 
@@ -33,12 +35,13 @@ Dans pgAdmin créer une nouvelle « data base » et ajoutez à cette dernière l
 2.	PostGIS_topology
 3.	Pg_routing
 
-
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931275-56ae5100-5120-11eb-93fe-d587045d3039.png"></div>
 <div align=center>Figure 1 : Extensions correctement installées</div>
 
 Certaines versions de PostGIS ont nativement pg_routing. Si ce n’est pas le cas, il est nécessaire d’installer pg_routing. Pour cela rendez-vous sur https://pgrouting.org/.
 Une fois les extensions installées, connectez QGIS à votre « data base ». Il suffit de faire un clic droit sur l’icône PostGIS dans l’explorateur QGIS et de faire « nouvelle connexion ».
 
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931300-60d04f80-5120-11eb-974a-def5001fab5e.png"></div>
 <div align=center>Figure 2 : Connexion à la data base</div>
 
 ## Étape 2 : choisir son jeu de données et le préparer <a name="etape2"></a>
@@ -47,25 +50,30 @@ Choisissez un jeu de données correspondant à votre zone d’étude et dont la 
 Gardez que les informations utiles dans la table attributaire. Je laisse au lecteur le soin de garder les éléments qui lui semble utile.
 Dans ce tuto, j’utilise la base de données « Route 500 » de l’IGN. Elle est gratuite et reflète bien la réalité du terrain. Les données OSM peuvent être également utilisées si elles vous paraissent assez complètes sur votre zone d’étude.
 
-## Étape 3 : importer la couche dans la data base « webmapping » via QGIS <a name="etape3"></a>
+## Étape 3 : importer la donnée dans la data base « webmapping » via QGIS <a name="etape3"></a>
 Dans QGIS cliquez sur « Base de données » puis « DB manager » (cf. figure3).
 
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931317-66c63080-5120-11eb-969a-98acc812453f.png"></div>
 <div align=center>Figure 3 : Accès à DB manager</div>
 
 Sélectionnez votre schéma contenant votre « data base » (cf. figure 4).
 
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931329-6d54a800-5120-11eb-8344-8f221d689c10.png"></div>
 <div align=center>Figure 4 : Sélection du schéma</div>
 
 Cliquez sur « Import de couche/fichier » (cf. figure 5).
 
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931338-72b1f280-5120-11eb-8084-f27dbc927f3c.png"></div>
 <div align=center>Figure 5 : Bouton import de couche/fichier</div>
 
 Par défaut vous avez la couche de routes qui est proposé en « source », si ce n’est pas le cas sélectionnez là. Laissez les paramètres par défaut et cliquez seulement dans « options » sur « créer un index spatial » (cf. figure 6).
 
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931362-79d90080-5120-11eb-952a-df11256ad123.png"></div>
 <div align=center>Figure 6 : paramétrage de la couche à importer</div>
 
 <span style="color: red;">Attention !</span> Parfois l’import de données en « Lambert 93 » n’est pas fonctionnel, une erreur apparait (cf. figure 7).
 
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931386-83faff00-5120-11eb-9816-b3b56286b96c.png"></div>
 <div align=center>Figure 7 : Erreur d’importation</div>
 
 Dans ce cas, convertissez vos données en WGS84 (ou autre système de projection) puis recommencer.
@@ -90,6 +98,7 @@ Entrez la requête qui suit dans pgAdmin :
 
 Ceci crée un nouveau schéma « routes_topo » avec une nouvelle topologie se composant de 4 tables (cf. figure 8). 
 
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931404-8a897680-5120-11eb-8973-94d2a88e4ac6.png"></div>
 <div align=center>Figure 8 : Tables créées</div>
 
 Ajoutez la colonne "topo_geom" de type topogeometry à la table de vos routes, dans mon cas « routes_grand_lyon_84 » :
@@ -123,7 +132,8 @@ Ajoutez une colonne « longueur » en double précision dans la table « edge_da
 Glissez-déposez dans l’espace « couches » de QGIS la donnée « edge_data » de PostGIS. Le réseau routier topologique s’affiche.
 Ouvrez la table attributaire de « edge_data ». On remarque les nœuds, les arêtes et les faces de la topologie définis précédemment (cf. figure 9).
 
- <div align=center>Figure 9 : Table attributaire</div>
+<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931429-9412de80-5120-11eb-889b-80a46594100b.png"></div>
+<div align=center>Figure 9 : Table attributaire</div>
  
 Pour calculer le plus court chemin, entrez la requête suivante :
 
