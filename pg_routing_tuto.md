@@ -2,9 +2,7 @@
 
 Pour suivre ce tutoriel, il est nécessaire d’avoir préalablement installé PostgreSQL, pgAdmin, et QGIS.
 Ce tutoriel a été réalisé avec QGIS 3.14, PostgreSQL 13, pgAdmin 4 et le système d’exploitation Windows 10.
-Pour l’utilisateur curieux de comprendre les paramètres des requêtes pgRouting, voici le lien vers la documentation pgRouting :
-
-<div align=center>https://docs.pgrouting.org/pdf/en/pgRoutingDocumentation-2.6.0.pdf</div>
+Pour l’utilisateur curieux de comprendre les paramètres des requêtes pgRouting, il peut cliquer [ici](https://docs.pgrouting.org/pdf/en/pgRoutingDocumentation-2.6.0.pdf) pour accèder à la documentation pgRouting.
 
 Une grande partie de ce travail a été possible grâce à l’ouvrage de [« Géomatique Webmapping en Open Source » édition 2019 de David Collado](https://www.decitre.fr/livres/geomatique-webmapping-en-open-source-9782340029682.html).
 
