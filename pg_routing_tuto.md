@@ -6,7 +6,7 @@ Pour l’utilisateur curieux de comprendre les paramètres des requêtes pgRouti
 
 <div align=center>https://docs.pgrouting.org/pdf/en/pgRoutingDocumentation-2.6.0.pdf</div>
 
-Une grande partie de ce travail a été possible grâce à l’ouvrage de « Géomatique Webmapping en Open Source » édition 2019 de David Collado.
+Une grande partie de ce travail a été possible grâce à l’ouvrage de [« Géomatique Webmapping en Open Source » édition 2019 de David Collado](https://www.decitre.fr/livres/geomatique-webmapping-en-open-source-9782340029682.html).
 
 <div align=center>https://www.decitre.fr/livres/geomatique-webmapping-en-open-source-9782340029682.html</div>
 
