@@ -74,9 +74,9 @@ Dans ce cas, convertissez vos données en WGS84 (ou autre système de projection
 
 Dans le domaine des SIG, « la topologie est un ensemble de règles qui définissent comment des points, des lignes ou des polygones partagent des géométries coïncidentes » .
 Une topologie est composée de 3 éléments de bases :
-•	Les nœuds (vertices) qui modélisent les points
-•	Les arêtes qui modélisent les entités linéaires. Ces entités ne peuvent se chevaucher, elles ont un sens défini par un nœud de départ et un nœud d’arrivée (sens antihoraire). Cette structure se nomme « graphe orienté »
-•	Les faces modélisent les polygones. Les faces sont constituées d’arêtes.
+*	Les nœuds (vertices) qui modélisent les points
+*	Les arêtes qui modélisent les entités linéaires. Ces entités ne peuvent se chevaucher, elles ont un sens défini par un nœud de départ et un nœud d’arrivée (sens antihoraire). Cette structure se nomme « graphe orienté »
+*	Les faces modélisent les polygones. Les faces sont constituées d’arêtes.
 Ces 3 éléments définis précédemment se retrouvent dans la SGBDR comme nous le verrons plus tard.
 Pour créer la topologie de nos routes, nous allons rédiger un ensemble de requêtes SQL.
 Ouvrez pgAdmin.
