@@ -66,7 +66,7 @@ Par défaut vous avez la couche de routes qui est proposé en « source », si c
 <div align=center><img width="400" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931362-79d90080-5120-11eb-952a-df11256ad123.png"></div>
 <div align=center>Figure 6 : paramétrage de la couche à importer</div>
 
-<span style="color:red">Attention !</span> Parfois l’import de données en « Lambert 93 » n’est pas fonctionnel, une erreur apparait (cf. figure 7).
+<b>Attention !</b> Parfois l’import de données en « Lambert 93 » n’est pas fonctionnel, une erreur apparait (cf. figure 7).
 
 <div align=center><img width="500" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931386-83faff00-5120-11eb-9816-b3b56286b96c.png"></div>
 <div align=center>Figure 7 : Erreur d’importation</div>
