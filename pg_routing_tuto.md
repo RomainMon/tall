@@ -68,12 +68,12 @@ Cliquez sur « Import de couche/fichier » (cf. figure 5).
 
 Par défaut vous avez la couche de routes qui est proposé en « source », si ce n’est pas le cas sélectionnez là. Laissez les paramètres par défaut et cliquez seulement dans « options » sur « créer un index spatial » (cf. figure 6).
 
-<div align=center><img width="500" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931362-79d90080-5120-11eb-952a-df11256ad123.png"></div>
+<div align=center><img width="400" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931362-79d90080-5120-11eb-952a-df11256ad123.png"></div>
 <div align=center>Figure 6 : paramétrage de la couche à importer</div>
 
 <span style="color:red">Attention !</span> Parfois l’import de données en « Lambert 93 » n’est pas fonctionnel, une erreur apparait (cf. figure 7).
 
-<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931386-83faff00-5120-11eb-9816-b3b56286b96c.png"></div>
+<div align=center><img width="500" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931386-83faff00-5120-11eb-9816-b3b56286b96c.png"></div>
 <div align=center>Figure 7 : Erreur d’importation</div>
 
 Dans ce cas, convertissez vos données en WGS84 (ou autre système de projection) puis recommencer.
@@ -98,7 +98,7 @@ Entrez la requête qui suit dans pgAdmin :
 
 Ceci crée un nouveau schéma « routes_topo » avec une nouvelle topologie se composant de 4 tables (cf. figure 8). 
 
-<div align=center><img width="300" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931404-8a897680-5120-11eb-8973-94d2a88e4ac6.png"></div>
+<div align=center><img width="200" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931404-8a897680-5120-11eb-8973-94d2a88e4ac6.png"></div>
 <div align=center>Figure 8 : Tables créées</div>
 
 Ajoutez la colonne "topo_geom" de type topogeometry à la table de vos routes, dans mon cas « routes_grand_lyon_84 » :
@@ -132,7 +132,7 @@ Ajoutez une colonne « longueur » en double précision dans la table « edge_da
 Glissez-déposez dans l’espace « couches » de QGIS la donnée « edge_data » de PostGIS. Le réseau routier topologique s’affiche.
 Ouvrez la table attributaire de « edge_data ». On remarque les nœuds, les arêtes et les faces de la topologie définis précédemment (cf. figure 9).
 
-<div align=center><img width="500" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931429-9412de80-5120-11eb-889b-80a46594100b.png"></div>
+<div align=center><img width="800" alt="img1" src="https://user-images.githubusercontent.com/57360765/103931429-9412de80-5120-11eb-889b-80a46594100b.png"></div>
 <div align=center>Figure 9 : Table attributaire</div>
  
 Pour calculer le plus court chemin, entrez la requête suivante :
