@@ -101,6 +101,36 @@ xhttp2.onreadystatechange = function() {
 xhttp2.open("GET", "php/equipement.php",true);
 xhttp2.send();
 
+//Appel de la couche ambassadeur_mdp
+var xhttp3 = new XMLHttpRequest();
+//lecture de la connexion au fichier php (2 variables cf. biblio)
+xhttp3.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status ==200) {
+        //récupération du résultat de la requête sql et parcours de la couche :
+        let response = JSON.parse(xhttp3.responseText)
+        //appel de la couche
+        L.geoJSON(response, {
+            //application du style
+            //pointToLayer : PoIstile,
+            //appel de popup
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup(
+                //"Type : "+ feature.properties.type_equip +
+                //"<br>Nom : " + feature.properties.nom+
+                "<br>Adresse : "+ feature.properties.adresse
+                //"<br>Commune : " +feature.properties.code postal + " " + feature.properties.nom_com +
+                //"<br>Précision d'emplacement : " + feature.properties.infoloc +
+                //"<br>Type de site : " + feature.properties.type_site +
+                //"<br>Site Internet : " + feature.properties.site_inter +
+                //"<br>Mail : " + feature.properties.mail               
+                )
+            }
+        }).addTo(map)
+    }
+    };
+xhttp3.open("GET", "php/ambassadeur_mdp.php",true);
+xhttp3.send();
+
 map.on('click', function(e){
     lat = e.latlng.lat;
     lng = e.latlng.lng;

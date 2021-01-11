@@ -1,0 +1,237 @@
+*{
+    box-sizing: border-box;
+}
+
+
+/* Définitions générales */
+body {
+	background-color: rgb(255, 255, 255);
+}
+
+/* Textes */
+body, p {
+	font-family: 'Quicksand', Arial,sans-serif;
+	color:rgb(0, 0, 0);
+	font-size: 15px;
+	line-height: 20px;
+	font-weight: 200;
+}
+
+/*header*/
+
+
+#logo
+{
+    display: flex;
+    position: absolute;
+    top : 10px;
+    width: 40%;
+}
+
+#logo img
+{
+    margin-left : 10px;
+    width: 82px;
+    height: 82px; 
+}
+
+#Ton_action_locale_lyonnaise {
+    left: 100px;
+    top: 30px;
+    position: absolute;
+    overflow: visible;
+    width: 50%;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    font-size: large;
+    color: rgba(18,139,102,1);
+}
+
+
+/* Menu haut */
+nav ul{
+    list-style-type: none;
+    display: flex;
+    height: 80px;
+    margin-left: 0px;  
+    border-bottom : 1px solid rgb(0, 0, 0);
+}
+
+nav li{    
+    width: 125px;    
+    margin-right:100px;  
+      
+}
+nav a
+{   
+    text-align: center;
+    width: 110px;
+    position: absolute;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    font-size: 1.25em;
+    color: rgb(10, 2, 2);        
+    font-weight: bolder;    
+    text-decoration: none; 
+    
+}
+
+#accueil{
+	left: 61%;
+    top: 36px;
+    font-size: medium;  
+    border-bottom : 3px solid rgba(18,139,102,1); 
+}
+
+
+
+#connexion{
+	left: 75%;
+    top: 36px;
+    font-size: medium;  
+    border-bottom : 3px solid rgba(23,157,147,1);
+}
+
+
+
+
+#contact{
+	left: 89%;
+    top: 36px;
+    font-size: medium;  
+    border-bottom : 3px solid rgba(70,154,185,1);
+}
+
+
+/*section principale*/
+
+.searchbar{
+    width: 80%;
+    height: 150%;
+    text-align: left;
+	align-self: center;
+    border-radius:50px ; 
+    background-color: rgba(240, 238, 238, 0.493); 
+    border-width: 1px; 
+}
+
+
+
+aside{
+    order : 1;
+}
+
+#fenetre_principale{
+    display: flex;
+    height: 35em;
+}
+
+aside{
+    flex: 1 0 0;
+    margin-right: 5px;
+    display : flex;
+    flex-direction: column;      
+}
+
+.Tissu_associatif_lyonnais {
+    margin-bottom: 50px;
+    position: absolute;
+    overflow: visible;
+    top: 100px;
+    width: 80%;
+    text-align: left;
+    font-style: bold;
+    font-size: large;
+    color: rgb(0, 0, 0);
+}
+
+aside h1{
+    
+	text-align: left;
+    font-size: small;
+    margin-top: 20px;
+    border-top : 1px solid rgb(0, 0, 0);
+}
+
+
+aside h2{  
+
+	text-align: left;
+	font-size: small;
+    margin-top: 20px;
+    border-top : 1px solid rgb(0, 0, 0);
+}
+
+aside h3{  
+
+	text-align: left;
+	font-size: small;
+    margin-top: 20px;
+    border-top : 1px solid rgb(0, 0, 0);
+}
+
+
+#map {
+	height: 100%;
+    width: 100%;
+    order:2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    flex: 3 0 0;
+}
+
+
+#info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 33em;
+}
+
+.construction {
+    text-align: center;
+    background-color: white;
+    padding: 25px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgb(31, 49, 31);
+}
+
+.construction a{
+    text-decoration: none;
+    color : black;
+}
+.construction a:hover{
+    text-decoration: none;
+    color : rgb(40, 71, 56);
+    font-weight: bold;
+    background-color: rgba(40, 71, 56, 0.589);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+footer{
+    margin-top: 15px;
+    order:3;
+    display : flex;
+    height : 50px;
+    align-items: flex-end;
+    justify-content: center;
+    border-bottom: 1px solid;
+    border-radius: 5px;
+}
+
+footer img{
+    margin-left: 15px;
+}
+
+footer a{
+    text-decoration: none;
+}
+
+#lien_footer{
+    position :absolute;
+    right : 15px;
+}
