@@ -4,6 +4,8 @@ Ce tutoriel a pour vocation d'expliquer comment se connecter à une base de donn
 
 ## Table des matières 
 
+[Configuration de postgresql 13](#psql13)
+
 [Utilisation de PDO](#pdo)
 
 [Récupérer des données depuis leaflet](#recup_leaflet)
@@ -11,6 +13,23 @@ Ce tutoriel a pour vocation d'expliquer comment se connecter à une base de donn
 [Afficher des données depuis postgresql dans Leaflet](#vers_leaflet)
 
 [Fichiers Communs][#fichiers_communs]
+
+## Configuration de postgresql 13 <a name="psql13"></a>
+
+Dans le cas où la version de postgresql installée est la 13, il faut faire les manipulations suivantes afin que l'accès à la base de données soit possible.
+En effet le cryptage du mot de passe du user postgre a changé et la version de php de wamp ne peut pas le décrypter. Il faut donc dégrader la version et passé à l'ancienne.
+
+changement des paramètres 'scram-sha-256' authentication, pour les mettre en md5:
+
+* Dans le fichier postgresql.conf qui est dans postgresql/13/data par exemple :
+    mettre password_encryption = md5
+* Dans le fichier pg_hba_conf qui est dans postgresql/13/data par exemple :	
+    change the authentication method to md5 
+    
+* relancer PostgreSQL
+
+* changer le password de l'user pour avoir un mot de passe encripté en MD5 encrypted avec la ligne sql suivante :
+	ALTER USER [user] WITH PASSWORD 'xxxxxx';
 
 ## Utilisation de PDO <a name="pdo"></a>
 
