@@ -22,13 +22,17 @@ En effet le cryptage du mot de passe du user postgre a changé et la version de 
 changement des paramètres 'scram-sha-256' authentication, pour les mettre en md5:
 
 * Dans le fichier postgresql.conf qui est dans postgresql/13/data par exemple :
+
     mettre password_encryption = md5
-* Dans le fichier pg_hba_conf qui est dans postgresql/13/data par exemple :	
+    
+* Dans le fichier pg_hba_conf qui est dans postgresql/13/data par exemple :
+
     change the authentication method to md5 
     
 * relancer PostgreSQL
 
 * changer le password de l'user pour avoir un mot de passe encripté en MD5 encrypted avec la ligne sql suivante :
+
 	ALTER USER [user] WITH PASSWORD 'xxxxxx';
 
 ## Utilisation de PDO <a name="pdo"></a>
