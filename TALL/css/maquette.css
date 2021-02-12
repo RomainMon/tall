@@ -1,0 +1,1513 @@
+	.mediaViewInfo {
+		--web-view-name: Page 1 - Citoyen – vCouleur;
+		--web-view-id: Page_1_-_Citoyen__vCouleur;
+		--web-scale-on-resize: true;
+		--web-enable-deep-linking: true;
+	}
+	:root {
+		--web-view-ids: Page_1_-_Citoyen__vCouleur;
+	}
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		border: none;
+	}
+	#Page_1_-_Citoyen__vCouleur {
+		position: absolute;
+		width: 1920px;
+		height: 1080px;
+		background-color: rgba(255,255,255,1);
+		overflow: hidden;
+		--web-view-name: Page 1 - Citoyen – vCouleur;
+		--web-view-id: Page_1_-_Citoyen__vCouleur;
+		--web-scale-on-resize: true;
+		--web-enable-deep-linking: true;
+	}
+	#Capture_decran_2020-11-22_a_11 {
+		position: absolute;
+		width: 1631px;
+		height: 1058px;
+		left: 351px;
+		top: 108px;
+		overflow: visible;
+	}
+	#header {
+		fill: rgba(255,255,255,1);
+		stroke: rgba(0,0,0,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.header {
+		position: absolute;
+		overflow: visible;
+		width: 2006px;
+		height: 175px;
+		left: -43px;
+		top: -53px;
+	}
+	#Accueil {
+		left: 1178px;
+		top: 47px;
+		position: absolute;
+		overflow: visible;
+		width: 123px;
+		white-space: nowrap;
+		text-align: center;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 25px;
+		color: rgba(18,139,102,1);
+	}
+	#Connexion {
+		left: 1438px;
+		top: 47px;
+		position: absolute;
+		overflow: visible;
+		width: 153px;
+		white-space: nowrap;
+		text-align: center;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 25px;
+		color: rgba(0,0,0,1);
+	}
+	#Contact {
+		left: 1727px;
+		top: 47px;
+		position: absolute;
+		overflow: visible;
+		width: 153px;
+		white-space: nowrap;
+		text-align: center;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 25px;
+		color: rgba(0,0,0,1);
+	}
+	#Logo {
+		position: absolute;
+		width: 322px;
+		height: 29px;
+		left: 196px;
+		top: 50px;
+		overflow: visible;
+	}
+	#Ton_action_locale_lyonnaise {
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		overflow: visible;
+		width: 323px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 25px;
+		color: rgba(18,139,102,1);
+	}
+	#Slide_info_go {
+		position: absolute;
+		width: 540.5px;
+		height: 958px;
+		left: 0px;
+		top: 122px;
+		overflow: visible;
+	}
+	#Fond_slide {
+		position: absolute;
+		width: 540.5px;
+		height: 958px;
+		left: 0px;
+		top: 0px;
+		overflow: visible;
+	}
+	#Menu {
+		fill: rgba(255,255,255,1);
+		stroke: rgba(255,255,255,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Menu {
+		position: absolute;
+		overflow: visible;
+		width: 540px;
+		height: 958px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ligne_1 {
+		fill: transparent;
+		stroke: rgba(0,0,0,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_1 {
+		overflow: visible;
+		position: absolute;
+		width: 540px;
+		height: 1px;
+		left: 0.5px;
+		top: 218.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_2 {
+		fill: transparent;
+		stroke: rgba(0,0,0,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_2 {
+		overflow: visible;
+		position: absolute;
+		width: 540px;
+		height: 1px;
+		left: 0.5px;
+		top: 453.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_3 {
+		fill: transparent;
+		stroke: rgba(0,0,0,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_3 {
+		overflow: visible;
+		position: absolute;
+		width: 540px;
+		height: 1px;
+		left: 0.5px;
+		top: 682.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Recherche {
+		position: absolute;
+		width: 476px;
+		height: 126px;
+		left: 33px;
+		top: 32px;
+		overflow: visible;
+	}
+	#Barre_de_recherche {
+		fill: rgba(248,248,248,1);
+		stroke: rgba(0,0,0,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Barre_de_recherche {
+		position: absolute;
+		overflow: visible;
+		width: 476px;
+		height: 52px;
+		left: 0px;
+		top: 74px;
+	}
+	#Loupe {
+		position: absolute;
+		width: 23.5px;
+		height: 19.5px;
+		left: 17px;
+		top: 90px;
+		overflow: visible;
+	}
+	#Ellipse_2 {
+		fill: rgba(255,255,255,1);
+		stroke: rgba(112,112,112,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ellipse_2 {
+		position: absolute;
+		overflow: visible;
+		width: 17px;
+		height: 17px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ligne_4 {
+		fill: transparent;
+		stroke: rgba(112,112,112,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_4 {
+		overflow: visible;
+		position: absolute;
+		width: 8.6px;
+		height: 6.8px;
+		left: 15.5px;
+		top: 13.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Recherchez_dans_TALL {
+		left: 78px;
+		top: 89px;
+		position: absolute;
+		overflow: visible;
+		width: 367px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Tissu_associatif_lyonnais {
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		overflow: visible;
+		width: 338px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 30px;
+		color: rgba(0,0,0,1);
+	}
+	#Les_associations {
+		position: absolute;
+		width: 462px;
+		height: 194px;
+		left: 28px;
+		top: 236px;
+		overflow: visible;
+	}
+	#Les_associations_ {
+		filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		overflow: visible;
+		width: 463px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 25px;
+		color: rgba(0,0,0,1);
+	}
+	#Groupe_5 {
+		position: absolute;
+		width: 199px;
+		height: 140px;
+		left: 0px;
+		top: 54px;
+		overflow: visible;
+	}
+	#Rduction_des_dchets {
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		overflow: visible;
+		width: 200px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Dpollution {
+		left: 0px;
+		top: 41px;
+		position: absolute;
+		overflow: visible;
+		width: 97px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Jardinage {
+		left: 0px;
+		top: 82px;
+		position: absolute;
+		overflow: visible;
+		width: 85px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Compostage {
+		left: 0px;
+		top: 117px;
+		position: absolute;
+		overflow: visible;
+		width: 113px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Les_quipements {
+		position: absolute;
+		width: 462px;
+		height: 194px;
+		left: 28px;
+		top: 465px;
+		overflow: visible;
+	}
+	#Les_quipements_bc {
+		filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		overflow: visible;
+		width: 463px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 25px;
+		color: rgba(0,0,0,1);
+	}
+	#Groupe_10 {
+		position: absolute;
+		width: 182px;
+		height: 140px;
+		left: 0px;
+		top: 54px;
+		overflow: visible;
+	}
+	#Centres_de_recyclage {
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		overflow: visible;
+		width: 183px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Donneries {
+		left: 0px;
+		top: 41px;
+		position: absolute;
+		overflow: visible;
+		width: 88px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Jardins {
+		left: 0px;
+		top: 82px;
+		position: absolute;
+		overflow: visible;
+		width: 63px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Composteurs {
+		left: 0px;
+		top: 117px;
+		position: absolute;
+		overflow: visible;
+		width: 118px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Les_vnements {
+		position: absolute;
+		width: 462px;
+		height: 194px;
+		left: 28px;
+		top: 694px;
+		overflow: visible;
+	}
+	#Les_vnements_bj {
+		filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		overflow: visible;
+		width: 463px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: bold;
+		font-size: 25px;
+		color: rgba(0,0,0,1);
+	}
+	#Groupe_11 {
+		position: absolute;
+		width: 229px;
+		height: 140px;
+		left: 0px;
+		top: 54px;
+		overflow: visible;
+	}
+	#Prsentations_associations {
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		overflow: visible;
+		width: 230px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Dpollutions {
+		left: 0px;
+		top: 41px;
+		position: absolute;
+		overflow: visible;
+		width: 107px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Jardins_bn {
+		left: 0px;
+		top: 82px;
+		position: absolute;
+		overflow: visible;
+		width: 63px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Composteurs_bo {
+		left: 0px;
+		top: 117px;
+		position: absolute;
+		overflow: visible;
+		width: 118px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 20px;
+		color: rgba(0,0,0,1);
+	}
+	#Bouton_visualisation {
+		position: absolute;
+		width: 68px;
+		height: 607px;
+		left: 431px;
+		top: 288px;
+		overflow: visible;
+	}
+	#ON {
+		position: absolute;
+		width: 68px;
+		height: 527px;
+		left: 0px;
+		top: 80px;
+		overflow: visible;
+	}
+	#Groupe_1 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+		overflow: visible;
+	}
+	#Rectangle_1 {
+		fill: rgba(126,79,37,1);
+	}
+	.Rectangle_1 {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3 {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3 {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 37px;
+		top: 1px;
+	}
+	#Groupe_15 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 495px;
+		overflow: visible;
+	}
+	#Rectangle_1_bv {
+		fill: rgba(126,79,37,1);
+	}
+	.Rectangle_1_bv {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_bw {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_bw {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 37px;
+		top: 1px;
+	}
+	#Groupe_6 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 266px;
+		overflow: visible;
+	}
+	#Rectangle_1_by {
+		fill: rgba(126,79,37,1);
+	}
+	.Rectangle_1_by {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_bz {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_bz {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 37px;
+		top: 1px;
+	}
+	#OFF {
+		position: absolute;
+		width: 68px;
+		height: 570px;
+		left: 0px;
+		top: 0px;
+		overflow: visible;
+	}
+	#Groupe_2 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 43px;
+		overflow: visible;
+	}
+	#Rectangle_1_b {
+		fill: rgba(201,198,198,1);
+	}
+	.Rectangle_1_b {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_b {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_b {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Groupe_7 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 272px;
+		overflow: visible;
+	}
+	#Rectangle_1_ca {
+		fill: rgba(201,198,198,1);
+	}
+	.Rectangle_1_ca {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_ca {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_ca {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Groupe_13 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 501px;
+		overflow: visible;
+	}
+	#Rectangle_1_cb {
+		fill: rgba(201,198,198,1);
+	}
+	.Rectangle_1_cb {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_cb {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_cb {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Groupe_3 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+		overflow: visible;
+	}
+	#Rectangle_1_cc {
+		fill: rgba(201,198,198,1);
+	}
+	.Rectangle_1_cc {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_cc {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_cc {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Groupe_8 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 309px;
+		overflow: visible;
+	}
+	#Rectangle_1_ce {
+		fill: rgba(233,79,27,1);
+	}
+	.Rectangle_1_ce {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_cf {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_cf {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Groupe_14 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 538px;
+		overflow: visible;
+	}
+	#Rectangle_1_ch {
+		fill: rgba(201,198,198,1);
+	}
+	.Rectangle_1_ch {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_ci {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_ci {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Groupe_4 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 119px;
+		overflow: visible;
+	}
+	#Rectangle_1_ck {
+		fill: rgba(201,198,198,1);
+	}
+	.Rectangle_1_ck {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_cl {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_cl {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Groupe_9 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 235px;
+		overflow: visible;
+	}
+	#Rectangle_1_cn {
+		fill: rgba(201,198,198,1);
+	}
+	.Rectangle_1_cn {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_co {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_co {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Groupe_12 {
+		position: absolute;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 464px;
+		overflow: visible;
+	}
+	#Rectangle_1_cq {
+		fill: rgba(201,198,198,1);
+	}
+	.Rectangle_1_cq {
+		position: absolute;
+		overflow: visible;
+		width: 68px;
+		height: 32px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ellipse_3_cr {
+		fill: rgba(255,255,255,1);
+	}
+	.Ellipse_3_cr {
+		position: absolute;
+		overflow: visible;
+		width: 30px;
+		height: 30px;
+		left: 2px;
+		top: 1px;
+	}
+	#Accessoire_carte {
+		position: absolute;
+		width: 60px;
+		height: 132px;
+		left: 572px;
+		top: 137px;
+		overflow: visible;
+	}
+	#Rectangle_2 {
+		fill: rgba(69,114,125,1);
+		stroke: rgba(248,248,248,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Rectangle_2 {
+		position: absolute;
+		overflow: visible;
+		width: 60px;
+		height: 132px;
+		left: 0px;
+		top: 0px;
+	}
+	#Groupe_16 {
+		position: absolute;
+		width: 26.444px;
+		height: 27.89px;
+		left: 17.5px;
+		top: 12.742px;
+		overflow: visible;
+	}
+	#Ligne_5 {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_5 {
+		overflow: visible;
+		position: absolute;
+		width: 3px;
+		height: 27.89px;
+		left: 12.883px;
+		top: 0px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_6 {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_6 {
+		overflow: visible;
+		position: absolute;
+		width: 26.444px;
+		height: 3px;
+		left: 0px;
+		top: 13.945px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_7 {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_7 {
+		overflow: visible;
+		position: absolute;
+		width: 29px;
+		height: 3px;
+		left: 16.5px;
+		top: 59.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Groupe_20 {
+		position: absolute;
+		width: 25px;
+		height: 24px;
+		left: 16.5px;
+		top: 91.5px;
+		overflow: visible;
+	}
+	#Groupe_18 {
+		position: absolute;
+		width: 11px;
+		height: 11px;
+		left: 0px;
+		top: 13px;
+		overflow: visible;
+	}
+	#Ligne_9 {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_9 {
+		overflow: visible;
+		position: absolute;
+		width: 11.121px;
+		height: 11.121px;
+		left: 0px;
+		top: 2px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Groupe_17 {
+		position: absolute;
+		width: 9px;
+		height: 8px;
+		left: 2px;
+		top: 0px;
+		overflow: visible;
+	}
+	#Ligne_10 {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_10 {
+		overflow: visible;
+		position: absolute;
+		width: 9px;
+		height: 3px;
+		left: 0px;
+		top: 0px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_11 {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_11 {
+		overflow: visible;
+		position: absolute;
+		width: 3px;
+		height: 8px;
+		left: 9px;
+		top: 0px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Groupe_19 {
+		transform: translate(-593.5px, -255.5px) matrix(1,0,0,1,607.5,255.5) rotate(180deg);
+		transform-origin: center;
+		position: absolute;
+		width: 11px;
+		height: 11px;
+		left: 0px;
+		top: 0px;
+		overflow: visible;
+	}
+	#Ligne_9_c {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_9_c {
+		overflow: visible;
+		position: absolute;
+		width: 11.121px;
+		height: 11.121px;
+		left: 2px;
+		top: 0px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Groupe_17_c {
+		position: absolute;
+		width: 9px;
+		height: 8px;
+		left: 0px;
+		top: 3px;
+		overflow: visible;
+	}
+	#Ligne_10_c {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_10_c {
+		overflow: visible;
+		position: absolute;
+		width: 9px;
+		height: 3px;
+		left: 0px;
+		top: 8px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_11_c {
+		fill: transparent;
+		stroke: rgba(255,255,255,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_11_c {
+		overflow: visible;
+		position: absolute;
+		width: 3px;
+		height: 8px;
+		left: 0px;
+		top: 0px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_14 {
+		fill: transparent;
+		stroke: rgba(0,0,0,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_14 {
+		overflow: visible;
+		position: absolute;
+		width: 122px;
+		height: 3px;
+		left: 1178.5px;
+		top: 86.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_16 {
+		fill: transparent;
+		stroke: rgba(159,175,39,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_16 {
+		overflow: visible;
+		position: absolute;
+		width: 165px;
+		height: 3px;
+		left: 1437.5px;
+		top: 86.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Ligne_17 {
+		fill: transparent;
+		stroke: rgba(70,154,185,1);
+		stroke-width: 3px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_17 {
+		overflow: visible;
+		position: absolute;
+		width: 122px;
+		height: 3px;
+		left: 1741.5px;
+		top: 86.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Recherche_dc {
+		position: absolute;
+		width: 301px;
+		height: 52px;
+		left: 1591px;
+		top: 151px;
+		overflow: visible;
+	}
+	#Barre_de_recherche_dd {
+		fill: rgba(248,248,248,1);
+		stroke: rgba(255,255,255,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Barre_de_recherche_dd {
+		position: absolute;
+		overflow: visible;
+		width: 301px;
+		height: 52px;
+		left: 0px;
+		top: 0px;
+	}
+	#Loupe_de {
+		position: absolute;
+		width: 23.5px;
+		height: 19.5px;
+		left: 17px;
+		top: 16px;
+		overflow: visible;
+	}
+	#Ellipse_2_df {
+		fill: rgba(255,255,255,1);
+		stroke: rgba(112,112,112,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ellipse_2_df {
+		position: absolute;
+		overflow: visible;
+		width: 17px;
+		height: 17px;
+		left: 0px;
+		top: 0px;
+	}
+	#Ligne_4_dg {
+		fill: transparent;
+		stroke: rgba(112,112,112,1);
+		stroke-width: 1px;
+		stroke-linejoin: miter;
+		stroke-linecap: butt;
+		stroke-miterlimit: 4;
+		shape-rendering: auto;
+	}
+	.Ligne_4_dg {
+		overflow: visible;
+		position: absolute;
+		width: 8.6px;
+		height: 6.8px;
+		left: 15.5px;
+		top: 13.5px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Tapez_le_nom_de_votre_quartier {
+		left: 62px;
+		top: 15px;
+		position: absolute;
+		overflow: visible;
+		width: 214px;
+		white-space: nowrap;
+		text-align: left;
+		font-family: Helvetica Neue;
+		font-style: normal;
+		font-weight: lighter;
+		font-size: 17px;
+		color: rgba(0,0,0,1);
+	}
+	#logo {
+		position: absolute;
+		width: 106.6px;
+		height: 78px;
+		left: 44px;
+		top: 26px;
+		overflow: visible;
+	}
+	#Groupe_67 {
+		opacity: 0.43;
+		position: absolute;
+		width: 106.6px;
+		height: 68.801px;
+		left: 0px;
+		top: 0px;
+		overflow: visible;
+	}
+	#Trac_31 {
+		fill: rgba(32,162,118,1);
+	}
+	.Trac_31 {
+		overflow: visible;
+		position: absolute;
+		width: 106.6px;
+		height: 27.447px;
+		left: 0px;
+		top: 41.354px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_32 {
+		fill: rgba(32,162,118,1);
+	}
+	.Trac_32 {
+		overflow: visible;
+		position: absolute;
+		width: 42.784px;
+		height: 30.397px;
+		left: 59.934px;
+		top: 1.312px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_33 {
+		fill: rgba(32,162,118,1);
+	}
+	.Trac_33 {
+		overflow: visible;
+		position: absolute;
+		width: 41.238px;
+		height: 31.43px;
+		left: 6.087px;
+		top: 0px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_34 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_34 {
+		overflow: visible;
+		position: absolute;
+		width: 5.074px;
+		height: 9.005px;
+		left: 26.804px;
+		top: 66.121px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_35 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_35 {
+		overflow: visible;
+		position: absolute;
+		width: 6.066px;
+		height: 9.542px;
+		left: 31.914px;
+		top: 68.458px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_36 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_36 {
+		overflow: visible;
+		position: absolute;
+		width: 6.183px;
+		height: 6.999px;
+		left: 38.731px;
+		top: 68.293px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_37 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_37 {
+		overflow: visible;
+		position: absolute;
+		width: 5.336px;
+		height: 6.849px;
+		left: 46.642px;
+		top: 68.293px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_38 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_38 {
+		overflow: visible;
+		position: absolute;
+		width: 5.34px;
+		height: 6.849px;
+		left: 54.154px;
+		top: 68.293px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_39 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_39 {
+		overflow: visible;
+		position: absolute;
+		width: 5.225px;
+		height: 6.992px;
+		left: 61.264px;
+		top: 68.293px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_40 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_40 {
+		overflow: visible;
+		position: absolute;
+		width: 1.558px;
+		height: 9.55px;
+		left: 68.39px;
+		top: 65.576px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_41 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_41 {
+		overflow: visible;
+		position: absolute;
+		width: 4.92px;
+		height: 6.991px;
+		left: 71.231px;
+		top: 68.293px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_42 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_42 {
+		overflow: visible;
+		position: absolute;
+		width: 5.659px;
+		height: 6.999px;
+		left: 77.225px;
+		top: 68.293px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_43 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_43 {
+		overflow: visible;
+		position: absolute;
+		width: 41.698px;
+		height: 52.81px;
+		left: 9.687px;
+		top: 11.33px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_44 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_44 {
+		overflow: visible;
+		position: absolute;
+		width: 26.659px;
+		height: 32.504px;
+		left: 40.067px;
+		top: 22.93px;
+		transform: matrix(1,0,0,1,0,0);
+	}
+	#Trac_45 {
+		fill: rgba(0,0,0,1);
+	}
+	.Trac_45 {
+		overflow: visible;
+		position: absolute;
+		width: 34.316px;
+		height: 52.81px;
+		left: 48.685px;
+		top: 11.33px;
+		transform: matrix(1,0,0,1,0,0);
+	}

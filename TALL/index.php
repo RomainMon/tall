@@ -1,6 +1,16 @@
-<?php session_start();
+<?php session_start(); //ouverture d'une session 
+
+    // création d'un cookie
+    // setcookie('pseudo', $_SESSION['email'], time()+(30*24*3600));
+    // var_dump($_COOKIE);
+
+    // // nettoie la session avant la déconnection
+    //session_unset();
+    // // détruit une session, la déconnecte
+    session_destroy();
 ?>
 
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset = "utf-8" />
@@ -18,7 +28,7 @@
         <div id = "bloc_page">
             <header>                    
                 <div id="logo">
-                    <a href="index.php">
+                    <a href="index.html">
                         <img src = "img/logo.svg" alt = "TALL">
                         <div id="Ton_action_locale_lyonnaise">
                             <span>Ton action locale lyonnaise</span>
@@ -28,9 +38,8 @@
                 <nav>
                     <ul>
                         <li><a id="accueil" href ="index.html">Accueil</a></li>
-                        <li><a id="connexion" href ="deconnexion.php"><?= $_SESSION['prenom']; ?><br>Déconnexion</a></li>
+                        <li><a id="connexion" href ="connexion.php">Connexion</a></li>
                         <li><a id="contact" href ="info.html">Contact</a></li>
-                        <li><a id="profil" href ="profil.php">Profil</a></li>
                     </ul>
                 </nav>   
             </header>

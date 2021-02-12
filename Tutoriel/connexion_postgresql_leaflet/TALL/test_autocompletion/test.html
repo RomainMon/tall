@@ -1,0 +1,23 @@
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    </head>
+    
+    
+    <div id="corps" style="color:black;">  
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
+     
+    <script>
+      $(function() {
+           $( "#autocomplete" ).autocomplete({ 
+      source: "recherche-pseudo.php",
+                minLength: 2
+             });
+    
+    });
+        </script>
+    
+    <h2 class="demoHeaders">Recherche</h2>
+    <div>
+        <input id="autocomplete" title="recherche autocomplétion">
+    </div>

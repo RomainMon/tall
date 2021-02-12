@@ -33,8 +33,43 @@ ob_start();
                 <input type="password" name="password" id="password" placeholder="Votre mot de passe" required>
                 <!-- confirmation du MDP -->
                 <input type="password" name="cpassword" id="cpassword" placeholder="Confirmer votre mot de passe" required>
-                <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
-                <input type="tel" name="telephone" id="telephone" placeholder="Vore Numéro de telephone"><br>
+                <!-- numéro de téléphone -->
+                <input type="tel" name="telephone" id="telephone" placeholder="Votre Numéro de telephone"><br>
+                <!-- Commune -->
+                <select name ="choix_commune" id="choix_commune">
+                    <option selected="selected">Commune</option>
+                    <?php
+                    $q = $db->prepare("SELECT nom_com FROM commune ORDER by nom_com;");
+                    $q->execute();
+                    //récupération du résultat de la requête dans une variable :
+                    $liste_commune= $q->fetchAll();
+        
+                    // Iterating through the product array
+                    foreach($liste_commune as $value){
+                    ?>
+                    <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+                <!-- adresse -->
+                <select name ="choix_adresse" id="choix_adresse">
+                    <option selected="selected">Commune</option>
+                    <?php
+                    $q = $db->prepare("SELECT nom_com,insee_com FROM commune ORDER by nom_com;");
+                    $q->execute();
+                    //récupération du résultat de la requête dans une variable :
+                    $liste_commune= $q->fetchAll();
+        
+                    // Iterating through the product array
+                    foreach($liste_commune as $value){
+                    ?>
+                    <option value="<?php print($value[1]); ?>"><?php print($value[0]); ?></option>
+                    <?php
+                    }
+                    ?>
+                </select>  
+
                 <!-- choix des catégories la liste des catégories est récupérées à partir de la base de données comme ça si on change dans la BD ça changera ici aussi-->
                 <?php
                 $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");

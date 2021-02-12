@@ -66,7 +66,7 @@ nav li{
 nav a
 {   
     text-align: center;
-    width: 140px;
+    width: 110px;
     position: absolute;
     padding-top: 2px;
     padding-bottom: 3px;
@@ -78,31 +78,31 @@ nav a
 }
 
 #accueil{
-	left: 61%;
+	left: 50%;
     top: 36px;
     font-size: medium;  
     border-bottom : 3px solid rgba(18,139,102,1); 
 }
 
 #connexion{
-	left: 75%;
+	left: 65%;
     top: 36px;
     font-size: medium;  
     border-bottom : 3px solid rgba(23,157,147,1);
 }
 
 #contact{
-	left: 89%;
+	left: 80%;
     top: 36px;
     font-size: medium;  
     border-bottom : 3px solid rgba(70,154,185,1);
 }
 
 #profil{
-	left: 20%;
+	left: 95%;
     top: 36px;
     font-size: medium;  
-    border-bottom : 3px solid rgb(164, 185, 70);
+    border-bottom : 3px solid rgb(164, 185, 70,1);
 }
 
 
