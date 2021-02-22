@@ -10,6 +10,7 @@ ob_start();
        <meta charset="utf-8">
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="css/connect.css" media="screen" type="text/css" />
+        
     </head>
     <body>
         <div id="container">
@@ -79,6 +80,7 @@ ob_start();
                 //récupération du résultat de la requête dans une variable :
                 $liste_cate= $q->fetchAll();                
                 ?>
+                <br>
                 <input type="checkbox" name="cate_1" id="cate_1" value =<?php print($liste_cate[0][0]) ?>> 
                 <?php print($liste_cate[0][1]) ?><br>
                 <input type="checkbox" name="cate_2" id="cate_2" value =<?php print($liste_cate[1][0]) ?>> 
@@ -203,5 +205,6 @@ ob_start();
                 }
             ?>
         </div>
+        <script src ="js/formulaire.js"></script>
     </body>
 </html>

@@ -27,11 +27,13 @@ changement des paramètres 'scram-sha-256' authentication, pour les mettre en md
     
 * Dans le fichier pg_hba_conf qui est dans postgresql/13/data par exemple :
 
-    change the authentication method to md5 
+    dans les dernières lignes du fichier remplacer scram-sha-256 par md5
+    Si ça ne marche pas il faut mettre trust à la place de md5
+
     
 * relancer PostgreSQL
 
-* changer le password de l'user pour avoir un mot de passe encripté en MD5 encrypted avec la ligne sql suivante :
+* changer le password de l'user pour avoir un mot de passe encripté en MD5 avec la ligne sql suivante :
 
 	ALTER USER [user] WITH PASSWORD 'xxxxxx';
 
