@@ -39,8 +39,8 @@ ob_start();
                 <select name ="choix_commune" id="choix_commune">
                     <option selected="selected">Commune</option>
                     <?php
-                    $q = $db->prepare("SELECT nom_com FROM commune ORDER by nom_com;");
-                    $q->execute();
+                    $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
+                    $q->execute();                    
                     //récupération du résultat de la requête dans une variable :
                     $liste_commune= $q->fetchAll();
         
@@ -51,24 +51,26 @@ ob_start();
                     <?php
                     }
                     ?>
+                    
                 </select>
                 <!-- adresse -->
                 <select name ="choix_adresse" id="choix_adresse">
-                    <option selected="selected">Commune</option>
+                    <option selected="selected">Rue</option>
                     <?php
-                    $q = $db->prepare("SELECT nom_com,insee_com FROM commune ORDER by nom_com;");
+                    $q = $db->prepare("SELECT distinct(nom_1) FROM vue_adresse ORDER by nom_1;");                   
                     $q->execute();
                     //récupération du résultat de la requête dans une variable :
-                    $liste_commune= $q->fetchAll();
+                    $liste_rue= $q->fetchAll();
         
                     // Iterating through the product array
-                    foreach($liste_commune as $value){
+                    foreach($liste_rue as $value){
                     ?>
-                    <option value="<?php print($value[1]); ?>"><?php print($value[0]); ?></option>
+                    <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
                     <?php
                     }
                     ?>
-                </select>  
+                <br>
+                </select>
 
                 <!-- choix des catégories la liste des catégories est récupérées à partir de la base de données comme ça si on change dans la BD ça changera ici aussi-->
                 <?php
