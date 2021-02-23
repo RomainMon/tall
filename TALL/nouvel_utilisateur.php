@@ -9,6 +9,7 @@ ob_start();
     <head>
        <meta charset="utf-8">
         <!-- importer le fichier de style -->
+        <link rel="stylesheet" href="css/connect.css" media="screen" type="text/css" />
         <!-- appel de l'api google jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- appel du script js jquery -->
