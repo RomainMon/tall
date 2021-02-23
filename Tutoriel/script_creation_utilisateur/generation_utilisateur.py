@@ -26,7 +26,7 @@ HOST = "localhost"
 
 USER = "postgres"
 
-PASSWORD = "mot_de_passe_postgres"
+PASSWORD = "******"
 
 DATABASE = "TALL"
 
@@ -59,14 +59,23 @@ for row in rows :
 #Vérification que la liste est écrite :
 #print (liste_categorie)
 
+#selections des associations dans la base de données
+cur.execute("""SELECT id_asso FROM association""")
+rows = cur.fetchall()
+liste_association = []
+for row in rows :
+    liste_association.append(row[0])
+
+print(liste_association)
+
 # Close connection
 conn.close()
 #print (conn)
 
 #lecture des fichiers shape de base avec la bibliothèque géopandas pour créer des tableaux.
-adresse = '/data_travail/ADRESSE_GL_QUARTIER.shp'
+adresse = 'data_travail/ADRESSE_GL_QUARTIER_4326.shp'
 #chemin vers le fichier shp déjà créé si il existe (test par la suite)
-adresse_1 = '/data_travail/ADRESSE_GL_QUARTIER_1.shp'
+adresse_1 = 'data_travail/ADRESSE_GL_QUARTIER_1_4326.shp'
 
 #Création du fichier shape de 1 % aléatoire des adresses si il n'existe pas déjà :
 if path.exists(adresse_1) :
@@ -85,7 +94,7 @@ else :
     #print(gdf_adresse_1.shape)
     #print(gdf_adresse_1.shape[0])
     #print(gdf_adresse_1.index)
-    gdf_adresse_1.to_file('../data_travail/ADRESSE_GL_QUARTIER_1.shp')
+    gdf_adresse_1.to_file('data_travail/ADRESSE_GL_QUARTIER_1_4326.shp')
 
 #remplissage des champs de la table utilisateurs création de liste qui corresponde au nombre d'utilisateurs généré aléatoirement plus haut.
 #Création du prénom sous la forme UtiliN°_utilisateur
@@ -96,7 +105,8 @@ liste_nom = ["Sateur"+str(i) for i in gdf_adresse_1.index]
 liste_mail = ["Utili.Sateur"+str(i)+"@tallmail.com" for i in gdf_adresse_1.index]
 #Date d'inscription : heure locale sous le format timestamp finalement pas utilisé.
 #liste_date_inscription = [datetime.timestamp(datetime.now()) for i in gdf_adresse_1.index]
-
+# creation des associations des utilisateurs
+liste_association_par_utilisateur = [random.choice(liste_association) for i in gdf_adresse_1.index]
 #Création d'un mot de passe aléatoire pour chaque utilisateur afin de bien remplir la base de données.
 def getPassword(length):
     #Générer une chaîne aléatoire de longueur fixe
@@ -152,11 +162,11 @@ df_cate_utilisateur = pd.DataFrame(liste_cate_total_utilisateur,columns = ["id_c
 #gdf_adresse_1['id_utilisateur']=liste_id_utilisateur
 gdf_adresse_1['prenom']=liste_prenom
 gdf_adresse_1['nom']=liste_nom
-gdf_adresse_1['mail']=liste_mail
+gdf_adresse_1['email']=liste_mail
 gdf_adresse_1['mdp']=liste_mdp
 gdf_adresse_1['telephone']=liste_tel
 #gdf_adresse_1['date_inscription']=liste_date_inscription
-
+gdf_adresse_1['id_asso'] = liste_association_par_utilisateur
 
 #Concaténation des deux tableaux :
 gdf_adresse_1 = pd.concat([gdf_adresse_1, df_cate_utilisateur], axis = 1) #axis = 1 pour que la juxtaposition se fasse par colonnes
@@ -178,7 +188,7 @@ gdf_adresse_1.drop(gdf_adresse_1.iloc[:,1:11],1,inplace=True)
 print(gdf_adresse_1.columns)
 
 #export du tableau géopandas vers la base de données :
-db_connection_url = "postgres://postgres:mot_de_passe_postgres@localhost:5432/TALL"
+db_connection_url = "postgres://postgres:******@localhost:5432/TALL"
 engine = create_engine(db_connection_url)
 #export au format postgis du tableau
 gdf_adresse_1.to_postgis(name="utilisateur", con=engine)
@@ -201,7 +211,7 @@ cur2.execute("ALTER TABLE utilisateur ADD COLUMN date_inscription TIMESTAMP DEFA
 #Changement des colonnes de null en non null
 cur2.execute("ALTER TABLE utilisateur ALTER COLUMN prenom SET NOT NULL")
 cur2.execute("ALTER TABLE utilisateur ALTER COLUMN nom SET NOT NULL")
-cur2.execute("ALTER TABLE utilisateur ALTER COLUMN mail SET NOT NULL")
+cur2.execute("ALTER TABLE utilisateur ALTER COLUMN email SET NOT NULL")
 #La colonne geometry est renommée en geom pour être cohérent avec les autres
 cur2.execute("ALTER TABLE utilisateur RENAME geometry TO geom")
 conn2.close()

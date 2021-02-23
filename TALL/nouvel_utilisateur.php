@@ -9,8 +9,10 @@ ob_start();
     <head>
        <meta charset="utf-8">
         <!-- importer le fichier de style -->
-        <link rel="stylesheet" href="css/connect.css" media="screen" type="text/css" />
-        
+        <!-- appel de l'api google jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- appel du script js jquery -->
+        <script src='js/jquery_site.js'></script>
     </head>
     <body>
         <div id="container">
@@ -52,24 +54,22 @@ ob_start();
                     <?php
                     }
                     ?>
-                    
+                <br>
+
                 </select>
                 <!-- adresse -->
                 <select name ="choix_adresse" id="choix_adresse">
-                    <option selected="selected">Rue</option>
-                    <?php
-                    $q = $db->prepare("SELECT distinct(nom_1) FROM vue_adresse ORDER by nom_1;");                   
-                    $q->execute();
-                    //récupération du résultat de la requête dans une variable :
-                    $liste_rue= $q->fetchAll();
-        
-                    // Iterating through the product array
-                    foreach($liste_rue as $value){
-                    ?>
-                    <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
-                    <?php
-                    }
-                    ?>
+                    <option selected="selected">Rue</option>                    
+                <br>
+                </select>
+                <!-- numero -->
+                <select name ="choix_numero" id="choix_numero">
+                    <option selected="selected">Numero</option>                    
+                <br>
+                </select>
+                
+                <select name ="choix_rep" id="choix_rep">
+                    <option selected="selected">Repere</option>                    
                 <br>
                 </select>
 
@@ -164,33 +164,52 @@ ob_start();
                             $result = $c->rowCount();
                             // la condition suivante s'execute si l'email n'existe pas
                             if($result == 0){
+
+                                // recuperation des id_adresse et geom de la table vue_adresse
+
+                                // pour eviter les conflits si une adresse n'a pas de reperes dans la requete sql on teste si la valeur renvoyee par choix_rep est vide
+                                if ($choix_rep == ''){
+                                    $a = $db->prepare("SELECT id_adresse, geom FROM vue_adresse where nom_1 = :rue and nom_com = :commune and numero = :numero and rep is null");
+                                    $a->execute(['rue'=>$choix_adresse,'commune'=>$choix_commune,'numero'=>$choix_numero]);
+                                    //récupération du résultat de la requête dans une variable :
+                                    $adresse= $a->fetch();
+                                }
+                                else{
+                                    $a = $db->prepare("SELECT id_adresse, geom FROM vue_adresse where nom_1 = :rue and nom_com = :commune and numero = :numero and rep=:rep");
+                                    $a->execute(['rue'=>$choix_adresse,'commune'=>$choix_commune,'numero'=>$choix_numero,'rep'=>$choix_rep]);
+                                    //récupération du résultat de la requête dans une variable :
+                                    $adresse= $a->fetch();
+                                }
+                                
+
                                 // je fais une requête préparé pour des questions de sécurité
                                 $q = $db->prepare("INSERT INTO utilisateur(
-                                    nom,prenom,email,mdp,telephone,id_cate_1,id_cate_2,id_cate_3,id_cate_4,id_cate_5,id_asso)
-                                    VALUES(:nom,:prenom,:email,:mdp,:telephone,:id_cate_1,:id_cate_2,:id_cate_3,:id_cate_4,:id_cate_5,:id_asso)");
+                                    nom,prenom,email,mdp,telephone,id_cate_1,id_cate_2,id_cate_3,id_cate_4,id_cate_5,id_asso,id_adresse,geom)
+                                    VALUES(:nom,:prenom,:email,:mdp,:telephone,:id_cate_1,:id_cate_2,:id_cate_3,:id_cate_4,:id_cate_5,:id_asso,:id_adresse,:geom)");
                                 $q -> execute ([
                                     'nom' => $nom,
                                     'prenom' => $prenom,
                                     'email' => $email,
                                     'mdp' => $hashpass,
-                                    'telephone'=>$telephone,
-                                    'id_cate_1' =>$cate_1,                                    
-                                    'id_cate_2' =>$cate_2,
-                                    'id_cate_3' =>$cate_3,
-                                    'id_cate_4' =>$cate_4,
-                                    'id_cate_5' =>$cate_5,
-                                    'id_asso' =>$choix_asso
-                                    
+                                    'telephone'=> $telephone,
+                                    'id_cate_1' => $cate_1,                                    
+                                    'id_cate_2' => $cate_2,
+                                    'id_cate_3' => $cate_3,
+                                    'id_cate_4' => $cate_4,
+                                    'id_cate_5' => $cate_5,
+                                    'id_asso' => $choix_asso,
+                                    'id_adresse'=> $adresse[0],
+                                    'geom' => $adresse[1]                                    
                                 ]);
                                 //affichage d'un message pour dire que le compte a été créé
                                 //echo "Le compte a été créée";
-                                //$message='Le compte a été créé';                                
-                                //echo '<script type="text/javascript">window.alert("'.$message.'");</script>';                                
+                                // $message='Le compte a été créé';                                
+                                // echo '<script>alert("Le compte a été créé") ; </script>';                                
                                 //Récupération des données de la session
                                 //$_SESSION['nom'] = $nom;
                                 //$_SESSION['prenom'] = $prenom;
                                 //$_SESSION['email'] = $email;                                
-                                //sleep(1);
+                                // sleep(1);
                                 //Renvoi vers la page utilisateur :
                                 header('Location: connexion.php',TRUE);
                             }else{
@@ -205,6 +224,6 @@ ob_start();
                 }
             ?>
         </div>
-        <script src ="js/formulaire.js"></script>
+        <script src ="js/jquery_site.js"></script>
     </body>
 </html>
