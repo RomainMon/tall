@@ -37,29 +37,16 @@
             <div id="fenetre_principale">                    
                 <aside>
                     <div id="Tissu_associatif_lyonnais">
-                        <span>Tissu associatif lyonnais</span>
+                        <span>Vos préférences</span>
+                        <?php 
+                        foreach($_SESSION['preference'] as $value){
+                        ?>
+                        <p><?php print($value); ?></p>
+                        <?php
+                        }
+                        ?>
                     </div>
-                    <div id="search">                           
-                        <input type="text" placeholder="    Recherchez dans TALL..." class="searchbar">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-
-                    <form class= "sidebar">
-                        <h1>Les associations</h1>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>    
-
-                        <h2>Les équipements</h2>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>    
-                    
-                        <h3>Les événements</h3>                     
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>                            
-                    </form> 
+                   
                 </aside>                
                 <div id = "map"></div>
             </div>
@@ -84,5 +71,5 @@
             </footer>
         </div>           
     </body>
-    <script src ="js/script.js"></script>
+    <script src ="js/script_utilisateur.js"></script>
 </html>

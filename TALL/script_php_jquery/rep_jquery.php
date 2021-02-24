@@ -18,7 +18,8 @@ $liste_repere= $q->fetchAll();
 //si 1 seul élément cela veut dire qu'il n' y a pas de reperes à cette adresse donc on l'affiche:
 if ($nbRep == 1){    
         ?>
-        <option value="">pas de repères à cette adresse</option><br>
+        <option value="">pas de repères à cette adresse</option>
+        <br>
         <?php   
 }
 // sinon on recupere le repere

@@ -9,109 +9,117 @@ ob_start();
     <head>
        <meta charset="utf-8">
         <!-- importer le fichier de style -->
-        <link rel="stylesheet" href="css/connect.css" media="screen" type="text/css" />
+        <link rel="stylesheet" href="css/new_connect.css" media="screen" type="text/css" />
         <!-- appel de l'api google jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- appel du script js jquery -->
         <script src='js/jquery_site.js'></script>
     </head>
     <body>
+    
         <div id="container">
             <?php
             // connexion à la db
             include 'include/database.php';
             //  recupération de la varibable db pour faire des requêtes
             global $db;
-            ?>
-            <h2>Création d'un nouveau compte</h2>
+            ?>            
             <!-- création du formulaire d'inscription -->
             <!-- la method dans form définit la méthode d'envoie du formulaire. post : envoie les données d'une page à l'autre (méthode recommandé). get : envoie les infos par URL. -->
             <form method="post" id="container">
-                <!-- le type text pour le nom d'utilisateur -->
-                <input type="text" name="nom" id="nom" placeholder="Votre nom" required>
-                <!-- le type text pour le prénom d'utilisateur -->
-                <input type="text" name="prenom" id="prenom" placeholder="Votre prénom" required>
-                <!-- le type email contraint l'utilisateur d'insérer un text avec un @ dedans -->
-                <input type="email" name="email" id="email" placeholder="Votre email" required>
-                <!-- ici on a un type password -->
-                <input type="password" name="password" id="password" placeholder="Votre mot de passe" required>
-                <!-- confirmation du MDP -->
-                <input type="password" name="cpassword" id="cpassword" placeholder="Confirmer votre mot de passe" required>
-                <!-- numéro de téléphone -->
-                <input type="tel" name="telephone" id="telephone" placeholder="Votre Numéro de telephone"><br>
+            <h2>Création d'un nouveau compte</h2>
+                <div id="civilite"> 
+                    <h4>Vos coordonnées</h4>
+                    <!-- le type text pour le nom d'utilisateur -->
+                    <input type="text" name="nom" id="nom" placeholder="Votre nom" required>
+                    <!-- le type text pour le prénom d'utilisateur -->
+                    <input type="text" name="prenom" id="prenom" placeholder="Votre prénom" required>
+                    <!-- le type email contraint l'utilisateur d'insérer un text avec un @ dedans -->
+                    <input type="email" name="email" id="email" placeholder="Votre email" required>
+                    <!-- ici on a un type password -->
+                    <input type="password" name="password" id="password" placeholder="Votre mot de passe" required>
+                    <!-- confirmation du MDP -->
+                    <input type="password" name="cpassword" id="cpassword" placeholder="Confirmer votre mot de passe" required>
+                    <!-- numéro de téléphone -->
+                    <input type="tel" name="telephone" id="telephone" placeholder="Votre Numéro de telephone"><br>
                 <!-- Commune -->
-                <select name ="choix_commune" id="choix_commune">
-                    <option selected="selected">Commune</option>
-                    <?php
-                    $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
-                    $q->execute();                    
-                    //récupération du résultat de la requête dans une variable :
-                    $liste_commune= $q->fetchAll();
-        
-                    // Iterating through the product array
-                    foreach($liste_commune as $value){
-                    ?>
-                    <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
-                    <?php
-                    }
-                    ?>
-                <br>
+                </div>
+                <div id = "adresse">               
+                    <select name ="choix_commune" id="choix_commune">
+                        <option selected="selected">Commune</option>
+                        <?php
+                        $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
+                        $q->execute();                    
+                        //récupération du résultat de la requête dans une variable :
+                        $liste_commune= $q->fetchAll();
+            
+                        // Iterating through the product array
+                        foreach($liste_commune as $value){
+                        ?>
+                        <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
+                        <?php
+                        }
+                        ?>
+                    <br>
 
-                </select>
-                <!-- adresse -->
-                <select name ="choix_adresse" id="choix_adresse">
-                    <option selected="selected">Rue</option>                    
-                <br>
-                </select>
-                <!-- numero -->
-                <select name ="choix_numero" id="choix_numero">
-                    <option selected="selected">Numero</option>                    
-                <br>
-                </select>
-                
-                <select name ="choix_rep" id="choix_rep">
-                    <option selected="selected">Repere</option>                    
-                <br>
-                </select>
-
+                    </select>
+                    <br>
+                    <!-- adresse -->
+                    <select name ="choix_adresse" id="choix_adresse">
+                        <option selected="selected">Rue</option>                    
+                    <br>
+                    </select>
+                    <!-- numero -->
+                    <select name ="choix_numero" id="choix_numero">
+                        <option selected="selected">Numero</option>                    
+                    <br>
+                    </select>
+                    
+                    <select name ="choix_rep" id="choix_rep">
+                        <option selected="selected">Complément d'adresse</option>                    
+                    <br>
+                    </select>
+                </div>    
                 <!-- choix des catégories la liste des catégories est récupérées à partir de la base de données comme ça si on change dans la BD ça changera ici aussi-->
-                <?php
-                $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
-                $q->execute();
-                //récupération du résultat de la requête dans une variable :
-                $liste_cate= $q->fetchAll();                
-                ?>
-                <br>
-                <input type="checkbox" name="cate_1" id="cate_1" value =<?php print($liste_cate[0][0]) ?>> 
-                <?php print($liste_cate[0][1]) ?><br>
-                <input type="checkbox" name="cate_2" id="cate_2" value =<?php print($liste_cate[1][0]) ?>> 
-                <?php print($liste_cate[1][1]) ?><br>
-                <input type="checkbox" name="cate_3" id="cate_3" value =<?php print($liste_cate[2][0]) ?>> 
-                <?php print($liste_cate[2][1]) ?><br>
-                <input type="checkbox" name="cate_4" id="cate_4" value =<?php print($liste_cate[3][0]) ?>> 
-                <?php print($liste_cate[3][1]) ?><br>
-                <input type="checkbox" name="cate_5" id="cate_5" value =<?php print($liste_cate[4][0]) ?>> 
-                <?php print($liste_cate[4][1]) ?><br>
-                
-                <!-- Choix d'une association -->
-                <p>Etes-vous membre d'une de nos associations ?</p>
-                <select name ="choix_asso" id="choix_asso">
-                    <option selected="selected">Sélectionner une valeur</option>
+                <div id="choix_asso"> 
+                    <h4>Quelles sont les domaines qui vous intéresse ?</h4>
                     <?php
-                    $q = $db->prepare("SELECT titre,id_asso FROM association ORDER by titre;");
+                    $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
                     $q->execute();
                     //récupération du résultat de la requête dans une variable :
-                    $liste_asso= $q->fetchAll();
-        
-                    // Iterating through the product array
-                    foreach($liste_asso as $value){
+                    $liste_cate= $q->fetchAll();                
                     ?>
-                    <option value="<?php print($value[1]); ?>"><?php print($value[0]); ?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
-
+                    <br>
+                    <input type="checkbox" class="cm-toggle" name="cate_1" id="cate_1" value =<?php print($liste_cate[0][0]) ?>> 
+                    <?php print($liste_cate[0][1]) ?><br>
+                    <input type="checkbox" class="cm-toggle" name="cate_2" id="cate_2" value =<?php print($liste_cate[1][0]) ?>> 
+                    <?php print($liste_cate[1][1]) ?><br>
+                    <input type="checkbox" class="cm-toggle" name="cate_3" id="cate_3" value =<?php print($liste_cate[2][0]) ?>> 
+                    <?php print($liste_cate[2][1]) ?><br>
+                    <input type="checkbox" class="cm-toggle" name="cate_4" id="cate_4" value =<?php print($liste_cate[3][0]) ?>> 
+                    <?php print($liste_cate[3][1]) ?><br>
+                    <input type="checkbox" class="cm-toggle" name="cate_5" id="cate_5" value =<?php print($liste_cate[4][0]) ?>> 
+                    <?php print($liste_cate[4][1]) ?><br>
+                    
+                    <!-- Choix d'une association -->
+                    <p>Etes-vous membre d'une association ?</p>
+                    <select name ="choix_asso" id="choix_asso">
+                        <option selected="selected">Sélectionner une valeur</option>
+                        <?php
+                        $q = $db->prepare("SELECT titre,id_asso FROM association ORDER by titre;");
+                        $q->execute();
+                        //récupération du résultat de la requête dans une variable :
+                        $liste_asso= $q->fetchAll();
+            
+                        // Iterating through the product array
+                        foreach($liste_asso as $value){
+                        ?>
+                        <option value="<?php print($value[1]); ?>"><?php print($value[0]); ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
                 <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
                 <input type="submit" name="formsend" id="formsend" value="S'inscrire"><br>
                 
@@ -206,10 +214,10 @@ ob_start();
                                 //echo "Le compte a été créée";
                                 // $message='Le compte a été créé';                                
                                 // echo '<script>alert("Le compte a été créé") ; </script>';                                
-                                //Récupération des données de la session
-                                //$_SESSION['nom'] = $nom;
-                                //$_SESSION['prenom'] = $prenom;
-                                //$_SESSION['email'] = $email;                                
+                                // Récupération des données de la session
+                                // $_SESSION['nom'] = $nom;
+                                // $_SESSION['prenom'] = $prenom;
+                                // $_SESSION['email'] = $email;
                                 // sleep(1);
                                 //Renvoi vers la page utilisateur :
                                 header('Location: connexion.php',TRUE);

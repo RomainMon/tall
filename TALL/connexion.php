@@ -56,11 +56,26 @@
                             $hashpassword = $result['mdp'];
                             if (password_verify($lpassword, $hashpassword)){
                                 //echo "Le mot de passe est bon, connexion en cours";
+                                // recuperation des preferences utilisateur dans un array pour filtre des valeurs nulles
+                                $liste_preference =[
+                                    $result['id_cate_1'],
+                                    $result['id_cate_2'],
+                                    $result['id_cate_3'],
+                                    $result['id_cate_4'],
+                                    $result['id_cate_5']
+                                    ];                                
                                 // récupération d'éléments de session
                                 $_SESSION['nom'] = $result['nom'];
                                 $_SESSION['prenom'] = $result['prenom'];
                                 $_SESSION['email'] = $result['email'];
                                 $_SESSION['date_inscription'] = $result['date_inscription'];
+                                // recuperation des preferences de l'utilisateur
+                                $_SESSION['preference']=[];
+                                foreach($liste_preference as $value){
+                                    if($value !='null'){
+                                        array_push($_SESSION['preference'],$value);
+                                    }
+                                };
                                 header('Location: utilisateur.php');
                             }else{
                                 echo "Le mot de passe n'est pas correct";

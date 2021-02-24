@@ -15,7 +15,8 @@ $liste_numero= $q->fetchAll();
 // Iterating through the product array
 foreach($liste_numero as $value){
 ?>
-<option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option><br>
+<option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
+<br>
 <?php
 }
 ?>

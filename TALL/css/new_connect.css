@@ -1,0 +1,180 @@
+body{
+    background: #f5f7f6;;
+    font-family: Helvetica, sans-serif;
+    /* background: url("../png/bellecour.jpg") center no-repeat; */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Abadi',Arial, Helvetica, sans-serif; 
+}
+#container{
+    width:600px;
+    margin:0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Bordered form */
+form {
+    width:100%;
+    padding: 30px;
+    border: 1px solid #f1f1f1;
+    background: #fff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#container h1{
+    width: 38%;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+#select_user{
+    padding-bottom:10px;
+}
+
+/* Full-width inputs */
+input[type=text], input[type=password], input[type=email], input[type=tel]{    
+    width: 50%;
+    padding: 8px 8px;
+    margin: 8px 0;    
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    color: rgb(121, 121, 121);
+    border-radius : 5px; 
+}
+
+select{
+    width: 100%;
+    padding: 8px 8px;
+    margin: 8px 0;    
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    color: rgb(121, 121, 121);
+    border-radius : 5px;     
+}
+
+#formsend{    
+    /* justify-content : center */
+}
+
+
+
+.clic{
+    margin-top: 20px;
+    margin-bottom: 20px;   
+}
+
+/* Set a style for all buttons */
+#formsend {
+    background-color: #53af57;
+    color: white;
+    padding: 5px 20px;
+    
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-decoration: none;        
+}
+#formsend:hover {
+    background-color: white;
+    color: #53af57;
+    border: 1px solid #53af57;
+}
+
+#container h2{
+    border-top: 1px solid;
+    padding-top: 10px;    
+    font-size: large;
+}
+
+#container h4{
+    border-bottom: 1px solid;
+    padding-top: 10px;
+    padding-bottom: 10px;    
+    font-size: small;
+    font-family: "Lucida Console", Courier, monospace;
+}
+
+/* Création du bouton */
+.cm-toggle {
+	-webkit-appearance: none;
+	-webkit-tap-highlight-color: transparent;
+	position: relative;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+	margin: 10px;
+}
+/* Création de la surface du bouton */
+.cm-toggle:after {
+	content: '';
+	width: 35px;
+	height: 12px;
+	display: inline-block;
+	background: rgba(196, 195, 195, 0.55);
+	border-radius: 18px;
+	clear: both;
+}
+/* Création du curseur du bouton */
+.cm-toggle:before {
+	content: '';
+	width: 16px;
+	height: 16px;
+	display: block;
+	position: absolute;
+	left: 0;
+	top: -3px;
+	border-radius: 50%;
+	background: rgb(255, 255, 255);
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+/* mouvement du bouton */
+.cm-toggle:checked:before {
+	left: 22px;
+	box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+/* Color du fond du bouton en fonction de la couche*/
+.cm-toggle:checked:after {
+	background: rgb(22, 80, 46);
+}
+
+#cate_1:checked:after {
+	background:#275a19;
+    font-size : small 
+}
+
+#cate_2:checked:after {
+	background:#ffb841;
+}
+
+#cate_3:checked:after {
+	background:#024b97;
+}
+
+#cate_4:checked:after {
+	background:#f7aa1c;
+}
+
+#cate_5:checked:after {
+	background:#94c11f;
+}
+
+/* Transition en douceur du curseur */
+.cm-toggle,
+.cm-toggle:before,
+.cm-toggle:after,
+.cm-toggle:checked:before,
+.cm-toggle:checked:after {
+	transition: ease .3s;
+	-webkit-transition: ease .3s;
+	-moz-transition: ease .3s;
+	-o-transition: ease .3s;
+}
