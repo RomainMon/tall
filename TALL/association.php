@@ -1,16 +1,6 @@
-<?php session_start(); //ouverture d'une session 
-
-    // création d'un cookie
-    // setcookie('pseudo', $_SESSION['email'], time()+(30*24*3600));
-    // var_dump($_COOKIE);
-
-    // // nettoie la session avant la déconnection
-    //session_unset();
-    // // détruit une session, la déconnecte
-    session_destroy();
+<?php session_start();
 ?>
 
-<!DOCTYPE html>
 <html>
     <head>
         <meta charset = "utf-8" />
@@ -28,7 +18,7 @@
         <div id = "bloc_page">
             <header>                    
                 <div id="logo">
-                    <a href="index.html">
+                    <a href="index.php">
                         <img src = "img/logo.svg" alt = "TALL">
                         <div id="Ton_action_locale_lyonnaise">
                             <span>Ton action locale lyonnaise</span>
@@ -37,38 +27,21 @@
                 </div> 
                 <nav>
                     <ul>
-                        <li><a id="accueil" href ="index.php">Accueil</a></li>
-                        <li><a id="connexion" href ="connexion.php">Connexion</a></li>
+                        <li><a id="accueil" href ="index.html">Accueil</a></li>
+                        <li><a id="connexion" href ="deconnexion.php">Déconnexion</a></li>
                         <li><a id="contact" href ="info.html">Contact</a></li>
+                        <li><a id="profil" href ="profil.php">Profil</a></li>
                     </ul>
                 </nav>   
             </header>
             <div id="fenetre_principale">                    
                 <aside>
                     <div id="Tissu_associatif_lyonnais">
-                        <span>Tissu associatif lyonnais</span>
+                        <span>Vos préférences</span>                        
+                        <h3><?= $_SESSION['nom_asso']; ?></h3>  
+                        <p> <?= $_SESSION['date_inscription']; ?></p>                        
                     </div>
-                    <div id="search">                           
-                        <input type="text" placeholder="    Recherchez dans TALL..." class="searchbar">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-
-                    <form class= "sidebar">
-                        <h1>Les associations</h1>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>    
-
-                        <h2>Les équipements</h2>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>    
-                    
-                        <h3>Les événements</h3>                     
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>                            
-                    </form> 
+                   
                 </aside>                
                 <div id = "map"></div>
             </div>

@@ -100,7 +100,7 @@ select{
     padding-top: 10px;
     padding-bottom: 10px;    
     font-size: small;
-    font-family: "Lucida Console", Courier, monospace;
+    font-family: 'Quicksand',"Lucida Console", Courier, monospace;
 }
 
 /* Création du bouton */

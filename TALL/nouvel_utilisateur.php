@@ -82,7 +82,7 @@ ob_start();
                 </div>    
                 <!-- choix des catégories la liste des catégories est récupérées à partir de la base de données comme ça si on change dans la BD ça changera ici aussi-->
                 <div id="choix_asso"> 
-                    <h4>Quelles sont les domaines qui vous intéresse ?</h4>
+                    <h4>Quels sont les domaines qui vous intéressent ?</h4>
                     <?php
                     $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
                     $q->execute();

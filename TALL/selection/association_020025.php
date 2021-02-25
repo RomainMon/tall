@@ -10,8 +10,7 @@ global $db;
 $q = $db->prepare("with 
                 asso_id as (
                 select association.*, categorie.nom_cate from association join categorie on (association.id_cate = categorie.id_cate)
-                where 
-                ),
+                where association.id_cate = '020025'),
                 asso_com as (   
                 SELECT asso_id.*, commune.nom_com, commune.code_post from asso_id join commune on (asso_id.adrs_codei = commune.insee_com)    
                 )    

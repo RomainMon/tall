@@ -236,3 +236,4 @@ xhttp4.onreadystatechange = function() {
     };
 xhttp4.open("GET", "php/association.php",true);
 xhttp4.send();
+

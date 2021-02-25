@@ -28,7 +28,7 @@
                 <nav>
                     <ul>
                         <li><a id="accueil" href ="index.html">Accueil</a></li>
-                        <li><a id="connexion" href ="deconnexion.php"><?= $_SESSION['prenom']; ?><br>Déconnexion</a></li>
+                        <li><a id="connexion" href ="deconnexion.php">Déconnexion</a></li>
                         <li><a id="contact" href ="info.html">Contact</a></li>
                         <li><a id="profil" href ="profil.php">Profil</a></li>
                     </ul>
@@ -41,10 +41,12 @@
                         <?php 
                         foreach($_SESSION['preference'] as $value){
                         ?>
-                        <p><?php print($value); ?></p>
+                        <p hidden class = "categorie"><?php print($value); ?></p>
                         <?php
                         }
                         ?>
+                        <h3><?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>  
+                        <p> <?= $_SESSION['date_inscription']; ?></p>                        
                     </div>
                    
                 </aside>                

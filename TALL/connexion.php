@@ -22,7 +22,7 @@
                     <label for="type_connexion"><b>Vous êtes</b></label><br>
                         <select name="type_connexion" id="type_connexion">                        
                             <option value="association">Une Association</option>
-                            <option value="utilisateur">Un Utilisateur</option>                        
+                            <option value="utilisateur">Un Particulier</option>                        
                         </select>
                 </div>
                 <label for="email"><b>Votre mail</b></label>               
@@ -83,10 +83,12 @@
                         }else{
                             echo "le compte portant l'email ". $lemail." n'hexiste pas";
                         }
-                    }else{
+                    }
+                }
+                    if ($type_connexion=="association"){
                         if(!empty($lemail) && !empty($lpassword)){
                             // vérification que le user existe bien
-                            $q = $db->prepare("SELECT * FROM asso_connexion natural join association WHERE courriel = :email");
+                            $q = $db->prepare("SELECT * FROM asso_connexion NATURAL JOIN association WHERE email = :email");
                             $q->execute(['email' => $lemail]);
                             // stockage du résultat de la requête pour l'afficher. fetch crée un tableau
                             $result= $q->fetch();
@@ -95,25 +97,29 @@
                                 // le compte existe
                                 // vérification que le mdp entrée correspond au mdp crypté
                                 $hashpassword = $result['mdp'];
+                                console.log($hashpassword);
                                 if (password_verify($lpassword, $hashpassword)){
-                                    //echo "Le mot de passe est bon, connexion en cours";
+                                    
+                                    echo "Le mot de passe est bon, connexion en cours";
+                                    sleep(1);
                                     // récupération d'éléments de session
                                     $_SESSION['nom_asso'] = $result['titre'];                                   
-                                    $_SESSION['email'] = $result['courriel'];
+                                    $_SESSION['email'] = $result['email'];
                                     $_SESSION['date_inscription'] = $result['date_compte'];
-                                    header('Location: utilisateur.php');
+
+                                    header('Location: association.php');
                                 }else{
                                     echo "Le mot de passe n'est pas correct";
-                                }
-                            }else{
-                                echo "le compte portant l'email ". $lemail." n'hexiste pas";
+                                    }
+                                }else{
+                                    echo "le compte portant l'email ". $lemail." n'hexiste pas";
                             }
                     }
                 }    
                 }else{
                     echo "Veuillez completer l'ensemble des champs";
                 }
-                }
+                
 
                 ?>
                 <?php
@@ -126,7 +132,9 @@
 
                 <h2>Nouvel(lle) utilisateur(trice)</h2>        
                 <div class="clic">
-                    <a href ='nouvel_utilisateur.php' id="bouton" > Créer un compte </a>
+                    <a href ='nouvel_utilisateur.php' id="bouton" > Créer un compte utilisateur </a>
+                    <br>
+                    <a href ='nouvelle_association.php' id="bouton" > Créer un compte assocation </a>
                 </div>
             </form>
         </div>

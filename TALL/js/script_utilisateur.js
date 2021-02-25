@@ -207,32 +207,53 @@ function PoIstile_asso(feature, latlng) {
         }       
 };
 
-//Appel de la couche association
-var xhttp4 = new XMLHttpRequest();
-//lecture de la connexion au fichier php (2 variables cf. biblio)
-xhttp4.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status ==200) {
-        //récupération du résultat de la requête sql et parcours de la couche :
-        let response = JSON.parse(xhttp4.responseText)
-        //appel de la couche
-        L.geoJSON(response, {
-            //application du style
-            pointToLayer : PoIstile_asso,
-            //appel de popup
-            onEachFeature: function(feature, layer) {
-                layer.bindPopup(
-                '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
-                "<br>Nom : " + feature.properties.titre+
-                "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
-                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
-                "<br>Objet : " + feature.properties.objet +
-                //"<br>Type de site : " + feature.properties.type_site +
-                "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">Site Internet</a>' +
-                "<br>Mail : " + feature.properties.courriel             
-                )
-            }
-        }).addTo(map)
+// recuperation des preferences utilisateurs depuis le DOM qui sont en hidden
+var categoriesUtilisateurs = document.getElementsByClassName('categorie');
+
+for (let item of categoriesUtilisateurs) {
+    console.log(item.textContent);
+}
+// console.log(categoriesUtilisateurs)
+
+function appelCouche(couche){
+    //Appel de la couche association
+    var xhttp4 = new XMLHttpRequest();
+    //lecture de la connexion au fichier php (2 variables cf. biblio)
+    xhttp4.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status ==200) {
+            //récupération du résultat de la requête sql et parcours de la couche :
+            let response = JSON.parse(xhttp4.responseText)
+            //appel de la couche
+            L.geoJSON(response, {
+                //application du style
+                pointToLayer : PoIstile_asso,
+                //appel de popup
+                onEachFeature: function(feature, layer) {
+                    layer.bindPopup(
+                    '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
+                    "<br>Nom : " + feature.properties.titre+
+                    "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
+                    "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
+                    "<br>Objet : " + feature.properties.objet +
+                    //"<br>Type de site : " + feature.properties.type_site +
+                    "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">Site Internet</a>' +
+                    "<br>Mail : " + feature.properties.courriel             
+                    )
+                }
+            }).addTo(map)
+        }
+        };
+    xhttp4.open("GET", "selection/association_" + couche + ".php",true);
+    xhttp4.send();
     }
-    };
-xhttp4.open("GET", "php/association_utilisateur.php",true);
-xhttp4.send();
+
+    for (let item of categoriesUtilisateurs) {
+        appelCouche(item.textContent);
+    }
+
+
+
+
+
+
+
