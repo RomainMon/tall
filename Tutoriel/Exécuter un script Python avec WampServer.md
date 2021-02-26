@@ -27,11 +27,14 @@ Maintenant que Python est installé sur serveur, il faut configurez WampServer p
 A présent que le fichier "httpd.conf" est ouvert, nous allons le paramètrer.
 1. Contrôle + F : "directory"
 2. Remplacez :
+
     <Directory />
         AllowOverride none
         Require all denied
     </Directory>
- Par :
+
+Par :
+ 
     <Directory />
         AllowOverride none
         Require all granted
