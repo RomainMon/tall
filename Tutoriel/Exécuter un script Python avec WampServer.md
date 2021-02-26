@@ -13,18 +13,18 @@ Allez sur le site [www.python.org](https://www.python.org/downloads/) et téléc
 2. Cochez "Add Python 3.8 to PATH"
 3. Sélectionnez "Customize installation"
 4. Laissez les options cochées par défaut dans la fenêtre "Optional Features", et faites "Next"
-5. Dans la fnêtre "Advanced Options" modifiez le lien de "Customize install location" et mettez "C:\Python3.8.6"
+5. Dans la fenêtre "Advanced Options" modifiez le lien de "Customize install location" et mettez "C:\Python3.8.6"
 6. Cliquez sur "Install"
 
 ## Étape 2 : Configuration de WampServer
 
-Maintenant que Python est installé sur serveur, il faut configurez WampServer pour qu'il soit capable d'exécuter les scripts en Python. Pour cela nous allons modifier la configuration du serveur Web Apache.
+Maintenant que Python est installé sur serveur, il faut configurer WampServer pour qu'il soit capable d'exécuter les scripts en Python. Pour cela nous allons modifier la configuration du serveur Web Apache.
 
 1. Lancez WampServer
 2. Faites un clic gauche sur le logo Wampserver présent sur la barre des tâches
 3. Allez dans "Apache" --> "Fichiers et documentation" --> "httpd.conf"
 
-A présent que le fichier "httpd.conf" est ouvert, nous allons le paramètrer.
+A présent que le fichier "httpd.conf" est ouvert, nous allons le paramétrer.
 1. Contrôle + F : "directory"
 2. Remplacez :
 
@@ -57,7 +57,7 @@ Par :
 
         AddHandler cgi-script .cgi .py
         
-6. Sauvegarder les modifications
+6. Sauvegardez les modifications
 7. Faites un clic gauche sur le logo Wampserver présent sur la barre des tâches
 8. Cliquez sur "Redémarrez les services"
 
@@ -65,7 +65,7 @@ Notre serveur est maintenant en mesure d'exécuter des scripts en Python.
 
 ## Étape 3 : Exécuter un script python par le biais de WampServer
 
-Après avoir créé un "Virtual Host" pour l'occasion, je mets un script python dans celui-ci. Ce fichier doit avoir la configation suivante :
+Après avoir créé un "Virtual Host" pour l'occasion, on met un script python dans celui-ci. Ce fichier doit avoir la configation suivante :
 
         #on écrit le lien vers notre installation python dans un commentaire de la façon suivante :
         #!C:/Python3.8.6/python.exe
@@ -73,7 +73,7 @@ Après avoir créé un "Virtual Host" pour l'occasion, je mets un script python 
         print("content-type: text/html\n\n" ) # je crée un contenu html
         print("<br><B>hello la team</B>") #j'affiche hello la team en HTML
 
-Si vous excutez en double cliquant dessus, ou en mettant directement le lien vers celui ci dans votre barre de recherche, votre page web affichera "hello la team".
+Si vous excutez le script en double cliquant dessus, ou en mettant directement le lien vers celui ci dans votre barre de recherche, votre page web affichera "hello la team".
 
 ## Étape 4 : Exécuter un script python par le biais de php
 
@@ -91,7 +91,7 @@ Créez un fichier php dans le même "Virtual Host" que votre script python. Dans
  Si tout vous semble bon, remplacez le script précédent par celui :
  
         <?php
-            exec('hi.py'); //permet d'excuter un programme. Le paramètres en le script Python.
+            exec('hi.py'); //permet d'excuter un programme. Le paramètre est le script Python.
         ?>
         
   Enfin, exécutez ce script en passant toujours par votre "Virtual Host".
@@ -99,9 +99,9 @@ Créez un fichier php dans le même "Virtual Host" que votre script python. Dans
   
 ## Étape 5 : Exécuter un script python contenant des libraries par le biais de php
 
-Rassurez-vous, vous venez de faire le plus dur. Pour installer des libraries utilisablent par le script python exécuté dans WampServer, il suffit de faire les étpaes suivantes :
+Rassurez-vous, vous venez de faire le plus dur. Pour installer des libraries utilisablent par le script python exécuté dans WampServer, il suffit de faire les étapes suivantes :
 1. Ouvrez votre "invite de commandes" en tant qu'administrateur
-2. Par défaut vous êtes dans "C:\WINDOWS\system32", faite :
+2. Par défaut vous êtes dans "C:\WINDOWS\system32", faites :
 
         cd ..
 4. A présent vous êtes dans "C:\Windows", retournez à la racine de votre disque dur en faisant une nouvelle fois :
@@ -114,7 +114,7 @@ Rassurez-vous, vous venez de faire le plus dur. Pour installer des libraries uti
 
         C:\Python3.8.6>pip install requests
         
-7. Une fois vos packages installés, retournez dans votre "Virtual Host" et exécutez le script python faisant appel à des librairies avec votre script php comme vu dans l'étape 5.
+7. Une fois vos packages installés, retournez dans votre "Virtual Host" et exécutez le script python faisant appel à des librairies avec votre script php comme vu dans l'étape 4.
 
 Exemple de script en python faisant appel à une librarie :
 
