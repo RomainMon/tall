@@ -29,8 +29,8 @@ A présent que le fichier "httpd.conf" est ouvert, nous allons le paramètrer.
 2. Remplacez :
 
         <Directory />
-            AllowOverride none
-            Require all denied
+           AllowOverride none
+           Require all denied
         </Directory>
 
 Par :
