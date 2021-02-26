@@ -4,7 +4,17 @@ Pour suivre ce tutoriel, il est nécessaire d'avoir une installation de WampServ
 
 ## Table des matières
 
-## Étape 1 : Installation de python
+[Étape 1 : Installation de python](#etape1)
+
+[Étape 2 : Configuration de WampServer](#etape2)
+
+[Étape 3 : Exécuter un script python par le biais de WampServer](#etape3)
+
+[Étape 4 : Exécuter un script python par le biais de php](#etape4)
+
+[Étape 5 : Exécuter un script python contenant des librairies par le biais de php](#etape5)
+
+## Étape 1 : Installation de python <a name="etape1"></a>
 
 WampServer émule un serveur sur notre machine. De ce postulat, on comprend que notre machine est un serveur, notre serveur. Nous allons installer Python dans le serveur pour ensuite y faire appel lors de l'excution de scripts en Python.
 
@@ -16,7 +26,8 @@ Allez sur le site [www.python.org](https://www.python.org/downloads/) et téléc
 5. Dans la fenêtre "Advanced Options" modifiez le lien de "Customize install location" et mettez "C:\Python3.8.6"
 6. Cliquez sur "Install"
 
-## Étape 2 : Configuration de WampServer
+## Étape 2 : Configuration de WampServer <a name="etape2"></a>
+
 
 Maintenant que Python est installé sur serveur, il faut configurer WampServer pour qu'il soit capable d'exécuter les scripts en Python. Pour cela nous allons modifier la configuration du serveur Web Apache.
 
@@ -63,7 +74,7 @@ Par :
 
 Notre serveur est maintenant en mesure d'exécuter des scripts en Python.
 
-## Étape 3 : Exécuter un script python par le biais de WampServer
+## Étape 3 : Exécuter un script python par le biais de WampServer <a name="etape3"></a>
 
 Après avoir créé un "Virtual Host" pour l'occasion, on met un script python dans celui-ci. Ce fichier doit avoir la configation suivante :
 
@@ -75,7 +86,7 @@ Après avoir créé un "Virtual Host" pour l'occasion, on met un script python d
 
 Si vous excutez le script en double cliquant dessus, ou en mettant directement le lien vers celui ci dans votre barre de recherche, votre page web affichera "hello la team".
 
-## Étape 4 : Exécuter un script python par le biais de php
+## Étape 4 : Exécuter un script python par le biais de php <a name="etape4"></a>
 
 Créez un fichier php dans le même "Virtual Host" que votre script python. Dans le script php assurez vous dans un premier temps que vous êtes dans le même dossier que le script python et que celui est lisible. Pour cela, je vous conseille de faire le script suivant et de l'ouvrir par le biais de votre "Virtual Host" :
         
@@ -97,7 +108,7 @@ Créez un fichier php dans le même "Virtual Host" que votre script python. Dans
   Enfin, exécutez ce script en passant toujours par votre "Virtual Host".
   
   
-## Étape 5 : Exécuter un script python contenant des librairies par le biais de php
+## Étape 5 : Exécuter un script python contenant des librairies par le biais de php <a name="etape5"></a>
 
 Rassurez-vous, vous venez de faire le plus dur. Pour installer des librairies utilisablent par le script python exécuté dans WampServer, il suffit de faire les étapes suivantes :
 1. Ouvrez votre "invite de commandes" en tant qu'administrateur
