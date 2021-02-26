@@ -12,7 +12,7 @@ Allez sur le site [www.python.org](https://www.python.org/downloads/) et téléc
 1. Lancez l'excutable d'installation
 2. Cochez "Add Python 3.8 to PATH"
 3. Sélectionnez "Customize installation"
-4. Laissez les options cochez par défaut dans la fenêtre "Optional Features", et faites "Next"
+4. Laissez les options cochées par défaut dans la fenêtre "Optional Features", et faites "Next"
 5. Dans la fnêtre "Advanced Options" modifiez le lien de "Customize install location" et mettez "C:\Python3.8.6"
 6. Cliquez sur "Install"
 
