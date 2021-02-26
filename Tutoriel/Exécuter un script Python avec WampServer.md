@@ -97,9 +97,9 @@ Créez un fichier php dans le même "Virtual Host" que votre script python. Dans
   Enfin, exécutez ce script en passant toujours par votre "Virtual Host".
   
   
-## Étape 5 : Exécuter un script python contenant des libraries par le biais de php
+## Étape 5 : Exécuter un script python contenant des librairies par le biais de php
 
-Rassurez-vous, vous venez de faire le plus dur. Pour installer des libraries utilisablent par le script python exécuté dans WampServer, il suffit de faire les étapes suivantes :
+Rassurez-vous, vous venez de faire le plus dur. Pour installer des librairies utilisablent par le script python exécuté dans WampServer, il suffit de faire les étapes suivantes :
 1. Ouvrez votre "invite de commandes" en tant qu'administrateur
 2. Par défaut vous êtes dans "C:\WINDOWS\system32", faites :
 
@@ -116,7 +116,7 @@ Rassurez-vous, vous venez de faire le plus dur. Pour installer des libraries uti
         
 7. Une fois vos packages installés, retournez dans votre "Virtual Host" et exécutez le script python faisant appel à des librairies avec votre script php comme vu dans l'étape 4.
 
-Exemple de script en python faisant appel à une librarie :
+Exemple de script en python faisant appel à une librairie :
 
         #!C:/Python3.8.6/python.exe
 
