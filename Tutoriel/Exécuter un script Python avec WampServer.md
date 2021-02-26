@@ -1,6 +1,6 @@
 # Tutoriel --> Exécuter un script Python avec WampServer
 
-Pour suivre ce tutoriel, il est nécessaire d'avoir une installation WampServer fonctionnelle.
+Pour suivre ce tutoriel, il est nécessaire d'avoir une installation de WampServer fonctionnelle ainsi que des connaissances de base sur le fonctionnement d'une architecture web et de WampServer.
 
 ## Table des matières
 
@@ -40,7 +40,60 @@ Par :
            Require all granted
         </Directory>
 
+3. Remplacez :
 
+        Options +Indexes +FollowSymLinks +Multiviews
+        
+Par :
 
+        Options +Indexes +FollowSymLinks +Multiviews +ExecCGI
 
+4. Contrôle + F : "addhandler"
+5. Remplacez :
 
+        #AddHandler cgi-script .cgi
+        
+Par :
+
+        AddHandler cgi-script .cgi .py
+        
+6. Sauvegarder les modifications
+7. Faites un clic gauche sur le logo Wampserver présent sur la barre des tâches
+8. Cliquez sur "Redémarrez les services"
+
+Notre serveur est maintenant en mesure d'exécuter des scripts en Python.
+
+## Étape 3 : Exécuter un script python par le biais de WampServer
+
+Après avoir créé un "Virtual Host" pour l'occasion, je mets un script python dans celui-ci. Ce fichier doit avoir la configation suivante :
+
+        #on écrit le lien vers notre installation python dans un commentaire de la façon suivante :
+        #!C:/Python3.8.6/python.exe
+
+        print("content-type: text/html\n\n" ) # je crée un contenu html
+        print("<br><B>hello la team</B>") #j'affiche hello la team en HTML
+
+Si vous excutez en double cliquant dessus, ou en mettant directement le lien vers celui ci dans votre barre de recherche, votre page web affichera "hello la team".
+
+## Étape 4 : Exécuter un script python par le biais de php
+
+Créez un fichier php dans le même "Virtual Host" que votre script python. Dans le script php assurez vous dans un premier temps que vous êtes dans le même dossier que le script python et que celui est lisible. Pour cela, je vous conseille de faire le script suivant et de l'ouvrir par le biais de votre "Virtual Host" :
+        
+        <?php
+            $id = opendir("./"); //ouverture d'un fichier. './' = le dossier courant
+            while($str = readdir($id)){ // renvoie le contenu du dossier. boucle pour renvoyer chaque élément.
+                echo $str;
+                echo " ".filetype($str); //permet de connaitre le type de fichier
+                echo "<br />"; //pour avoir le dossier à la ligne
+            };
+        ?>
+ 
+ Si tout vous semble bon, remplacez le script précédent par celui :
+ 
+        <?php
+            exec('hi.py'); //permet d'excuter un programme. Le paramètres en le script Python.
+        ?>
+        
+  Enfin, exécutez ce script en passant toujours par votre "Virtual Host".
+  
+  
