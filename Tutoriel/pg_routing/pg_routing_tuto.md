@@ -15,7 +15,7 @@ Une grande partie de ce travail a été possible grâce à l’ouvrage de [« G�
 
 [Étape 3 : importer la donnée dans la base de données «webmapping» via QGIS](#etape3)
 
-[Étape 4 : les bases de la topologie et création de la topologie au jeu de données routes](#etape3)
+[Étape 4 : les bases de la topologie et création de la topologie au jeu de données routes](#etape4)
 
 [Étape 5 : calculer le plus court chemin](#etape5)
 
@@ -97,7 +97,7 @@ Ceci crée un nouveau schéma « routes_topo » avec une nouvelle topologie se c
 <div align=center>Figure 8 : Tables créées</div>
 
 Ajoutez la colonne "topo_geom" de type topogeometry à la table de vos routes, dans mon cas « routes_grand_lyon_84 » :
-
+  
     -- Requête 2
     -- ajout d'une colonne "topo_geom" de type topogeometry à la table routes_grand_lyon_84
 
