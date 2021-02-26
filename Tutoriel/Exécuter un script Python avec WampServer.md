@@ -6,7 +6,7 @@ Pour suivre ce tutoriel, il est nécessaire d'avoir une installation de WampServ
 
 ## Étape 1 : Installation de python
 
-WampServer émule un serveur sur notre machine. De ce postulat, on comprend que notre machine est un serveur, notre serveur. Nous allons installer python dans sur le serveur pour ensuite y faire appel lors de l'excution de script en Python.
+WampServer émule un serveur sur notre machine. De ce postulat, on comprend que notre machine est un serveur, notre serveur. Nous allons installer python dans sur le serveur pour ensuite y faire appel lors de l'excution de scripts en Python.
 
 Allez sur le site [www.python.org](https://www.python.org/downloads/) et téléchargez la version de python qui vous intéresse. Dans notre cas la "3.8.6".
 1. Lancez l'excutable d'installation
