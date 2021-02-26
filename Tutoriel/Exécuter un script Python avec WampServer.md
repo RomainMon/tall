@@ -28,10 +28,10 @@ A présent que le fichier "httpd.conf" est ouvert, nous allons le paramètrer.
 1. Contrôle + F : "directory"
 2. Remplacez :
 
-    <Directory />
-        AllowOverride none
-        Require all denied
-    </Directory>
+        <Directory />
+            AllowOverride none
+            Require all denied
+        </Directory>
 
 Par :
  
