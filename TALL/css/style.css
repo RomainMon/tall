@@ -124,6 +124,8 @@ aside{
     order : 1;
 }
 
+
+
 #fenetre_principale{
     display: flex;
     height: 35em;
@@ -134,6 +136,14 @@ aside{
     margin-right: 5px;
     display : flex;
     flex-direction: column;      
+}
+
+#aside{
+    flex: 0 0 1;
+    margin-right: 5px;
+    display : flex;
+    flex-direction: column;
+    align-self: flex-end;      
 }
 
 .Tissu_associatif_lyonnais {
@@ -236,4 +246,9 @@ footer a{
 #lien_footer{
     position :absolute;
     right : 15px;
+}
+
+.poulpy {
+    color :rgb(31, 49, 31);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

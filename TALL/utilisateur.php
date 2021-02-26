@@ -12,7 +12,10 @@
 		<script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
 		<!-- Police -->
 		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
-
+        <!-- appel de l'api google jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- appel du script js jquery -->
+        <script src='js/jquery_itineraire.js'></script>
     </head>    
     <body>
         <div id = "bloc_page">
@@ -48,9 +51,20 @@
                         <h3><?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>  
                         <p> <?= $_SESSION['date_inscription']; ?></p>                        
                     </div>
+                    <div id = "itineraire">
+                        <span>Calculs d'itinéraire le plus court</span>
+                        <p>Cliquer sur un point d'association ou d'équipement sur la carte puis sur le bouton ci-dessous</p>
+                        <button id="itineraire_button" onClick="itineraireDisplay()">test</button>
+                        <!-- <button id="itineraire_button_bis">test</button> -->                        
+                        <p id="test_iti" class = "poulpy"></p>
+                        
                    
                 </aside>                
                 <div id = "map"></div>
+                <aside id = "aside_left">
+                    <div id="Tissu_associatif_lyonnais">
+                            <span>Production de camenbert</span>
+                </aside>
             </div>
             <footer>
                 <div id="footer_text">

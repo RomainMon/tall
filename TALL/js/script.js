@@ -145,7 +145,7 @@ function launchXHR(lat, lng) {
     // var params = JSON.stringify({ id: 1 });
     var xhttp = new XMLHttpRequest();  
     
-xhttp.open("POST", "php/clic.php", true);
+xhttp.open("POST", "php/select_point.php", true);
 
 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 xhttp.send("lat="+lat+"&lng="+lng);

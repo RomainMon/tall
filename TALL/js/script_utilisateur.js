@@ -11,6 +11,7 @@ map.setView([45.7175, 4.919], 9);
 
 // Appel du script php
 //style pour la couche commune
+
 var style_commune = {
     "color": "#fff",
     "weight": 2,
@@ -135,21 +136,54 @@ xhttp3.open("GET", "php/ambassadeur_mdp.php",true);
 xhttp3.send();
 */
 
-// map.on('click', function(e){
-//     lat = e.latlng.lat;
-//     lng = e.latlng.lng;
-//     launchXHR(lat, lng)
-// })
+map.on('click', function(e){
+    lat = e.latlng.lat;
+    lng = e.latlng.lng;
+    launchXHR(lat, lng);
+    // itineraireDisplay ()
+})
 
-// function launchXHR(lat, lng) {
-//     // var params = JSON.stringify({ id: 1 });
-//     var xhttp = new XMLHttpRequest();  
+function launchXHR(lat, lng) {
+    // var params = JSON.stringify({ id: 1 });
+    var xhttp = new XMLHttpRequest();  
     
-// xhttp.open("POST", "php/clic.php", true);
+xhttp.open("POST", "itineraire/select_point.php", true);
 
-// xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-// xhttp.send("lat="+lat+"&lng="+lng);
-// }
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhttp.send("lat="+lat+"&lng="+lng);
+}
+
+var styleIti = {
+    "color": "#FF0505",
+    "weight": 2,
+    "opacity": 0.8
+};
+
+
+//Appel de la couche itineraire dans une fonction lancée par un bouton ou autre
+function itineraireDisplay (){
+    var xhttp_iti = new XMLHttpRequest();
+    xhttp_iti.onreadystatechange = function() {
+        //lecture de la connexion au fichier php (2 variables cf. biblio)
+        if (this.readyState == 4 && this.status == 200) {
+            //récupération du résultat de la requête sql et parcours de la couche :        
+            let response = JSON.parse(xhttp_iti.responseText)                   
+            //transformation du tableau récupéré en couche geojson 
+            // console.log(response)       
+            var itineraire = L.geoJSON(response,{
+                //application du style
+                style: styleIti,
+                }).addTo(map)
+            map.fitBounds(itineraire.getBounds());            
+            }
+        };
+    //requête du fichier php
+    xhttp_iti.open("GET", "itineraire/itineraire.php",true);
+    //envoie de la commande au fichier
+    xhttp_iti.send();
+}
+
+
 
 //Création d'une fonction de style pour changer les icones selon le type d'association :
 function PoIstile_asso(feature, latlng) {
@@ -250,6 +284,7 @@ function appelCouche(couche){
     for (let item of categoriesUtilisateurs) {
         appelCouche(item.textContent);
     }
+
 
 
 

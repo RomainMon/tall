@@ -65,10 +65,15 @@
                                     $result['id_cate_5']
                                     ];                                
                                 // récupération d'éléments de session
+                                $_SESSION['id_utilisateur']=$result['id_utilisateur'];
                                 $_SESSION['nom'] = $result['nom'];
                                 $_SESSION['prenom'] = $result['prenom'];
                                 $_SESSION['email'] = $result['email'];
+                                $_SESSION['telephone'] = $result['telephone'];
                                 $_SESSION['date_inscription'] = $result['date_inscription'];
+                                $_SESSION['id_adresse'] = $result['id_adresse'];
+                                
+
                                 // recuperation des preferences de l'utilisateur
                                 $_SESSION['preference']=[];
                                 foreach($liste_preference as $value){
