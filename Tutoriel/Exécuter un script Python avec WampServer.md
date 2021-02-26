@@ -35,10 +35,10 @@ A présent que le fichier "httpd.conf" est ouvert, nous allons le paramètrer.
 
 Par :
  
-    <Directory />
-        AllowOverride none
-        Require all granted
-    </Directory>
+        <Directory />
+           AllowOverride none
+           Require all granted
+        </Directory>
 
 
 
