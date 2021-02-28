@@ -104,7 +104,7 @@ ob_start();
                     <!-- Choix d'une association -->
                     <p>Etes-vous membre d'une association ?</p>
                     <select name ="choix_asso" id="choix_asso">
-                        <option selected="selected">Sélectionner une valeur</option>
+                        <option selected="selected" value="">Sélectionner une valeur</option>
                         <?php
                         $q = $db->prepare("SELECT titre,id_asso FROM association ORDER by titre;");
                         $q->execute();

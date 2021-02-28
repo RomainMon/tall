@@ -58,14 +58,15 @@ xhttp.onreadystatechange = function() {
         //récupération du résultat de la requête sql et parcours de la couche :        
         let response = JSON.parse(xhttp.responseText)                   
         //transformation du tableau récupéré en couche geojson
-        response.forEach((el) => {
-            L.geoJSON(JSON.parse(el.geojson),{
+        var commune = L.geoJSON(response,{
             //application du style
-            style: myStyle,
-            }).addTo(map)
-            })
-        }
-    };
+            style: myStyle,           
+            
+            }).addTo(map)        
+            }
+
+        };
+
 //requête du fichier php
 xhttp.open("GET", "php/commune.php",true);
 //envoie de la commande au fichier

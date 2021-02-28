@@ -25,6 +25,8 @@ var myStyle = {
     "opacity": 0.65
 };
 
+layerControl = L.control.layers().addTo(map);
+
 //Création d'une fonction de style pour changer les icones selon le type d'équipement :
 function PoIstile(feature, latlng) {
     switch(feature.properties["type_equip"]) {
@@ -58,19 +60,57 @@ xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status ==200) {
         //récupération du résultat de la requête sql et parcours de la couche :        
         let response = JSON.parse(xhttp.responseText)                   
-        //transformation du tableau récupéré en couche geojson
-        response.forEach((el) => {
-            L.geoJSON(JSON.parse(el.geojson),{
-            //application du style
-            style: myStyle,
-            }).addTo(map)
-            })
+        //transformation du tableau récupéré en couche geojson        
+        var commune = L.geoJSON(response,{
+        //application du style
+        style: myStyle,        
+        }).addTo(map);
+        layerControl.addOverlay(commune, "Commune");        
         }
     };
 //requête du fichier php
 xhttp.open("GET", "php/commune.php",true);
 //envoie de la commande au fichier
 xhttp.send();
+
+
+
+// création de l'icone utilisateur
+var utilisateurIcon = new L.icon({
+    iconUrl: 'img/utilisateur.png',//Chemin de l'image 
+    iconSize:     [100, 100], // Taille de l'icone
+    iconAnchor:   [100, 100], // Point d'insertion de l'icone
+    popupAnchor:  [-3, -15], // Point d'insertion de la popup
+    // shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
+    // shadowUrl: 'img/marker-shadow.png'//Chemin de l'image d'ombre
+    });
+
+
+// récupération de l'id_utilisateur pour filter la couche   
+id_utilisateur = document.getElementById('id_utilisateur');
+console.log(id_utilisateur);
+// Affichage de l'adresse de l'utilisateur sur la carte 
+          
+var xhttpUtil = new XMLHttpRequest();
+    xhttpUtil.onreadystatechange = function() {
+        //lecture de la connexion au fichier php (2 variables cf. biblio)
+        if (this.readyState == 4 && this.status ==200) {
+            //récupération du résultat de la requête sql et parcours de la couche :        
+            let response = JSON.parse(xhttp.responseText)                   
+            //transformation du tableau récupéré en couche geojson        
+            var utilisateur = L.geoJSON(response,{
+            //application du style
+            pointToLayer:function (feature,latlng){
+                return L.marker(latlng, {icon: composteurIcon})
+            },            
+            }).addTo(map)        
+            }                
+        };
+//requête du fichier php
+xhttpUtil.open("GET", "php/marker_utilisateur.php",true);
+//envoie de la commande au fichier
+xhttpUtil.send();
+
 
 // //Appel de la couche equipement
 // var xhttp2 = new XMLHttpRequest();
@@ -159,7 +199,7 @@ var styleIti = {
     "opacity": 0.8
 };
 
-
+var itineraires = L.layerGroup() 
 //Appel de la couche itineraire dans une fonction lancée par un bouton ou autre
 function itineraireDisplay (){
     var xhttp_iti = new XMLHttpRequest();
@@ -169,11 +209,15 @@ function itineraireDisplay (){
             //récupération du résultat de la requête sql et parcours de la couche :        
             let response = JSON.parse(xhttp_iti.responseText)                   
             //transformation du tableau récupéré en couche geojson 
-            // console.log(response)       
+            // console.log(response)
+            itineraires.remove(map);       
             var itineraire = L.geoJSON(response,{
                 //application du style
                 style: styleIti,
-                }).addTo(map)
+                })
+            // itineraire.clearLayer();
+            itineraires.addLayer(itineraire);
+            itineraires.addTo(map);
             map.fitBounds(itineraire.getBounds());            
             }
         };
@@ -244,9 +288,9 @@ function PoIstile_asso(feature, latlng) {
 // recuperation des preferences utilisateurs depuis le DOM qui sont en hidden
 var categoriesUtilisateurs = document.getElementsByClassName('categorie');
 
-for (let item of categoriesUtilisateurs) {
-    console.log(item.textContent);
-}
+// for (let item of categoriesUtilisateurs) {
+//     console.log(item.textContent);
+// }
 // console.log(categoriesUtilisateurs)
 
 function appelCouche(couche){
@@ -261,23 +305,29 @@ function appelCouche(couche){
             L.geoJSON(response, {
                 //application du style
                 pointToLayer : PoIstile_asso,
+                filter: function(feature,layer) {
+                    if (feature.properties.id_cate == couche) return true
+                },
                 //appel de popup
                 onEachFeature: function(feature, layer) {
-                    layer.bindPopup(
-                    '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
+                    var popup_content = ""
+                    
+                    popup_content += '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
                     "<br>Nom : " + feature.properties.titre+
                     "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
                     "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
-                    "<br>Objet : " + feature.properties.objet +
+                    "<br>Objet : " + feature.properties.objet
                     //"<br>Type de site : " + feature.properties.type_site +
-                    "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">Site Internet</a>' +
-                    "<br>Mail : " + feature.properties.courriel             
-                    )
+                    if (feature.properties.siteweb != '#N/A'){
+                        popup_content +=  "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">'+feature.properties.siteweb+'</a>'}
+                    if (feature.properties.courriel){
+                        popup_content += "<br>Mail : " + feature.properties.courriel}                                 
+                    layer.bindPopup(popup_content)
                 }
-            }).addTo(map)
+            }).addTo(map)            
         }
         };
-    xhttp4.open("GET", "selection/association_" + couche + ".php",true);
+    xhttp4.open("GET", "php/association.php",true);
     xhttp4.send();
     }
 
@@ -285,10 +335,103 @@ function appelCouche(couche){
         appelCouche(item.textContent);
     }
 
+//Création d'un style pour les communes
+var myStyle2 = {
+    "color": "#FF0404",
+    "weight": 2,
+    "opacity": 0.65
+};
 
 
+function zoomVille(ville){    
+    console.log(ville.value);          
+    var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            //lecture de la connexion au fichier php (2 variables cf. biblio)
+            if (this.readyState == 4 && this.status ==200) {
+                //récupération du résultat de la requête sql et parcours de la couche :        
+                let response = JSON.parse(xhttp.responseText)                   
+                //transformation du tableau récupéré en couche geojson        
+                var commune = L.geoJSON(response,{
+                //application du style
+                style: myStyle2,
+                filter: function(feature,layer) {
+                    if (feature.properties.nom_com == ville.value) return true
+                }
+                }).addTo(map)        
+                }
+                map.fitBounds(commune.getBounds())
+            };
+        //requête du fichier php
+        xhttp.open("GET", "php/commune.php",true);
+        //envoie de la commande au fichier
+        xhttp.send();
+}
 
 
+// Fonction de création du graphique camembert avec en paramètre association ou équipement et la commune sur laquelle on veut voir les stats
+function makeChart(){
+    // récupération de la balise du dom où sera placé le graph
+    var ctx = document.getElementById('myChart').getContext('2d');
+    // création de deux tableaux vides pour placer les données
+    // données littérales
+    var cateData = [] 
+    // nombres de données par communes
+    var countData = []
+    // récupération des données insérées par la requete sql dans une balise hidden
+    var cate = document.getElementsByClassName('nom_cate');
+     
+    var i;
+    // itération dans le tableau renvoyé
+    for (i = 1; i < cate.length; i++) {
+        var texte = cate[i].innerHTML
+        // texte récupéré splité avec le séparateur :
+        var souspart = texte.split(":")
+        // transformartion en number de la valeur du count
+        var countInt = parseInt(souspart[1]);
+        // ajout des données dans les tableaux vides
+        cateData.push(souspart[0]);
+        countData.push(countInt)
+        } 
+    // console.log(cateData)
+    // console.log(countData)
+    // création du graphique (cf. doc chart.js)
+    // création d'un tableau avec cinq couleurs (le max) en fond et cinq couleurs de bordures:
+    var paletteFond5 = ['rgba(166,206,227, 0.5)','rgba(31,120,180, 0.5)','rgba(178,223,138, 0.5)','rgba(51,160,44, 0.5)','rgba(251,154,153, 0.5)']
+        
 
+    var paletteBord5 = ['rgba(166,206,227, 1)','rgba(31,120,180, 1)','rgba(178,223,138, 1)','rgba(51,160,44, 1)','rgba(251,154,153, 1)']
+    
 
+    function couleurFond(){
+        var x = cateData.length;
+        var paletteFond = paletteFond5.slice(0)
+        return paletteFond                 
+    }
 
+    function couleurBord(){
+        var x = cateData.length;
+        var paletteBord = paletteFond5.slice(0)
+        return paletteBord                 
+    }
+
+    
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: cateData,
+            datasets: [{
+            // label: '# of Tomatoes',
+            data: countData,
+            backgroundColor: couleurFond(),
+            borderColor: couleurBord(),
+            borderWidth: 1
+            }]
+        },
+        options: {
+            //cutoutPercentage: 40,
+            responsive: false,
+
+        }
+        });
+}

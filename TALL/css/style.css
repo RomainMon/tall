@@ -6,6 +6,8 @@
 /* Définitions générales */
 body {
 	background-color: rgb(255, 255, 255);
+    flex-direction: column;
+    display: flex;
 }
 
 /* Textes */
@@ -14,7 +16,7 @@ body, p {
 	color:rgb(0, 0, 0);
 	font-size: 15px;
 	line-height: 20px;
-	font-weight: 200;
+	font-weight: 200;    
 }
 
 /*header*/
@@ -138,13 +140,28 @@ aside{
     flex-direction: column;      
 }
 
-#aside{
+#aside_right{
     flex: 0 0 1;
     margin-right: 5px;
     display : flex;
     flex-direction: column;
-    align-self: flex-end;      
+    align-self:stretch;
 }
+
+select{
+    width: 80%;
+    padding: 8px 8px;
+    margin: 8px 0;    
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    color: rgb(121, 121, 121);
+    border-radius : 5px;     
+}
+
+
+
+
 
 .Tissu_associatif_lyonnais {
     margin-bottom: 50px;
@@ -252,3 +269,5 @@ footer a{
     color :rgb(31, 49, 31);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+

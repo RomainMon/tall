@@ -1,4 +1,8 @@
 <?php session_start();
+// connexion à la db
+include 'include/database.php';
+//  recupération de la varibable db pour faire des requêtes
+global $db;
 ?>
 
 <html>
@@ -16,6 +20,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- appel du script js jquery -->
         <script src='js/jquery_itineraire.js'></script>
+        <script src='js/jquery_stat.js'></script>
+        <!-- appel de char.js -->
+        <script src="js/package/dist/Chart.js"></script>
+
     </head>    
     <body>
         <div id = "bloc_page">
@@ -41,29 +49,90 @@
                 <aside>
                     <div id="Tissu_associatif_lyonnais">
                         <span>Vos préférences</span>
+                        <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
                         <?php 
                         foreach($_SESSION['preference'] as $value){
-                        ?>
-                        <p hidden class = "categorie"><?php print($value); ?></p>
-                        <?php
+                            ?>
+                            <p hidden class = "categorie"><?php print($value); ?></p>
+                            <?php
                         }
                         ?>
-                        <h3><?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>  
-                        <p> <?= $_SESSION['date_inscription']; ?></p>                        
+                        <p id="id_utilisateur"><?= $_SESSION['id_utilisateur']; ?></p>
+                        <h3>Bonjour, <?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>  
+                        <?php
+                            $q = $db->prepare("
+                                WITH adresse_user AS (SELECT ad.nom_1, ad.rep, ad.code_post, ad.numero FROM utilisateur AS u, adresse AS ad
+                                WHERE id_utilisateur = :id_user AND u.id_adresse = ad.id_adresse)
+                                SELECT ad.numero, ad.rep, ad.nom_1, co.code_post, co.nom_com FROM commune AS co
+                                JOIN adresse_user AS ad ON (co.code_post = ad.code_post);
+                            ");
+                            $q->execute([
+                                'id_user'=> $_SESSION['id_utilisateur']
+                            ]);                   
+                            //récupération du résultat de la requête dans une variable :
+                            $adresse_user= $q->fetchAll();
+                            foreach($adresse_user as $value){                                
+                            ?>
+                            <p>Mon adresse : <?= $value['numero']; ?> <?= $value['rep']; ?> <?= $value['nom_1']; ?> <?= $value['code_post']; ?> <?= $value['nom_com']; ?></p>
+                            <?php
+                            }
+                        ?>
+
+
+
                     </div>
                     <div id = "itineraire">
                         <span>Calculs d'itinéraire le plus court</span>
                         <p>Cliquer sur un point d'association ou d'équipement sur la carte puis sur le bouton ci-dessous</p>
-                        <button id="itineraire_button" onClick="itineraireDisplay()">test</button>
-                        <!-- <button id="itineraire_button_bis">test</button> -->                        
+                        <button id="itineraire_button" onClick="itineraireDisplay()">Lancer le calcul</button>                                            
                         <p id="test_iti" class = "poulpy"></p>
                         
                    
                 </aside>                
                 <div id = "map"></div>
-                <aside id = "aside_left">
-                    <div id="Tissu_associatif_lyonnais">
-                            <span>Production de camenbert</span>
+                <aside id = "aside_right">
+                    <div id="statistiques">
+                        <span>Production de camembert</span><br>
+                        <form>                            
+                            <label for="choix_commune">Choix de la commune</label>
+                            <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
+                            <select name ="choix_commune" id="choix_commune" onchange="zoomVille(this);">
+                            <option selected="selected">Commune</option>
+                            <?php
+                            // récupération des communes du GL
+                            $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
+                            $q->execute();                    
+                            //récupération du résultat de la requête dans une variable :
+                            $liste_commune= $q->fetchAll();
+                
+                            // Iterating through the product array
+                            foreach($liste_commune as $value){
+                            ?>
+                            <!-- affichage des différentes communes dans le select -->
+                            <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
+                            <?php
+                            }
+                            ?>
+                            </select>                            
+                            <br>
+                            <!-- liste déroulante pour les associations ou équipements -->
+                            <label for="choix_asso_equip">Association ou Equipement</label>
+                            <select name ="choix_asso_equip" id="choix_asso_equip">
+                                <option value="" selected= "selected">Choississez un des items</option>
+                                <option value="association">Association</option>
+                                <option selected="equipement">equipement</option>
+                            </select><br>
+
+                            <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
+                            <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button>
+                        </form>
+                        
+                        <!-- les valeurs sont récupérées dans une balise cachée  -->
+                        <p hidden class ="nom_cate"></p>                        
+                        <!-- définition de la balise ou sera créé le graph -->
+                        <canvas id="myChart" width="300" height="300"></canvas>
+                        
+                    </div>
                 </aside>
             </div>
             <footer>
