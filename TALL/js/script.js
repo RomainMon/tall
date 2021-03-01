@@ -58,14 +58,15 @@ xhttp.onreadystatechange = function() {
         //récupération du résultat de la requête sql et parcours de la couche :        
         let response = JSON.parse(xhttp.responseText)                   
         //transformation du tableau récupéré en couche geojson
-        response.forEach((el) => {
-            L.geoJSON(JSON.parse(el.geojson),{
+        var commune = L.geoJSON(response,{
             //application du style
-            style: myStyle,
-            }).addTo(map)
-            })
-        }
-    };
+            style: myStyle,           
+            
+            }).addTo(map)        
+            }
+
+        };
+
 //requête du fichier php
 xhttp.open("GET", "php/commune.php",true);
 //envoie de la commande au fichier
@@ -84,16 +85,23 @@ xhttp2.onreadystatechange = function() {
             pointToLayer : PoIstile,
             //appel de popup
             onEachFeature: function(feature, layer) {
-                layer.bindPopup(
-                "Type : "+ feature.properties.type_equip +
+                var popup_content = ""
+
+                popup_content +=                    
+                '<b>'+ "Type : "+ feature.properties.type_equip +'</b>'+
                 "<br>Nom : " + feature.properties.nom+
                 "<br>Adresse : "+ feature.properties.adresse + 
-                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
-                "<br>Précision d'emplacement : " + feature.properties.infoloc +
-                "<br>Type de site : " + feature.properties.type_site +
-                "<br>Site Internet : " + feature.properties.site_inter +
-                "<br>Mail : " + feature.properties.mail               
-                )
+                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com
+                // affichage des données suivantes si elles existent
+                if (feature.properties.infoloc){
+                    popup_content += "<br>Précision d'emplacement : " + feature.properties.infoloc}
+                if (feature.properties.type_site){
+                    popup_content += "<br>Type de site : " + feature.properties.type_site}
+                if (feature.properties.site_inter){
+                    popup_content += "<br>"+'<a href="' + feature.properties.site_inter + '" target="_blank">'+ feature.properties.site_inter +'</a>'}
+                if (feature.properties.mail){
+                    popup_content += "<br>Mail : " + feature.properties.mail}   
+                layer.bindPopup(popup_content)
             }
         }).addTo(map)
     }
@@ -207,7 +215,7 @@ function PoIstile_asso(feature, latlng) {
         }       
 };
 
-//Appel de la couche equipement
+//Appel de la couche association
 var xhttp4 = new XMLHttpRequest();
 //lecture de la connexion au fichier php (2 variables cf. biblio)
 xhttp4.onreadystatechange = function() {
@@ -220,16 +228,19 @@ xhttp4.onreadystatechange = function() {
             pointToLayer : PoIstile_asso,
             //appel de popup
             onEachFeature: function(feature, layer) {
-                layer.bindPopup(
-                '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
+                var popup_content = ""
+                
+                popup_content += '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
                 "<br>Nom : " + feature.properties.titre+
                 "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
                 "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
-                "<br>Objet : " + feature.properties.objet +
-                //"<br>Type de site : " + feature.properties.type_site +
-                "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">Site Internet</a>' +
-                "<br>Mail : " + feature.properties.courriel             
-                )
+                "<br>Objet : " + feature.properties.objet
+                // les données suivantes ne sont ajoutées que si elles existent elle ne sont pas nulle ou = #N/A
+                if (feature.properties.siteweb != '#N/A'){
+                    popup_content +=  "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">'+feature.properties.siteweb+'</a>'}
+                if (feature.properties.courriel){
+                    popup_content += "<br>Mail : " + feature.properties.courriel}                                 
+                layer.bindPopup(popup_content)
             }
         }).addTo(map)
     }

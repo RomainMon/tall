@@ -20,11 +20,11 @@
                 <h1>Connexion</h1>
                 <div id ="select_user">
                     <label for="type_connexion"><b>Vous êtes</b></label><br>
-                        <select name="type_connexion" id="type_connexion">                        
-                            <option value="association">Une Association</option>
-                            <option value="utilisateur">Un Particulier</option>                        
+                        <select name="type_connexion" id="type_connexion"> 
+                            <option value="utilisateur">Un particulier</option>
+                            <option value="association">Une association</option>                       
                         </select>
-                </div>
+                        </div>
                 <label for="email"><b>Votre mail</b></label>               
                 <!-- le type email contraint l'utilisateur d'insérer un text avec un @ dedans -->
                 <input type="email" name="lemail" id="lemail" placeholder="Votre email" required>
@@ -72,6 +72,8 @@
                                 $_SESSION['telephone'] = $result['telephone'];
                                 $_SESSION['date_inscription'] = $result['date_inscription'];
                                 $_SESSION['id_adresse'] = $result['id_adresse'];
+                                $_SESSION['mdp'] = $result['mdp'];
+
                                 
 
                                 // recuperation des preferences de l'utilisateur
@@ -110,14 +112,21 @@
                                     // récupération d'éléments de session
                                     $_SESSION['nom_asso'] = $result['titre'];                                   
                                     $_SESSION['email'] = $result['email'];
-                                    $_SESSION['date_inscription'] = $result['date_compte'];
+                                    $_SESSION['date_creation_asso'] = $result['date_creat'];
+                                    $_SESSION['description'] = $result['objet'];
+                                    $_SESSION['site_web'] = $result['siteweb'];
+                                    $_SESSION['id_cate'] = $result['id_cate'];
+                                    $_SESSION['courriel'] = $result['courriel'];
+                                    $_SESSION['telephone'] = $result['telephone'];
+                                    $_SESSION['mdp'] = $result['mdp'];
+                                    $_SESSION['id_asso'] = $result['id_asso'];
 
                                     header('Location: association.php');
                                 }else{
                                     echo "Le mot de passe n'est pas correct";
                                     }
                                 }else{
-                                    echo "le compte portant l'email ". $lemail." n'hexiste pas";
+                                    echo "le compte portant l'email ". $lemail." n'existe pas";
                             }
                     }
                 }    
