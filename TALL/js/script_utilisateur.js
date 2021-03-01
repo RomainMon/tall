@@ -36,8 +36,8 @@ function PoIstile(feature, latlng) {
                 iconSize:     [15, 15], // Taille de l'icone
                 iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
                 popupAnchor:  [-3, -15], // Point d'insertion de la popup
-                shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-                shadowUrl: 'img/marker-shadow.png'//Chemin de l'image d'ombre
+                // shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
+                // shadowUrl: 'img/marker-shadow.png'//Chemin de l'image d'ombre
             });
             return L.marker(latlng, {icon: amapIcon});
         case "compost":
@@ -46,8 +46,8 @@ function PoIstile(feature, latlng) {
                 iconSize:     [15, 15], // Taille de l'icone
                 iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
                 popupAnchor:  [-3, -15], // Point d'insertion de la popup
-                shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-                shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
+                // shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
+                // shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
             });
             return L.marker(latlng, {icon: composteurIcon});              
         }       
@@ -73,48 +73,62 @@ xhttp.open("GET", "php/commune.php",true);
 //envoie de la commande au fichier
 xhttp.send();
 
+// recuperation des preferences utilisateurs depuis le DOM qui sont en hidden
+var categoriesUtilisateurs = document.getElementsByClassName('categorie');
 
+for (let item of categoriesUtilisateurs) {
+    console.log(item.textContent);
+}
 
 //Appel de la couche equipement
 // création d'un groupe layer pour pouvoir effacer les données
 var equipements = L.layerGroup();
-var xhttp2 = new XMLHttpRequest();
-//lecture de la connexion au fichier php (2 variables cf. biblio)
-xhttp2.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status ==200) {
-        //récupération du résultat de la requête sql et parcours de la couche :
-        let response = JSON.parse(xhttp2.responseText)
-        //appel de la couche
-        L.geoJSON(response, {
-            //application du style
-            pointToLayer : PoIstile,
-            //appel de popup
-            onEachFeature: function(feature, layer) {
-                var popup_content = ""
+function appelCoucheEquip(couche){
+    var xhttp2 = new XMLHttpRequest();
+    //lecture de la connexion au fichier php (2 variables cf. biblio)
+    xhttp2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status ==200) {
+            //récupération du résultat de la requête sql et parcours de la couche :
+            let response = JSON.parse(xhttp2.responseText)
+            //appel de la couche
+            L.geoJSON(response, {
+                //application du style
+                pointToLayer : PoIstile,
+                //appel de popup
+                filter: function(feature,layer) {
+                    if (feature.properties.id_cate == couche) return true
+                },
+                onEachFeature: function(feature, layer) {
+                    var popup_content = ""
 
-                popup_content +=                    
-                '<b>'+ "Type : "+ feature.properties.type_equip +'</b>'+
-                "<br>Nom : " + feature.properties.nom+
-                "<br>Adresse : "+ feature.properties.adresse + 
-                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com
-                // affichage des données suivantes si elles existent
-                if (feature.properties.infoloc){
-                    popup_content += "<br>Précision d'emplacement : " + feature.properties.infoloc}
-                if (feature.properties.type_site){
-                    popup_content += "<br>Type de site : " + feature.properties.type_site}
-                if (feature.properties.site_inter){
-                    popup_content += "<br>"+'<a href="' + feature.properties.site_inter + '" target="_blank">'+ feature.properties.site_inter +'</a>'}
-                if (feature.properties.mail){
-                    popup_content += "<br>Mail : " + feature.properties.mail}   
-                layer.bindPopup(popup_content)
-            }
-        }).addTo(equipements)
-        equipements.addTo(map)
-    }
-    };
-xhttp2.open("GET", "php/equipement.php",true);
-xhttp2.send();
+                    popup_content +=                    
+                    '<b>'+ "Type : "+ feature.properties.type_equip +'</b>'+
+                    "<br>Nom : " + feature.properties.nom+
+                    "<br>Adresse : "+ feature.properties.adresse + 
+                    "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com
+                    // affichage des données suivantes si elles existent
+                    if (feature.properties.infoloc){
+                        popup_content += "<br>Précision d'emplacement : " + feature.properties.infoloc}
+                    if (feature.properties.type_site){
+                        popup_content += "<br>Type de site : " + feature.properties.type_site}
+                    if (feature.properties.site_inter){
+                        popup_content += "<br>"+'<a href="' + feature.properties.site_inter + '" target="_blank">'+ feature.properties.site_inter +'</a>'}
+                    if (feature.properties.mail){
+                        popup_content += "<br>Mail : " + feature.properties.mail}   
+                    layer.bindPopup(popup_content)
+                }
+            }).addTo(equipements)
+            equipements.addTo(map)
+        }
+        };
+    xhttp2.open("GET", "php/equipement.php",true);
+    xhttp2.send();
+   
+}
 
+for (let item of categoriesUtilisateurs) {
+    appelCoucheEquip(item.textContent);
+}
 /*
 //Appel de la couche ambassadeur_mdp
 var xhttp3 = new XMLHttpRequest();
@@ -263,8 +277,7 @@ function PoIstile_asso(feature, latlng) {
         }       
 };
 
-// recuperation des preferences utilisateurs depuis le DOM qui sont en hidden
-var categoriesUtilisateurs = document.getElementsByClassName('categorie');
+
 // création d'un groupe layer pour pouvoir effacer les données
 var associations = L.layerGroup()
 // fonction d'appel de la couche en filtrant sur les paramètres utilisateurs
@@ -487,7 +500,7 @@ function makeChart(){
     }
         
     var myChart = new Chart(ctx, {
-        type: 'piechart',
+        type: 'doughnut',
         data: {
             labels: cateData,
             datasets: [{
@@ -542,7 +555,7 @@ var xhttpUtil = new XMLHttpRequest();
                 
             }).addTo(map)
             // centre et zoom sur l'utilisateur à partir des coordonnées du centre de la couche ici un seul point
-            map.setView(utilisateur.getBounds().getCenter(), 16);        
+            map.setView(utilisateur.getBounds().getCenter(), 14);        
             }                
         };
 //requête du fichier php

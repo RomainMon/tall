@@ -38,9 +38,9 @@ global $db;
                 </div> 
                 <nav>
                     <ul>
-                        <li><a id="accueil" href ="index.html">Accueil</a></li>
+                        <li><a id="accueil" href ="index.php">Accueil</a></li>
                         <li><a id="connexion" href ="deconnexion.php">Déconnexion</a></li>
-                        <li><a id="contact" href ="info.html">Contact</a></li>
+                        <li><a id="contact" href ="contact.php">Contact</a></li>
                         <li><a id="profil" href ="profil.php">Profil</a></li>
                     </ul>
                 </nav>   
