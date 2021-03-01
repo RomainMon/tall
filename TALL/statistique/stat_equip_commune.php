@@ -6,7 +6,7 @@ global $db;
 
 // création d'une fonction qui renvoi du texte
 function retourEquipCount($type_cate, $count) {
-    return "{$type_cate}:{$count}";
+    return "{$type_cate}:{$count}:{$type_cate}";
 }
 
 $commune = $_POST["commune"];

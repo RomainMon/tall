@@ -21,7 +21,7 @@ global $db;
         <!-- appel du script js jquery -->
         <script src='js/jquery_itineraire.js'></script>
         <script src='js/jquery_stat.js'></script>
-        <!-- appel de char.js -->
+        <!-- appel de chart.js -->
         <script src="js/package/dist/Chart.js"></script>
 
     </head>    
@@ -47,93 +47,98 @@ global $db;
             </header>
             <div id="fenetre_principale">                    
                 <aside>
-                    <div id="Tissu_associatif_lyonnais">
-                        <span>Vos préférences</span>
-                        <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
-                        <?php 
-                        foreach($_SESSION['preference'] as $value){
-                            ?>
-                            <p hidden class = "categorie"><?php print($value); ?></p>
-                            <?php
-                        }
-                        ?>
-                        <p id="id_utilisateur"><?= $_SESSION['id_utilisateur']; ?></p>
-                        <h3>Bonjour, <?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>  
-                        <?php
-                            $q = $db->prepare("
-                                WITH adresse_user AS (SELECT ad.nom_1, ad.rep, ad.code_post, ad.numero FROM utilisateur AS u, adresse AS ad
-                                WHERE id_utilisateur = :id_user AND u.id_adresse = ad.id_adresse)
-                                SELECT ad.numero, ad.rep, ad.nom_1, co.code_post, co.nom_com FROM commune AS co
-                                JOIN adresse_user AS ad ON (co.code_post = ad.code_post);
-                            ");
-                            $q->execute([
-                                'id_user'=> $_SESSION['id_utilisateur']
-                            ]);                   
-                            //récupération du résultat de la requête dans une variable :
-                            $adresse_user= $q->fetchAll();
-                            foreach($adresse_user as $value){                                
-                            ?>
-                            <p>Mon adresse : <?= $value['numero']; ?> <?= $value['rep']; ?> <?= $value['nom_1']; ?> <?= $value['code_post']; ?> <?= $value['nom_com']; ?></p>
-                            <?php
+                    <!-- partial:index.partial.html -->
+                    <div id="menu-tab"><!----------------tableau-01---------------------------------->
+                        <div id="page-wrap">
+                        <div class="tabs"><!----------------onglet-01-accueil-------------------------->
+                        <div class="tab"><input id="tab-1" checked="checked" name="tab-group-1" type="radio" /> <label for="tab-1">Itineraire</label>
+                        <div class="content">                            
+                            <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
+                            <?php 
+                            foreach($_SESSION['preference'] as $value){
+                                ?>
+                                <p hidden class = "categorie"><?php print($value); ?></p>
+                                <?php
                             }
-                        ?>
-
-
-
+                            ?>
+                            <p hidden id="id_utilisateur"><?= $_SESSION['id_utilisateur']; ?></p>
+                            <h3>Bonjour, <?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>  
+                            <?php
+                                $q = $db->prepare("
+                                SELECT ad.numero, ad.rep, ad.nom_1, ad.code_post, ad.nom_com FROM vue_adresse AS ad, utilisateur AS u
+                                WHERE u.id_utilisateur = :id_user AND u.id_adresse = ad.id_adresse;
+                                ");
+                                $q->execute([
+                                    'id_user'=> $_SESSION['id_utilisateur']
+                                ]);                   
+                                //récupération du résultat de la requête dans une variable :
+                                $adresse_user= $q->fetchAll();
+                                foreach($adresse_user as $value){                                
+                                ?>
+                                <p>Mon adresse : <?= $value['numero']; ?> <?= $value['rep']; ?> <?= $value['nom_1']; ?> <?= $value['code_post']; ?> <?= $value['nom_com']; ?></p>
+                                <?php
+                                }
+                            ?>
+                            <span>Calculs d'itinéraire le plus court</span>
+                            <p>Cliquer sur un point d'association ou d'équipement sur la carte puis sur le bouton ci-dessous</p>
+                            <button id="itineraire_button" onClick="itineraireDisplay()">Lancer le calcul</button>                                            
+                            <p id="test_iti" class = "poulpy"></p>
+                        </div>
                     </div>
-                    <div id = "itineraire">
-                        <span>Calculs d'itinéraire le plus court</span>
-                        <p>Cliquer sur un point d'association ou d'équipement sur la carte puis sur le bouton ci-dessous</p>
-                        <button id="itineraire_button" onClick="itineraireDisplay()">Lancer le calcul</button>                                            
-                        <p id="test_iti" class = "poulpy"></p>
-                        
-                   
+                    <!----------------onglet-02-articles-------------------------->
+                    <div class="tab"><input id="tab-2" name="tab-group-1" type="radio" /> <label for="tab-2">Statistiques</label>
+                        <div class="content">                            
+                            <form id="stat">                            
+                                <label for="choix_commune">Choix de la commune</label>
+                                <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
+                                <select name ="choix_commune" id="choix_commune" onchange="zoomVille(this);">
+                                <option selected="selected">Commune</option>
+                                <?php
+                                // récupération des communes du GL
+                                $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
+                                $q->execute();                    
+                                //récupération du résultat de la requête dans une variable :
+                                $liste_commune= $q->fetchAll();
+                    
+                                // Iterating through the product array
+                                foreach($liste_commune as $value){
+                                ?>
+                                <!-- affichage des différentes communes dans le select -->
+                                <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
+                                <?php
+                                }
+                                ?>
+                                </select>                            
+                                <br>
+                                <!-- liste déroulante pour les associations ou équipements -->
+                                <label for="choix_asso_equip">Association ou Equipement</label>
+                                <select name ="choix_asso_equip" id="choix_asso_equip">
+                                    <option value="" selected= "selected">Choississez un des items</option>
+                                    <option value="association">Association</option>
+                                    <option selected="equipement">equipement</option>
+                                </select><br>
+
+                                <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
+                                <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button>
+                                <input Type="button" value="Nouvelle recherche" onClick="history.go(0)">
+                            </form>
+                            
+                            <!-- les valeurs sont récupérées dans une balise cachée  -->
+                            <p hidden class ="nom_cate"></p>                        
+                            <!-- définition de la balise ou sera créé le graph -->
+                            <canvas id="myChart" width="300" height="300"></canvas>
+                        </div>
+                    </div>                    
+                     <!----------------onglet-02-articles-------------------------->
+                     <div class="tab"><input id="tab-3" name="tab-group-1" type="radio" /> <label for="tab-3">Une photo de chat</label>
+                        <div class="content">
+                        <p>Exemple, une image, du texte</p>
+                        <br />
+                        <p><img src="http://ekladata.com/UM-RXN_kZ3q93_FwWhFA15FP_uc.jpg" alt="" /></p>
+                        </div>
+                    
                 </aside>                
                 <div id = "map"></div>
-                <aside id = "aside_right">
-                    <div id="statistiques">
-                        <span>Production de camembert</span><br>
-                        <form>                            
-                            <label for="choix_commune">Choix de la commune</label>
-                            <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
-                            <select name ="choix_commune" id="choix_commune" onchange="zoomVille(this);">
-                            <option selected="selected">Commune</option>
-                            <?php
-                            // récupération des communes du GL
-                            $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
-                            $q->execute();                    
-                            //récupération du résultat de la requête dans une variable :
-                            $liste_commune= $q->fetchAll();
-                
-                            // Iterating through the product array
-                            foreach($liste_commune as $value){
-                            ?>
-                            <!-- affichage des différentes communes dans le select -->
-                            <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
-                            <?php
-                            }
-                            ?>
-                            </select>                            
-                            <br>
-                            <!-- liste déroulante pour les associations ou équipements -->
-                            <label for="choix_asso_equip">Association ou Equipement</label>
-                            <select name ="choix_asso_equip" id="choix_asso_equip">
-                                <option value="" selected= "selected">Choississez un des items</option>
-                                <option value="association">Association</option>
-                                <option selected="equipement">equipement</option>
-                            </select><br>
-
-                            <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                            <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button>
-                        </form>
-                        
-                        <!-- les valeurs sont récupérées dans une balise cachée  -->
-                        <p hidden class ="nom_cate"></p>                        
-                        <!-- définition de la balise ou sera créé le graph -->
-                        <canvas id="myChart" width="300" height="300"></canvas>
-                        
-                    </div>
-                </aside>
             </div>
             <footer>
                 <div id="footer_text">

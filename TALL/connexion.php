@@ -20,9 +20,9 @@
                 <h1>Connexion</h1>
                 <div id ="select_user">
                     <label for="type_connexion"><b>Vous êtes</b></label><br>
-                        <select name="type_connexion" id="type_connexion">                        
-                            <option value="association">Une Association</option>
-                            <option value="utilisateur">Un Particulier</option>                        
+                        <select name="type_connexion" id="type_connexion"> 
+                            <option value="utilisateur">Un particulier</option>
+                            <option value="association">Une association</option>                       
                         </select>
                 </div>
                 <label for="email"><b>Votre mail</b></label>               
