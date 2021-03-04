@@ -15,7 +15,26 @@
     <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src='main.js'></script> -->
 </head>
+
 <body>
+            <header>                    
+                <!-- <div id="logo">
+                    <a href="index.php">
+                        <img src = "img/logo.svg" alt = "TALL">
+                        <div id="Ton_action_locale_lyonnaise">
+                            <span>Ton action locale lyonnaise</span>
+                        </div>
+                    </a>                            
+                </div>  -->
+                <nav>
+                    <ul>
+                        <li><a id="carte" href ="utilisateur.php">Carte</a></li>
+                        <li><a id="connexion" href ="deconnexion.php">Déconnexion</a></li>
+                        <li><a id="contact" href ="html/contact.html">Contact</a></li>
+                        <li><a id="profil" href ="profil_user.php">Profil</a></li>
+                    </ul>
+                </nav>   
+            </header>
             <?php
             // connexion à la db
             include 'include/database.php';

@@ -9,45 +9,28 @@ var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
 //centrage de la carte
 map.setView([45.7175, 4.919], 9);
 
-// Appel du script php
-//style pour la couche commune
-var style_commune = {
-    "color": "#fff",
-    "weight": 2,
-    "opacity": 0.65
-};
+
+///////////////////////////////////////////
+//   Variables en fonction de la page   //
+/////////////////////////////////////////
+
+// recuperation des preferences utilisateurs depuis le DOM qui sont en hidden
+var categoriesUtilisateurs = document.getElementsByClassName('categorie');
+
+
+// Ajout du layer control
+layerControl = L.control.layers().addTo(map);
+
+
+/////////////////////////
+//   Couche Commune   //
+///////////////////////
 
 //Création d'un style pour les communes
 var myStyle = {
     "color": "#000000",
     "weight": 2,
     "opacity": 0.65
-};
-
-//Création d'une fonction de style pour changer les icones selon le type d'équipement :
-function PoIstile(feature, latlng) {
-    switch(feature.properties["type_equip"]) {
-        case "AMAP":
-            var amapIcon = new L.icon({
-                iconUrl: 'img/AMAP.png',//Chemin de l'image 
-                iconSize:     [15, 15], // Taille de l'icone
-                iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-                popupAnchor:  [-3, -15], // Point d'insertion de la popup
-                shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-                shadowUrl: 'img/marker-shadow.png'//Chemin de l'image d'ombre
-            });
-            return L.marker(latlng, {icon: amapIcon});
-        case "compost":
-            var composteurIcon = new L.icon({
-                iconUrl: 'img/composteur.png',//Chemin de l'image 
-                iconSize:     [15, 15], // Taille de l'icone
-                iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-                popupAnchor:  [-3, -15], // Point d'insertion de la popup
-                shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-                shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
-            });
-            return L.marker(latlng, {icon: composteurIcon});              
-        }       
 };
 
 //Appel de la couche commune
@@ -57,22 +40,31 @@ xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status ==200) {
         //récupération du résultat de la requête sql et parcours de la couche :        
         let response = JSON.parse(xhttp.responseText)                   
-        //transformation du tableau récupéré en couche geojson
+        //transformation du tableau récupéré en couche geojson        
         var commune = L.geoJSON(response,{
-            //application du style
-            style: myStyle,           
-            
-            }).addTo(map)        
-            }
-
-        };
-
+        //application du style
+        style: myStyle,        
+        }).addTo(map);
+        layerControl.addOverlay(commune, "Commune");
+        map.fitBounds(commune.getBounds())        
+        }
+    };
 //requête du fichier php
 xhttp.open("GET", "php/commune.php",true);
 //envoie de la commande au fichier
 xhttp.send();
 
+
+
+////////////////////////////
+//   Couche Equipement   //
+//////////////////////////
+
 //Appel de la couche equipement
+// création d'un groupe layer pour pouvoir effacer les données
+var equipements = L.layerGroup();
+// fonction qui appelle les équipements sélectionnés à partir des préférences utilisateurs
+
 var xhttp2 = new XMLHttpRequest();
 //lecture de la connexion au fichier php (2 variables cf. biblio)
 xhttp2.onreadystatechange = function() {
@@ -80,10 +72,11 @@ xhttp2.onreadystatechange = function() {
         //récupération du résultat de la requête sql et parcours de la couche :
         let response = JSON.parse(xhttp2.responseText)
         //appel de la couche
-        L.geoJSON(response, {
+        var equipement = L.geoJSON(response, {
             //application du style
-            pointToLayer : PoIstile,
-            //appel de popup
+            pointToLayer : function(feature,latlng){
+                return L.marker(latlng,{icon : videIcon})
+            },
             onEachFeature: function(feature, layer) {
                 var popup_content = ""
 
@@ -103,11 +96,106 @@ xhttp2.onreadystatechange = function() {
                     popup_content += "<br>Mail : " + feature.properties.mail}   
                 layer.bindPopup(popup_content)
             }
-        }).addTo(map)
+        }).addTo(equipements);
+        // Chargement de l'icone en fonction du zoom
+        var currentZoom = map.getZoom();
+        equipement.eachLayer(function(calque){
+            var i;
+            for(i = 0 ; i < listeIconEquip.length; i++){                            
+                if(calque.feature.properties.type_equip == listeIconEquip[i])
+                return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+            }                        
+        });
+        // Chargement des différentes icones en fonction du zoom 
+        map.on('zoomend', function(){
+            // zoom courant
+            var currentZoom = map.getZoom();
+            equipement.eachLayer(function(calque){
+                var i;
+                for(i = 0 ; i < listeIconEquip.length; i++){                            
+                    if(calque.feature.properties.type_equip == listeIconEquip[i])
+                    return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+                }                        
+            });
+        });
+        equipements.addTo(map)
     }
     };
 xhttp2.open("GET", "php/equipement.php",true);
 xhttp2.send();
+   
+
+
+//////////////////////////////////////
+//    Couche Association Filtrée   //
+////////////////////////////////////
+
+
+// création d'un groupe layer pour pouvoir effacer les données
+var associations = L.layerGroup()
+// fonction d'appel de la couche en filtrant sur les paramètres utilisateurs
+
+//Appel de la couche association
+var xhttp4 = new XMLHttpRequest();
+//lecture de la connexion au fichier php (2 variables cf. biblio)
+xhttp4.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status ==200) {
+        //récupération du résultat de la requête sql et parcours de la couche :
+        let response = JSON.parse(xhttp4.responseText)
+        //appel de la couche
+        var association = L.geoJSON(response, {
+            //application du style
+            pointToLayer : function(feature,latlng){
+                return L.marker(latlng,{icon : videIcon})
+            },            
+            //appel de popup
+            onEachFeature: function(feature, layer) {
+                var popup_content = ""
+                popup_content += '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
+                "<br>Nom : " + feature.properties.titre+
+                "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
+                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
+                "<br>Objet : " + feature.properties.objet
+                // les données suivantes ne sont ajoutées que si elles existent elle ne sont pas nulle ou = #N/A
+                if (feature.properties.siteweb != '#N/A'){
+                    popup_content +=  "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">'+feature.properties.siteweb+'</a>'}
+                if (feature.properties.courriel){
+                    popup_content += "<br>Mail : " + feature.properties.courriel}                                 
+                layer.bindPopup(popup_content)
+            }
+        }).addTo(associations)
+        // Chargement de l'icone en fonction du zoom
+        var currentZoom = map.getZoom();
+        association.eachLayer(function(calque){
+        var i;
+        for(i = 0 ; i < listeIconEquip.length; i++){                            
+            if(calque.feature.properties.id_cate == listeIconEquip[i])
+            return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+        }                        
+        });
+        // Chargement des différentes icones en fonction du zoom 
+        map.on('zoomend', function(){
+            // zoom courant
+            var currentZoom = map.getZoom();
+            console.log(currentZoom);
+            association.eachLayer(function(calque){
+                var i;
+                for(i = 0 ; i < listeIconEquip.length; i++){                            
+                    if(calque.feature.properties.id_cate == listeIconEquip[i])
+                    return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+                }                        
+            });
+            
+        });
+        associations.addTo(map)            
+    }
+    };
+xhttp4.open("GET", "php/association.php",true);
+xhttp4.send();
+
+//////////////////////////////////////////////////////
+//   Couche des ambassadeurs mouvement de palier   //
+////////////////////////////////////////////////////
 
 /*
 //Appel de la couche ambassadeur_mdp
@@ -142,109 +230,3 @@ xhttp3.onreadystatechange = function() {
 xhttp3.open("GET", "php/ambassadeur_mdp.php",true);
 xhttp3.send();
 */
-
-map.on('click', function(e){
-    lat = e.latlng.lat;
-    lng = e.latlng.lng;
-    launchXHR(lat, lng)
-})
-
-function launchXHR(lat, lng) {
-    // var params = JSON.stringify({ id: 1 });
-    var xhttp = new XMLHttpRequest();  
-    
-xhttp.open("POST", "php/select_point.php", true);
-
-xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xhttp.send("lat="+lat+"&lng="+lng);
-}
-
-//Création d'une fonction de style pour changer les icones selon le type d'association :
-function PoIstile_asso(feature, latlng) {
-    switch(feature.properties["id_cate"]) {
-        case "007070":
-            var jardinsIcon = new L.icon({
-                iconUrl: 'img/jardins_partages.png',//Chemin de l'image 
-                iconSize:     [15, 15], // Taille de l'icone
-                iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-                popupAnchor:  [-3, -15], // Point d'insertion de la popup
-                shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-                shadowUrl: 'img/marker-shadow.png'//Chemin de l'image d'ombre
-            });
-            return L.marker(latlng, {icon: jardinsIcon});
-        case "007075":
-            var echangesIcon = new L.icon({
-                iconUrl: 'img/echanges.png',//Chemin de l'image 
-                iconSize:     [15, 15], // Taille de l'icone
-                iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-                popupAnchor:  [-3, -15], // Point d'insertion de la popup
-                shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-                shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
-            });
-            return L.marker(latlng, {icon: echangesIcon});
-        case "020025":
-        var benevolatIcon = new L.icon({
-            iconUrl: 'img/benevolat.png',//Chemin de l'image 
-            iconSize:     [15, 15], // Taille de l'icone
-            iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-            popupAnchor:  [-3, -15], // Point d'insertion de la popup
-            shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-            shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
-        });
-        return L.marker(latlng, {icon: benevolatIcon});
-        case "030050":
-        var dvptIcon = new L.icon({
-            iconUrl: 'img/dvpt_durable.png',//Chemin de l'image 
-            iconSize:     [15, 15], // Taille de l'icone
-            iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-            popupAnchor:  [-3, -15], // Point d'insertion de la popup
-            shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-            shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
-        });
-        return L.marker(latlng, {icon: dvptIcon});
-        case "024000":
-        var environnementIcon = new L.icon({
-            iconUrl: 'img/environnement.png',//Chemin de l'image 
-            iconSize:     [15, 15], // Taille de l'icone
-            iconAnchor:   [7.5, 7.5], // Point d'insertion de l'icone
-            popupAnchor:  [-3, -15], // Point d'insertion de la popup
-            shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
-            shadowUrl: 'img/marker-shadow.png' //Chemin de l'image d'ombre
-        });
-        return L.marker(latlng, {icon: environnementIcon});              
-        }       
-};
-
-//Appel de la couche association
-var xhttp4 = new XMLHttpRequest();
-//lecture de la connexion au fichier php (2 variables cf. biblio)
-xhttp4.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status ==200) {
-        //récupération du résultat de la requête sql et parcours de la couche :
-        let response = JSON.parse(xhttp4.responseText)
-        //appel de la couche
-        L.geoJSON(response, {
-            //application du style
-            pointToLayer : PoIstile_asso,
-            //appel de popup
-            onEachFeature: function(feature, layer) {
-                var popup_content = ""
-                
-                popup_content += '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
-                "<br>Nom : " + feature.properties.titre+
-                "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
-                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
-                "<br>Objet : " + feature.properties.objet
-                // les données suivantes ne sont ajoutées que si elles existent elle ne sont pas nulle ou = #N/A
-                if (feature.properties.siteweb != '#N/A'){
-                    popup_content +=  "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">'+feature.properties.siteweb+'</a>'}
-                if (feature.properties.courriel){
-                    popup_content += "<br>Mail : " + feature.properties.courriel}                                 
-                layer.bindPopup(popup_content)
-            }
-        }).addTo(map)
-    }
-    };
-xhttp4.open("GET", "php/association.php",true);
-xhttp4.send();
-

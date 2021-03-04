@@ -1,6 +1,6 @@
 $(document).ready(function(){ // fonction qui permet de lancer les autres fonction jquery si la page c'est chargé correctement
 
-    $('#choix_asso_equip').on('change',function(e){
+    $('#btn_stat').on('click',function(e){
         e.preventDefault(); // on empêche le bouton d'envoie d'envoyer le formulaire
         // récupération de la valeur de la commune choisie
         var commune = $('#choix_commune').val();

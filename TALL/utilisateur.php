@@ -20,7 +20,7 @@ global $db;
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- appel du script js jquery -->
         <script src='js/jquery_itineraire.js'></script>
-        <script src='js/jquery_stat.js'></script>
+        <!-- <script src='js/jquery_stat.js'></script> -->
         <!-- appel de chart.js -->
         <script src="js/package/dist/Chart.js"></script>
 
@@ -40,8 +40,8 @@ global $db;
                     <ul>
                         <li><a id="accueil" href ="index.php">Accueil</a></li>
                         <li><a id="connexion" href ="deconnexion.php">Déconnexion</a></li>
-                        <li><a id="contact" href ="contact.php">Contact</a></li>
-                        <li><a id="profil" href ="profil.php">Profil</a></li>
+                        <li><a id="contact" href ="html/contact.html">Contact</a></li>
+                        <li><a id="profil" href ="profil_user.php">Profil</a></li>
                     </ul>
                 </nav>   
             </header>
@@ -50,20 +50,57 @@ global $db;
                     <!-- partial:index.partial.html -->
                     <div id="menu-tab"><!----------------tableau-01---------------------------------->
                         <div id="page-wrap">
-                        <div class="tabs"><!----------------onglet-01-accueil-------------------------->
-                        <div class="tab"><input id="tab-1" checked="checked" name="tab-group-1" type="radio" /> <label for="tab-1">Itineraire</label>
-                        <div class="content">                            
-                            <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
-                            <?php 
-                            foreach($_SESSION['preference'] as $value){
+                        <div class="tabs">
+                        <!----------------onglet-01-accueil-------------------------->
+                        <div class="tab"><input id="tab-1" checked="checked" name="tab-group-1" type="radio" /> <label for="tab-1">Accueil</label>
+                            <div class="content">                            
+                                <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
+                                <?php 
+                                foreach($_SESSION['preference'] as $value){
+                                    ?>
+                                    <p hidden class = "categorie"><?php print($value); ?></p>
+                                    <?php
+                                }
                                 ?>
-                                <p hidden class = "categorie"><?php print($value); ?></p>
-                                <?php
-                            }
-                            ?>
-                            <p hidden id="id_utilisateur"><?= $_SESSION['id_utilisateur']; ?></p>
-                            <h3>Bonjour, <?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>  
-                            <?php
+                                <p hidden id="id_utilisateur"><?= $_SESSION['id_utilisateur']; ?></p>
+                                <p>Bonjour, <?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></p>
+                                La carte affiche les associations ainsi que les équipements selon les préférences que vous avez remplies lors de votre inscription.
+                                Si vous souhaitez afficher les autres éléments vous pouvez cocher les case ci-dessous :<br>
+                                <form id="legende">
+                                    Les associations<br>
+                                    <?php
+                                    $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
+                                    $q->execute();
+                                    //récupération du résultat de la requête dans une variable :
+                                    $liste_cate= $q->fetchAll();
+
+                                    foreach($liste_cate as $value){
+                                        
+                                            if (in_array($value[0], $_SESSION['preference'])){
+                                                ?>
+                                                <input checked="checked" type="checkbox" class="cm-toggle" name="cate_1" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                                                <?php print($value[1]) ?><br>
+                                            <?php
+                                            }
+                                            else {
+                                                ?>
+                                                <input type="checkbox" class="cm-toggle" name="cate_1" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                                                <?php print($value[1]) ?><br>
+                                            <?php
+                                            }
+                                            
+                                        }
+                                        ?>
+
+                                </form>
+                            </div>
+                        </div>
+                            
+                            
+                    <!----------------onglet-01-accueil-------------------------->
+                    <div class="tab"><input id="tab-4" name="tab-group-1" type="radio" /> <label for="tab-4">Itinéraires</label>
+                        <div class="content">
+                        <?php
                                 $q = $db->prepare("
                                 SELECT ad.numero, ad.rep, ad.nom_1, ad.code_post, ad.nom_com FROM vue_adresse AS ad, utilisateur AS u
                                 WHERE u.id_utilisateur = :id_user AND u.id_adresse = ad.id_adresse;
@@ -86,7 +123,7 @@ global $db;
                         </div>
                     </div>
                     <!----------------onglet-02-articles-------------------------->
-                    <div class="tab"><input id="tab-2" name="tab-group-1" type="radio" /> <label for="tab-2">Statistiques</label>
+                    <div class="tab"><input id="tab-2" name="tab-group-1" type="radio" /> <label for="tab-2">Stat</label>
                         <div class="content">                            
                             <form id="stat">                            
                                 <label for="choix_commune">Choix de la commune</label>
@@ -111,32 +148,35 @@ global $db;
                                 </select>                            
                                 <br>
                                 <!-- liste déroulante pour les associations ou équipements -->
-                                <label for="choix_asso_equip">Association ou Equipement</label>
+                                <label for="choix_asso_equip">Association ou Équipement</label>
                                 <select name ="choix_asso_equip" id="choix_asso_equip">
                                     <option value="" selected= "selected">Choississez un des items</option>
                                     <option value="association">Association</option>
-                                    <option selected="equipement">equipement</option>
+                                    <option value="equipement">Équipement</option>
                                 </select><br>
 
                                 <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                                <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button>
-                                <input Type="button" value="Nouvelle recherche" onClick="history.go(0)">
+                                <!-- <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button> -->
+                                <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
+                                <input Type="button" value="Nouvelle recherche" onClick="">
                             </form>
                             
                             <!-- les valeurs sont récupérées dans une balise cachée  -->
                             <p hidden class ="nom_cate"></p>                        
                             <!-- définition de la balise ou sera créé le graph -->
+                            <div id="suppression"> </div>
                             <canvas id="myChart" width="300" height="300"></canvas>
                         </div>
-                    </div>                    
+                    </div>                 
                      <!----------------onglet-02-articles-------------------------->
-                     <div class="tab"><input id="tab-3" name="tab-group-1" type="radio" /> <label for="tab-3">Une photo de chat</label>
+                     <div class="tab"><input id="tab-3" name="tab-group-1" type="radio" /> <label for="tab-3">Autour</label>
                         <div class="content">
-                        <p>Exemple, une image, du texte</p>
-                        <br />
-                        <p><img src="http://ekladata.com/UM-RXN_kZ3q93_FwWhFA15FP_uc.jpg" alt="" /></p>
+                            <p>Sélectionnez le temps de trajet jusqu'aux associations ou équipements </p>
+                            0 <input type="range" name="rangeInput" id="rangeInput" min="0" max="5000" step="500" onchange="updateTextInput(this.value);bufferUtil(this.value);zoomAutour()"> 5 000
+                            <p>Distance en mètres : </p><p id="rangeText" value=""></p>
+                            <button name="autour" id="autour" type="button" onclick='zoomAutour()'>Envoyer le bouzin</button>
                         </div>
-                    
+                    </div>
                 </aside>                
                 <div id = "map"></div>
             </div>
@@ -161,5 +201,6 @@ global $db;
             </footer>
         </div>           
     </body>
+    <script src ="js/icones.js"></script>
     <script src ="js/script_utilisateur.js"></script>
 </html>

@@ -40,7 +40,7 @@
                 if(isset($_POST['formlogin']))
                 {
                     extract($_POST);
-                    print($type_connexion);
+                    // print($type_connexion);
                     //Si connexion utilisateur ou association :
                     if ($type_connexion=="utilisateur"){                    
                         if(!empty($lemail) && !empty($lpassword)){
@@ -104,11 +104,10 @@
                                 // le compte existe
                                 // vérification que le mdp entrée correspond au mdp crypté
                                 $hashpassword = $result['mdp'];
-                                console.log($hashpassword);
+                                // console.log($hashpassword);
                                 if (password_verify($lpassword, $hashpassword)){
                                     
-                                    echo "Le mot de passe est bon, connexion en cours";
-                                    sleep(1);
+                                    echo "Le mot de passe est bon, connexion en cours";                                    
                                     // récupération d'éléments de session
                                     $_SESSION['nom_asso'] = $result['titre'];                                   
                                     $_SESSION['email'] = $result['email'];
@@ -123,10 +122,15 @@
 
                                     header('Location: association.php');
                                 }else{
-                                    echo "Le mot de passe n'est pas correct";
+                                    ?>
+                                    <p>Le mot de passe n'est pas correct</p>
+                                    <?php
                                     }
                                 }else{
-                                    echo "le compte portant l'email ". $lemail." n'existe pas";
+                                    ?>
+                                    <p>le compte portant l'email  <? echo $lemail;?> n'existe pas </p>
+                                    <?php
+                                    // echo "le compte portant l'email ". $lemail." n'existe pas";
                             }
                     }
                 }    

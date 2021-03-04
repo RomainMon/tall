@@ -39,7 +39,7 @@
                     <ul>
                         <li><a id="accueil" href ="index.php">Accueil</a></li>
                         <li><a id="connexion" href ="connexion.php">Connexion</a></li>
-                        <li><a id="contact" href ="info.html">Contact</a></li>
+                        <li><a id="contact" href ="html/contact.html">Contact</a></li>
                     </ul>
                 </nav>   
             </header>
@@ -93,5 +93,6 @@
             </footer>
         </div>           
     </body>
+    <script src ="js/icones.js"></script>
     <script src ="js/script.js"></script>
 </html>
