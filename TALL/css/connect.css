@@ -1,74 +1,132 @@
 body{
-    background: #9FC1B8;;
-    font-family: Helvetica, sans-serif;
-    background: url("../png/bellecour.jpg") center no-repeat;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    font-family: 'Abadi',Arial, Helvetica, sans-serif; 
+  background: #f5f7f6;;
+  font-family: 'Quicksand', Arial,sans-serif;
+  /* background: url("../png/bellecour.jpg") center no-repeat; */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
+
 #container{
-    width:400px;
-    margin:0 auto;
-    margin-top:10%;        
+  width:400px;
+  margin:0 auto;
+  margin-top:10%;        
 }
 
 /* Bordered form */
 form {
-    width:100%;
-    padding: 30px;
-    border: 1px solid #f1f1f1;
-    background: #fff;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  width:100%;
+  padding: 30px;
+  border: 1px solid #f1f1f1;
+  background: #fff;
+  border-radius: 5px;
 }
 
 #container h1{
-    width: 38%;
-    margin: 0 auto;
-    padding-bottom: 20px;
+  width: 38%;
+  margin: 0 auto;
+  padding-bottom: 20px;
 }
 
 #select_user{
-    padding-bottom:10px;
+  padding-bottom:10px;
 }
 
 /* Full-width inputs */
 input[type=text], input[type=password], input[type=email] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;    
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;    
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;    
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;    
 }
 
 
 
 .clic{
-    margin-top: 20px;
-    margin-bottom: 20px;   
+  margin-top: 20px;
+  margin-bottom: 20px;   
 }
 
 /* Set a style for all buttons */
 a {
-    background-color: #53af57;
-    color: white;
-    padding: 5px 20px;
-    
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    text-decoration: none;        
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: rgb(175, 175, 175);
+  border: 1px solid rgb(163, 163, 163);
+  height: 30px;
+  border-radius: 5px;
 }
 a:hover {
-    background-color: white;
-    color: #53af57;
-    border: 1px solid #53af57;
+  background-color: white;
+  color: #53af57;
+  border: 1px solid #53af57;
+}
+
+
+#formlogin{
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: rgb(175, 175, 175);
+  border: 1px solid rgb(163, 163, 163);
+  height: 30px;
+  border-radius: 5px;
+}
+
+#formlogin:hover{
+  background-color: white;
+  color: #53af57;
+  border: 1px solid #53af57;
 }
 
 #container h2{
-    border-top: 1px solid;
-    padding-top: 10px;    
-    font-size: large;
+  border-top: 1px solid;
+  padding-top: 10px;    
+  font-size: large;
 }
+
+#type_connexion{
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 5px;
+/*   block-size: 20px; */
+  /* box-sizing: border-box; */
+  width:300px;
+  flex-direction: column;
+}
+
+/*  Titre des différents menus */
+h1{
+  font-size: large;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgb(0, 0, 0);
+
+}
+
+/* Textes informatifs */
+h2{
+  font-size: small;
+}
+
+/* Textes de formulaire */
+h3{
+  text-transform: uppercase;
+  font-size: small;
+  font-weight: bold ;
+  color: rgb(66, 66, 66);
+}
+
+/* Choix formulaire */
+#choix{
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 5px;
+  /*   block-size: 20px; */
+  /* box-sizing: border-box; */
+  width:300px;
+  flex-direction: column;
+  }

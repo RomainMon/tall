@@ -1,5 +1,23 @@
+
 //création de la variable map
-var map = L.map('map');
+var sudOuest = L.latLng(45.636118, 4.591017); // augmenter les frontières !!!!!
+// Le point en haut à droite  de la carte
+var nordEst = L.latLng(45.875941, 5.112648); // augmenter les frontières !!!!!
+// L'étendue
+var bounds = L.latLngBounds(sudOuest, nordEst);
+
+var map = L.map('map', {
+    center: [45.761833, 4.833546],
+    maxBounds: bounds,
+    zoom: 12,
+    minZoom : 2,
+    maxZoom: 16,
+     });
+
+    map.fitBounds(bounds);
+
+//création de la variable map
+/* var map = L.map('map'); */
 //appel osm
 var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 //attribution osm
@@ -7,7 +25,7 @@ var osmAttrib='Map data © OpenStreetMap contributors';
 //création de la couche osm
 var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
 //centrage de la carte
-map.setView([45.7175, 4.919], 9);
+/* map.setView([45.7175, 4.919], 9); */
 
 
 ///////////////////////////////////////////

@@ -1,9 +1,9 @@
 <?php
 // paramètrage de la connexion vers la DB
     $host = 'localhost';
-    $dbname = 'TALL';
+    $dbname = 'TALL2';
     $username = 'postgres';
-    $password = '******';
+    $password = 'clarisse';
     $port = '5432';
 
     $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;user=$username;password=$password";

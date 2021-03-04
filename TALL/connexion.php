@@ -19,18 +19,18 @@
                  <!-- zone de connexion -->
                 <h1>Connexion</h1>
                 <div id ="select_user">
-                    <label for="type_connexion"><b>Vous êtes</b></label><br>
-                        <select name="type_connexion" id="type_connexion"> 
+                    <label for="type_connexion"><h3>Vous êtes</h3></label><br>
+                        <select name="type_connexion" id="choix"> 
                             <option value="utilisateur">Un particulier</option>
                             <option value="association">Une association</option>                       
                         </select>
                         </div>
-                <label for="email"><b>Votre mail</b></label>               
+                <label for="email"><h3>Votre e-mail</h3></label>               
                 <!-- le type email contraint l'utilisateur d'insérer un text avec un @ dedans -->
-                <input type="email" name="lemail" id="lemail" placeholder="Votre email" required>
-                <label><b>Mot de passe</b></label>
+                <input type="email" name="lemail" id="choix" placeholder="Votre e-mail" required>
+                <label><h3>Mot de passe</h3></label>
                 <!-- ici on a un type password -->
-                <input type="password" name="lpassword" id="lpassword" placeholder="Votre mot de passe" required>
+                <input type="password" name="lpassword" id="choix" placeholder="Votre mot de passe" required>
                
                 <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
                 <input type="submit" name="formlogin" id="formlogin" value="Connexion">
@@ -40,7 +40,7 @@
                 if(isset($_POST['formlogin']))
                 {
                     extract($_POST);
-                    // print($type_connexion);
+                    print($type_connexion);
                     //Si connexion utilisateur ou association :
                     if ($type_connexion=="utilisateur"){                    
                         if(!empty($lemail) && !empty($lpassword)){
@@ -88,7 +88,7 @@
                                 echo "Le mot de passe n'est pas correct";
                             }
                         }else{
-                            echo "le compte portant l'email ". $lemail." n'hexiste pas";
+                            echo "le compte portant l'email ". $lemail." n'existe pas ! ";
                         }
                     }
                 }
@@ -104,10 +104,11 @@
                                 // le compte existe
                                 // vérification que le mdp entrée correspond au mdp crypté
                                 $hashpassword = $result['mdp'];
-                                // console.log($hashpassword);
+                                console.log($hashpassword);
                                 if (password_verify($lpassword, $hashpassword)){
                                     
-                                    echo "Le mot de passe est bon, connexion en cours";                                    
+                                    echo "Le mot de passe est bon, connexion en cours";
+                                    sleep(1);
                                     // récupération d'éléments de session
                                     $_SESSION['nom_asso'] = $result['titre'];                                   
                                     $_SESSION['email'] = $result['email'];
@@ -122,37 +123,32 @@
 
                                     header('Location: association.php');
                                 }else{
-                                    ?>
-                                    <p>Le mot de passe n'est pas correct</p>
-                                    <?php
+                                    echo "Le mot de passe n'est pas correct";
                                     }
                                 }else{
-                                    ?>
-                                    <p>le compte portant l'email  <? echo $lemail;?> n'existe pas </p>
-                                    <?php
-                                    // echo "le compte portant l'email ". $lemail." n'existe pas";
+                                    echo "le compte portant l'email ". $lemail." n'existe pas";
                             }
                     }
                 }    
                 }else{
-                    echo "Veuillez completer l'ensemble des champs";
+                    echo "Veuillez complèter l'ensemble des champs";
                 }
                 
 
                 ?>
                 <?php
                     if(isset($_SESSION['email'])){ ?>
-                    <p>Votre email : <?= $_SESSION['email']; ?></p>
+                    <p>Votre e-mail : <?= $_SESSION['email']; ?></p>
                     <p>Votre date d'inscription : <?= $_SESSION['date_inscription']; ?></p>
                     <?php   } else {
-                        echo "Veuillez vous connecter à votre compte";
+                        echo "Veuillez vous entrer l'adresse mail correspondante";
                 } ?>
 
-                <h2>Nouvel(lle) utilisateur(trice)</h2>        
+                <h2>Créer un compte</h2>        
                 <div class="clic">
                     <a href ='nouvel_utilisateur.php' id="bouton" > Créer un compte utilisateur </a>
                     <br>
-                    <a href ='nouvelle_association.php' id="bouton" > Créer un compte assocation </a>
+                    <br><a href ='nouvelle_association.php' id="bouton" > Créer un compte assocation </a>
                 </div>
             </form>
         </div>
