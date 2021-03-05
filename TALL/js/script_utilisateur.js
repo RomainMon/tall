@@ -17,9 +17,19 @@ map.setView([45.7175, 4.919], 9);
 // recuperation des preferences utilisateurs depuis le DOM qui sont en hidden
 var categoriesUtilisateursHTML = document.getElementsByClassName('categorie');
 var categoriesUtilisateurs = []
+
+
 for (let item of categoriesUtilisateursHTML) {
     categoriesUtilisateurs.push(item.textContent)
     }
+
+var categoriesEquipHTML = document.getElementsByClassName('typequip');
+var categoriesEquip = []
+for (let item of categoriesEquipHTML) {
+    categoriesEquip.push(item.textContent)
+    };
+console.log(categoriesEquip);
+
 // récupération de l'id_utilisateur pour filter la couche   
 id_utilisateur = document.getElementById('id_utilisateur').textContent;
 console.log(id_utilisateur);
@@ -29,24 +39,18 @@ var equipements = L.layerGroup();
 var communes = L.layerGroup();
 var associations = L.layerGroup();
 var utilisateurs = L.layerGroup();
-var buffers = L.layerGroup()
+var buffers = L.layerGroup();
+var communesZoom = L.layerGroup();
+var itineraires = L.layerGroup();
     
 // Ajout du layer control
 layerControl = L.control.layers().addTo(map);
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//   Fonction au démarrage de la page et mise à jour couches séléctionnées   //
-///////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////
 //   Couche Commune   //
 ///////////////////////
 
-
-
-function majCouche(){
-    communes.clearLayers();
+communes.clearLayers();
     //Appel de la couche commune
     
     var xhttp = new XMLHttpRequest();
@@ -69,6 +73,87 @@ function majCouche(){
     xhttp.open("GET", "php/commune.php",true);
     //envoie de la commande au fichier
     xhttp.send();
+
+////////////////////////////
+//   Couche Equipement   //
+//////////////////////////
+
+// Appel de la couche equipement au démarrage avec les préférences utilisateurs
+
+var xhttp2 = new XMLHttpRequest();
+//lecture de la connexion au fichier php (2 variables cf. biblio)
+xhttp2.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status ==200) {
+        //récupération du résultat de la requête sql et parcours de la couche :
+        let response = JSON.parse(xhttp2.responseText)
+        //appel de la couche
+        equipements.clearLayers();
+        var equipement = L.geoJSON(response, {
+            //application du style
+            pointToLayer : function(feature,latlng){
+                return L.marker(latlng,{icon : videIcon})
+            },
+            filter: function(feature,layer) {
+                for (let item of categoriesUtilisateurs) {
+                    if (feature.properties.id_cate == item) return true
+                    }
+                },
+            onEachFeature: function(feature, layer) {
+                var popup_content = ""
+
+                popup_content +=                    
+                '<b>'+ "Type : "+ feature.properties.type_equip +'</b>'+
+                "<br>Nom : " + feature.properties.nom+
+                "<br>Adresse : "+ feature.properties.adresse + 
+                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com
+                // affichage des données suivantes si elles existent
+                if (feature.properties.infoloc){
+                    popup_content += "<br>Précision d'emplacement : " + feature.properties.infoloc}
+                if (feature.properties.type_site){
+                    popup_content += "<br>Type de site : " + feature.properties.type_site}
+                if (feature.properties.site_inter){
+                    popup_content += "<br>"+'<a href="' + feature.properties.site_inter + '" target="_blank">'+ feature.properties.site_inter +'</a>'}
+                if (feature.properties.mail){
+                    popup_content += "<br>Mail : " + feature.properties.mail}   
+                layer.bindPopup(popup_content)
+            }
+        }).addTo(equipements);
+        // Chargement de l'icone en fonction du zoom
+        var currentZoom = map.getZoom();
+        equipement.eachLayer(function(calque){
+            var i;
+            for(i = 0 ; i < listeIconEquip.length; i++){                            
+                if(calque.feature.properties.type_equip == listeIconEquip[i])
+                return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+            }                        
+        });
+        // Chargement des différentes icones en fonction du zoom 
+        map.on('zoomend', function(){
+            // zoom courant
+            var currentZoom = map.getZoom();
+            equipement.eachLayer(function(calque){
+                var i;
+                for(i = 0 ; i < listeIconEquip.length; i++){                            
+                    if(calque.feature.properties.type_equip == listeIconEquip[i])
+                    return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+                }                        
+            });
+    });
+        equipements.addTo(map)
+    }
+    };
+xhttp2.open("GET", "php/equipement.php",true);
+xhttp2.send();
+
+
+/////////////////////////////////////////////////////////////////////////////////
+//   Fonction au démarrage de la page et mise à jour couches séléctionnées    //
+///////////////////////////////////////////////////////////////////////////////
+
+function prefUtilisateur(){
+    equipements.clearLayers();
+    itineraires.clearLayers();
+    communesZoom.clearLayers();
 
 
     ////////////////////////////
@@ -147,8 +232,110 @@ function majCouche(){
     //////////////////////////////////////
     //    Couche Association Filtrée   //
     ////////////////////////////////////
+    
+    // fonction d'appel de la couche en filtrant sur les paramètres utilisateurs
+        //Appel de la couche association
+        var xhttp4 = new XMLHttpRequest();
+        //lecture de la connexion au fichier php (2 variables cf. biblio)
+        xhttp4.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status ==200) {
+                //récupération du résultat de la requête sql et parcours de la couche :
+                let response = JSON.parse(xhttp4.responseText)
+                //appel de la couche
+                associations.clearLayers();
+                var association = L.geoJSON(response, {
+                    //application du style
+                    pointToLayer : function(feature,latlng){
+                        return L.marker(latlng,{icon : videIcon})
+                    },
+                    //application du filtre
+                    filter: function(feature,layer) {
+                        for (let item of categoriesUtilisateurs) {
+                            if (feature.properties.id_cate == item) return true
+                    }},
+                    //appel de popup
+                    onEachFeature: function(feature, layer) {
+                        var popup_content = ""
+                        popup_content += '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
+                        "<br>Nom : " + feature.properties.titre+
+                        "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
+                        "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
+                        "<br>Objet : " + feature.properties.objet
+                        // les données suivantes ne sont ajoutées que si elles existent elle ne sont pas nulle ou = #N/A
+                        if (feature.properties.siteweb != '#N/A'){
+                            popup_content +=  "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">'+feature.properties.siteweb+'</a>'}
+                        if (feature.properties.courriel){
+                            popup_content += "<br>Mail : " + feature.properties.courriel}                                 
+                        layer.bindPopup(popup_content)
+                    }
+                }).addTo(associations)
+                // Chargement de l'icone en fonction du zoom
+                var currentZoom = map.getZoom();
+                association.eachLayer(function(calque){
+                var i;
+                for(i = 0 ; i < listeIconEquip.length; i++){                            
+                    if(calque.feature.properties.id_cate == listeIconEquip[i])
+                    return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+                }                        
+                });
+                // Chargement des différentes icones en fonction du zoom 
+                map.on('zoomend', function(){
+                // zoom courant
+                var currentZoom = map.getZoom();
+                console.log(currentZoom);
+                association.eachLayer(function(calque){
+                    var i;
+                    for(i = 0 ; i < listeIconEquip.length; i++){                            
+                        if(calque.feature.properties.id_cate == listeIconEquip[i])
+                        return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+                    }                        
+                });
+                
+            });
+            associations.addTo(map)            
+            }
+            };
+        xhttp4.open("GET", "php/association.php",true);
+        xhttp4.send();
+    ///////////////////////////////////
+    //   Adresse de l'utilisateur   //
+    /////////////////////////////////
 
-    // création d'un groupe layer pour pouvoir effacer les données
+    // Affichage de l'adresse de l'utilisateur sur la carte appelée après les autres pour éviter que l'icone soit par-dessus les autres
+
+    var xhttpUtil = new XMLHttpRequest();
+        xhttpUtil.onreadystatechange = function() {
+            //lecture de la connexion au fichier php (2 variables cf. biblio)
+            if (this.readyState == 4 && this.status ==200) {
+                //récupération du résultat de la requête sql et parcours de la couche : 
+                let response = JSON.parse(xhttpUtil.responseText)
+            //appel de la couche
+                utilisateurs.clearLayers();
+                var utilisateur = L.geoJSON(response, {
+                    //application du style
+                    pointToLayer : utilisateurStile,                
+                    filter : function(feature,layer) {
+                        if (feature.properties.id_utilisateur == id_utilisateur) return true
+                    }
+                    
+                }).addTo(utilisateurs);
+                utilisateurs.addTo(map);
+                // centre et zoom sur l'utilisateur à partir des coordonnées du centre de la couche ici un seul point
+                map.setView(utilisateur.getBounds().getCenter(), 14);        
+                }                
+            };
+    //requête du fichier php
+    xhttpUtil.open("GET", "php/marker_utilisateur.php",true);
+    //envoie de la commande au fichier
+    xhttpUtil.send();
+    };
+
+prefUtilisateur();
+
+function majCoucheAsso(){
+    //////////////////////////////////////
+    //    Couche Association Filtrée   //
+    ////////////////////////////////////
     
     // fonction d'appel de la couche en filtrant sur les paramètres utilisateurs
         //Appel de la couche association
@@ -215,53 +402,97 @@ function majCouche(){
         xhttp4.open("GET", "php/association.php",true);
         xhttp4.send();
 
-    ///////////////////////////////////
-    //   Adresse de l'utilisateur   //
-    /////////////////////////////////
-
-    // Affichage de l'adresse de l'utilisateur sur la carte 
-    
-
-    var xhttpUtil = new XMLHttpRequest();
-        xhttpUtil.onreadystatechange = function() {
-            //lecture de la connexion au fichier php (2 variables cf. biblio)
-            if (this.readyState == 4 && this.status ==200) {
-                //récupération du résultat de la requête sql et parcours de la couche : 
-                let response = JSON.parse(xhttpUtil.responseText)
-            //appel de la couche
-                utilisateurs.clearLayers();
-                var utilisateur = L.geoJSON(response, {
-                    //application du style
-                    pointToLayer : utilisateurStile,                
-                    filter : function(feature,layer) {
-                        if (feature.properties.id_utilisateur == id_utilisateur) return true
-                    }
-                    
-                }).addTo(utilisateurs);
-                utilisateurs.addTo(map);
-                // centre et zoom sur l'utilisateur à partir des coordonnées du centre de la couche ici un seul point
-                map.setView(utilisateur.getBounds().getCenter(), 14);        
-                }                
-            };
-    //requête du fichier php
-    xhttpUtil.open("GET", "php/marker_utilisateur.php",true);
-    //envoie de la commande au fichier
-    xhttpUtil.send();
     };
 
-majCouche();
+function majCoucheEquip(){
+    
+    ////////////////////////////
+    //   Couche Equipement   //
+    //////////////////////////
+
+    //Appel de la couche equipement
+    
+    // fonction qui appelle les équipements sélectionnés à partir des préférences utilisateurs
+
+        var xhttp2 = new XMLHttpRequest();
+        //lecture de la connexion au fichier php (2 variables cf. biblio)
+        xhttp2.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status ==200) {
+                //récupération du résultat de la requête sql et parcours de la couche :
+                let response = JSON.parse(xhttp2.responseText)
+                //appel de la couche
+                equipements.clearLayers();
+                var equipement = L.geoJSON(response, {
+                    //application du style
+                    pointToLayer : function(feature,latlng){
+                        return L.marker(latlng,{icon : videIcon})
+                    },
+                    filter: function(feature,layer) {
+                        for (let item of categoriesEquip) {
+                            if (feature.properties.type_equip == item) return true
+                            }
+                        },
+                    onEachFeature: function(feature, layer) {
+                        var popup_content = ""
+
+                        popup_content +=                    
+                        '<b>'+ "Type : "+ feature.properties.type_equip +'</b>'+
+                        "<br>Nom : " + feature.properties.nom+
+                        "<br>Adresse : "+ feature.properties.adresse + 
+                        "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com
+                        // affichage des données suivantes si elles existent
+                        if (feature.properties.infoloc){
+                            popup_content += "<br>Précision d'emplacement : " + feature.properties.infoloc}
+                        if (feature.properties.type_site){
+                            popup_content += "<br>Type de site : " + feature.properties.type_site}
+                        if (feature.properties.site_inter){
+                            popup_content += "<br>"+'<a href="' + feature.properties.site_inter + '" target="_blank">'+ feature.properties.site_inter +'</a>'}
+                        if (feature.properties.mail){
+                            popup_content += "<br>Mail : " + feature.properties.mail}   
+                        layer.bindPopup(popup_content)
+                    }
+                }).addTo(equipements);
+                // Chargement de l'icone en fonction du zoom
+                var currentZoom = map.getZoom();
+                equipement.eachLayer(function(calque){
+                    var i;
+                    for(i = 0 ; i < listeIconEquip.length; i++){                            
+                        if(calque.feature.properties.type_equip == listeIconEquip[i])
+                        return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+                    }                        
+                });
+                // Chargement des différentes icones en fonction du zoom 
+                map.on('zoomend', function(){
+                    // zoom courant
+                    var currentZoom = map.getZoom();
+                    equipement.eachLayer(function(calque){
+                        var i;
+                        for(i = 0 ; i < listeIconEquip.length; i++){                            
+                            if(calque.feature.properties.type_equip == listeIconEquip[i])
+                            return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
+                        }                        
+                    });
+            });
+                equipements.addTo(map)
+            }
+            };
+        xhttp2.open("GET", "php/equipement.php",true);
+        xhttp2.send();
+}
+
 
 /////////////////////////////////////////////////////////////////////////
 //   Fonction de mise à jour de la carte lors de la coche des cases   //
 ///////////////////////////////////////////////////////////////////////
 
-$('#legende :checkbox').change(function(){
+$('#legende_cate :checkbox').change(function(){
     console.log(categoriesUtilisateurs);
+    // Lorsqu'un checkbox de liste_cate est coché, ajout dans la liste des categories pour qu'elle s'affiche
     if (this.checked) {
         console.log(this.value);
         categoriesUtilisateurs.push(this.value)   
     }
-    
+    // Lorsqu'un checkbox de liste_cate est décoché, suppression dans la liste des categories pour qu'elle s'enlève
     else{console.log(this.value);
         var index = categoriesUtilisateurs.indexOf(this.value);
         if (index > -1) {
@@ -270,48 +501,40 @@ $('#legende :checkbox').change(function(){
     
     console.log(categoriesUtilisateurs);
 
-majCouche();
+majCoucheAsso();
 });
 
-
-//////////////////////////////////////////////////////
-//   Couche des ambassadeurs mouvement de palier   //
-////////////////////////////////////////////////////
-
-/*
-//Appel de la couche ambassadeur_mdp
-var xhttp3 = new XMLHttpRequest();
-//lecture de la connexion au fichier php (2 variables cf. biblio)
-xhttp3.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status ==200) {
-        //récupération du résultat de la requête sql et parcours de la couche :
-        let response = JSON.parse(xhttp3.responseText)
-        //appel de la couche
-        L.geoJSON(response, {
-            //application du style
-            //pointToLayer: function (feature, latlng) {
-            //    return L.circleMarker(latlng,{radius:5});
-            //},        
-            //appel de popup
-            onEachFeature: function(feature, layer) {
-                layer.bindPopup(
-                //"Type : "+ feature.properties.type_equip +
-                //"<br>Nom : " + feature.properties.nom+
-                "Adresse : "+ feature.properties.adresse
-                //"<br>Commune : " +feature.properties.code postal + " " + feature.properties.nom_com +
-                //"<br>Précision d'emplacement : " + feature.properties.infoloc +
-                //"<br>Type de site : " + feature.properties.type_site +
-                //"<br>Site Internet : " + feature.properties.site_inter +
-                //"<br>Mail : " + feature.properties.mail               
-                )
-            }
-        }).addTo(map)
+$('#legende_equip :checkbox').change(function(){
+    console.log(categoriesEquip);
+    if (this.checked) {
+        console.log(this.value);
+        categoriesEquip.push(this.value)   
     }
-    };
-xhttp3.open("GET", "php/ambassadeur_mdp.php",true);
-xhttp3.send();
-*/
+    
+    else{console.log(this.value);
+        var index = categoriesEquip.indexOf(this.value);
+        if (index > -1) {
+            categoriesEquip.splice(index, 1);
+        }}
+    
+    console.log(categoriesEquip);
 
+majCoucheEquip();
+});
+
+//////////////////////////////////////
+//   navigation dans les onglets   //
+////////////////////////////////////
+
+// $('#tab-1').click(function(){
+//     console.log('nardin')
+//     prefUtilisateur()
+// })
+
+// $('#tab_3').change(function(){
+//     console.log('oumok')   
+//     prefUtilisateur()
+// })
 
 ////////////////////////////
 //   Couche Itinéraire   // 
@@ -377,11 +600,6 @@ function itineraireDisplay (){
 //   Fonction Zoom sur la commune pour les statistiques   //
 ///////////////////////////////////////////////////////////
 
-
-
-
-// création d'un groupe layer pour pouvoir effacer les données de la commune zoomée
-var communesZoom = L.layerGroup()
 // Création de la fonction
 function zoomVille(ville){    
     console.log(ville.value);          
@@ -610,56 +828,56 @@ $("#btn_stat").click(function(){
     $("#suppression").append('<canvas id="myChart" width="300" height="300"></canvas>');
 
     
-// Fonction de création du graphique camembert avec en paramètre association ou équipement et la commune sur laquelle on veut voir les stats
-function makeChart(){
-    // récupération de la balise du dom où sera placé le graph
-    var ctx = document.getElementById('myChart').getContext('2d');
-    // création de deux tableaux vides pour placer les données
-    // données littérales
-    var cateData = [] 
-    // nombres de données par communes
-    var countData = []
-    // récupération des id categoéries
-    var typeData = []
-    // récupération des données insérées par la requete sql dans une balise hidden
-    var cate = document.getElementsByClassName('nom_cate');
+    // Fonction de création du graphique camembert avec en paramètre association ou équipement et la commune sur laquelle on veut voir les stats
+    function makeChart(){
+        // récupération de la balise du dom où sera placé le graph
+        var ctx = document.getElementById('myChart').getContext('2d');
+        // création de deux tableaux vides pour placer les données
+        // données littérales
+        var cateData = [] 
+        // nombres de données par communes
+        var countData = []
+        // récupération des id categoéries
+        var typeData = []
+        // récupération des données insérées par la requete sql dans une balise hidden
+        var cate = document.getElementsByClassName('nom_cate');
+        
+        var i;
+        // itération dans le tableau renvoyé
+        for (i = 1; i < cate.length; i++) {
+            var texte = cate[i].innerHTML
+            // texte récupéré splité avec le séparateur :
+            var souspart = texte.split(":")
+            // transformartion en number de la valeur du count
+            var countInt = parseInt(souspart[1]);
+            // ajout des données dans les tableaux vides
+            cateData.push(souspart[0]);
+            countData.push(countInt);
+            // console.log(souspart[2]);
+            typeData.push(souspart[2]);
+            } 
     
-    var i;
-    // itération dans le tableau renvoyé
-    for (i = 1; i < cate.length; i++) {
-        var texte = cate[i].innerHTML
-        // texte récupéré splité avec le séparateur :
-        var souspart = texte.split(":")
-        // transformartion en number de la valeur du count
-        var countInt = parseInt(souspart[1]);
-        // ajout des données dans les tableaux vides
-        cateData.push(souspart[0]);
-        countData.push(countInt);
-        // console.log(souspart[2]);
-        typeData.push(souspart[2]);
-        } 
-   
-    // création du graphique (cf. doc chart.js)
-    // création d'un tableau avec toutes les couleurs des icones équipements et associations:
-    var paletteFond =[]
-    
-    var paletteTotale = ['007070','rgba(39, 90, 25, 0.7)',
-                        '007075','rgba(255, 184, 65, 0.7)',
-                        '020025','rgba(2, 75, 151, 0.7)',
-                        '030050','rgba(247, 170, 28, 0.7)',
-                        '024000','rgba(148, 193, 31, 0.7)',
-                        'AMAP','rgba(233, 78, 27, 0.7)',
-                        'compost','rgba(126, 79, 37, 0.7)']
-    
-    // parcours et renvoie de la valeur de couleur en fonction du type 
-    for (i = 0; i < typeData.length; i++){
-        console.log(typeData[i])
-        for(j=0; j<paletteTotale.length;j++){
-            if (typeData[i]==paletteTotale[j]){
-                paletteFond.push(paletteTotale[j+1])
+        // création du graphique (cf. doc chart.js)
+        // création d'un tableau avec toutes les couleurs des icones équipements et associations:
+        var paletteFond =[]
+        
+        var paletteTotale = ['007070','#4b9e34',
+                            '007075','#234e9c',
+                            '020025','#1ea176',
+                            '030050','#1e6da2',
+                            '024000','#208ca1',
+                            'AMAP','#f08eaa',
+                            'compost','#f5ab92']
+        
+        // parcours et renvoie de la valeur de couleur en fonction du type 
+        for (i = 0; i < typeData.length; i++){
+            console.log(typeData[i])
+            for(j=0; j<paletteTotale.length;j++){
+                if (typeData[i]==paletteTotale[j]){
+                    paletteFond.push(paletteTotale[j+1])
+                }
             }
         }
-    }
         
     var myChart = new Chart(ctx, {
         type: 'doughnut',
@@ -676,7 +894,6 @@ function makeChart(){
         options: {
             //cutoutPercentage: 40,
             responsive: false,
-
         }
         });
 

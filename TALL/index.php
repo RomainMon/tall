@@ -8,6 +8,10 @@
     //session_unset();
     // // détruit une session, la déconnecte
     session_destroy();
+    // connexion à la db
+    include 'include/database.php';
+    //  recupération de la varibable db pour faire des requêtes
+    global $db;
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +26,8 @@
 		<script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
 		<!-- Police -->
 		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
-
+        <!-- appel de l'api google jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>    
     <body>
         <div id = "bloc_page">
@@ -45,30 +50,39 @@
             </header>
             <div id="fenetre_principale">                    
                 <aside>
-                    <div id="Tissu_associatif_lyonnais">
-                        <span>Tissu associatif lyonnais</span>
-                    </div>
-                    <div id="search">                           
-                        <input type="text" placeholder="    Recherchez dans TALL..." class="searchbar">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </div>
+                    <form id="legende_asso">
+                        <p>Les associations</p><br>
+                        <?php
+                        $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
+                        $q->execute();
+                        //récupération du résultat de la requête dans une variable :
+                        $liste_cate= $q->fetchAll();
 
-                    <form class= "sidebar">
-                        <h1>Les associations</h1>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>    
+                        foreach($liste_cate as $value){ 
+                            ?>
+                            <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                            <?php print($value[1]) ?><br>
+                            <?php
+                            }
+                            ?>
+                    </form>
+                    <form id="legende_equip">
+                        <p>Les équipements</p>
+                        <br>
+                        <?php
+                        $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
+                        $q->execute();
+                        //récupération du résultat de la requête dans une variable :
+                        $liste_equip= $q->fetchAll();
 
-                        <h2>Les équipements</h2>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>    
-                    
-                        <h3>Les événements</h3>                     
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>                            
-                    </form> 
+                        foreach($liste_equip as $value){ 
+                            ?>
+                            <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                            <?php print($value[0]) ?><br>
+                            <?php
+                            }
+                            ?>
+                    </form>                     
                 </aside>                
                 <div id = "map"></div>
             </div>

@@ -73,11 +73,11 @@ global $db;
                                             <?php
                                             }
                                         ?>
-                                        <h3>Vous gérez les equipements suivants</h3>                            
-                                            <!-- <label for="choix_equipement"></label> -->
+                                        <form>
+                                            <input checked="checked" type="checkbox" class="equipAsso" name="equipAsso" id="equipAsso" value =<?= $_SESSION['id_asso']; ?>> Vos équipements<br>
                                             <!-- création du select avec envoi de la fonction de zoom sur l'equipement' -->
                                             <select name ="choix_equipement" id="choix_equipement">
-                                                <option selected="selected">Equipement</option>
+                                                <option selected="selected">zoom sur un équipement</option>
                                                 <?php
                                                 // récupération des equipement de l'association
                                                 $q = $db->prepare("SELECT nom, id_equip FROM equipement WHERE id_asso = :id_asso ORDER by nom ;");
@@ -92,8 +92,42 @@ global $db;
                                                 <?php
                                                 }
                                                 ?>
-                                            </select>                            
+                                            </select>
+                                        </form>                            
+                                        <br>
+                                        <form id="legende_asso">
+                                            <p>Les associations</p><br>
+                                            <?php
+                                            $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
+                                            $q->execute();
+                                            //récupération du résultat de la requête dans une variable :
+                                            $liste_cate= $q->fetchAll();
+
+                                            foreach($liste_cate as $value){ 
+                                                ?>
+                                                <input type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                                                <?php print($value[1]) ?><br>
+                                                <?php
+                                                }
+                                                ?>
+                                        </form>
+                                        <form id="legende_equip">
+                                            <p>Les équipements</p>
                                             <br>
+                                            <?php
+                                            $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
+                                            $q->execute();
+                                            //récupération du résultat de la requête dans une variable :
+                                            $liste_equip= $q->fetchAll();
+
+                                            foreach($liste_equip as $value){ 
+                                                ?>
+                                                <input type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                                                <?php print($value[0]) ?><br>
+                                                <?php
+                                                }
+                                                ?>
+                                        </form>
                                     </div>
                                 </div>
                             <!----------------onglet-02-Statistiques-------------------------->
