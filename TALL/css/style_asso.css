@@ -1,0 +1,274 @@
+*{
+  box-sizing: border-box;
+}
+
+
+/* Définitions générales */
+body {
+background-color: rgb(255, 255, 255);
+}
+
+/* Textes */
+body, p {
+font-family: 'Quicksand', Arial,sans-serif;
+color:rgb(0, 0, 0);
+font-size: 15px;
+line-height: 20px;
+font-weight: 200;
+}
+
+
+/* Taille du logo */
+.navbar-brand img{
+  height: 40px;
+}
+
+
+
+/*  
+#menu-tab {
+  font-family: 'Quicksand', Arial,sans-serif; 
+font-size: 11pt;
+color:black;
+}
+
+#menu-tab a {
+color: rgb(255, 255, 255);
+font-weight: normal;
+font-style: normal;
+text-decoration: none;
+font-variant: normal;
+}
+#menu-tab a:hover{
+color: rgb(255, 255, 255);
+
+}
+
+main {
+  max-width: 100%;
+}
+
+.container {
+  height: 100px;
+  margin:0 auto;
+  max-width: 100%;
+  display:flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+article {
+  width:200px;
+  background:white;
+  margin:5px;
+  border-radius:16px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.16);
+  overflow: hidden;
+  transition:transform .4s;
+}
+
+
+
+
+
+article .article-content {
+  padding:16px;
+}
+
+
+article .article-description {
+  color:#666;
+}
+
+
+article:hover {
+  cursor:pointer;
+  transform:scale(1.08);
+}
+*/
+
+
+/* Menu */
+.tabs-menu {
+height: 100%;
+float: left;
+list-style: none;
+clear: both;
+width: 30%;
+padding: 0 100px;
+padding-right: 0px;
+margin: 0;
+
+}
+
+.tabs-menu li {
+  width: 100%;
+  height: 100px;
+  line-height: 27px;
+  text-align:center;
+  float: left;
+  /* margin-right: 10px; */
+  background-color: #ffffff;
+  border: 1px solid gray;
+  border-radius: 5px ;
+  margin-block: 5px;
+}
+
+.tabs-menu li.current {
+  position: relative;
+  background-color: #afafaf;
+  border-bottom: 1px solid #ffffff;
+  z-index: 5;
+}
+.tabs-menu li.current:after{
+content: "\f0d9";
+color: #fff;
+font-family: FontAwesome;
+position: absolute;
+right: -1px;
+font-size: 25px;
+top: 8px;
+}
+
+.tabs-menu li a {
+  display: block;
+  padding: 35px;
+  color:black;
+  text-decoration: none; 
+}
+
+.tabs-menu .current a {
+color: white;
+font-weight: bold;
+}
+
+/* Informations relative au menu */
+.tab {
+background-color: rgb(255, 255, 255);
+float: right;
+margin-bottom: 20px;
+width: 70%;
+padding: 0 60px;
+padding-left: 20px;
+}
+
+.tab-content {
+width: 90%;
+text-align: justify;
+padding: 5%;
+display: none;
+border: 1px solid gainsboro;
+border-radius: 10px;
+}
+.tab-content img{width: 100%;}
+
+#tab-1 {
+display: block;   
+}
+
+#tab-2 {
+display: block;
+background-color: rgb(255, 255, 255);   
+}
+
+/*  Titre des différents menus */
+h1{
+font-size: x-large;
+font-weight: bold;
+text-transform: uppercase;
+color: rgb(0, 0, 0);
+
+}
+
+/* Textes informatifs */
+h2{
+font-size: small;
+}
+
+/* Textes de formulaire */
+h3{
+text-transform: uppercase;
+font-size: small;
+font-weight: bold ;
+color: rgb(66, 66, 66);
+}
+
+/* Choix formulaire */
+#choix{
+border: 1px solid rgb(163, 163, 163);
+border-radius: 5px;
+/*   block-size: 20px; */
+/* box-sizing: border-box; */
+width:300px;
+}
+
+
+/* Bouton sauvegarder */
+#formsend{
+text-transform: uppercase;
+color: #ffffff;
+font-weight: bold;
+background-color: rgb(175, 175, 175);
+border: 1px solid rgb(163, 163, 163);
+border-radius: 5px;
+}
+
+#formsend:hover {
+background-color: white;
+color: #53af57;
+border: 1px solid #53af57;
+}
+
+/* Bouton suppression */
+#formsend2{
+text-transform: uppercase;
+color: #ffffff;
+font-weight: bold;
+background-color: rgb(175, 175, 175);
+border: 1px solid rgb(163, 163, 163);
+border-radius: 5px;
+}
+
+#formsend2:hover {
+background-color: white;
+color: #ad0505;
+border: 1px solid #ad0505;
+}
+
+/* 
+@media screen and (max-width:500px) {
+
+header .logo img {width: 40px;  }
+
+header nav ul{  width: 60%;}
+header nav ul li{ 
+width: 20px;height:20px;
+border-radius:50%;
+}
+
+#cont_box a {display :block; line-height:30px; margin:5px 0;} 
+
+.tabs-menu li {
+  overflow: hidden;
+  height: 40px;
+  line-height: 25px;
+}
+
+.tabs-menu li a i{font-size:25px; margin:0 14px}
+
+
+}
+
+} */
+
+
+.horizontale_input{
+display: flex;
+margin-bottom: 20px;
+}
+
+.reponse_php{
+margin-left: 20px;
+}
+
