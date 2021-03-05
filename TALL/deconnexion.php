@@ -12,8 +12,8 @@
     </head>
     <body>
         <div id="container">            
-            <h1>Vous êtes déconnecté</h1>
-            <p> Merci pour la visite</p>
+            <h1>À Bientôt sur TALL</h1>
+            <h2> Merci pour la visite</h2>
             <a href ='index.php' id="bouton" > ok</a>
         </div>
     </body>

@@ -1,98 +1,144 @@
 <?php session_start(); //ouverture d'une session 
 
-    // création d'un cookie
-    // setcookie('pseudo', $_SESSION['email'], time()+(30*24*3600));
-    // var_dump($_COOKIE);
 
     // // nettoie la session avant la déconnection
     //session_unset();
     // // détruit une session, la déconnecte
     session_destroy();
+    // connexion à la db
+    include 'include/database.php';
+    //  recupération de la varibable db pour faire des requêtes
+    global $db;
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset = "utf-8" />
-        <title> TALL </title>
-        <script src="leaflet/leaflet.js"></script>      
-        <link rel = "stylesheet" href="leaflet/leaflet.css" />
-        <link rel = "stylesheet" href="css/style.css" />
-        <!-- Icônes -->
-		<script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
-		<!-- Police -->
-		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>TALL</title>
+  <script src="leaflet/leaflet.js"></script>      
+  <link rel = "stylesheet" href="leaflet/leaflet.css" />
 
-    </head>    
-    <body>
-        <div id = "bloc_page">
-            <header>                    
-                <div id="logo">
-                    <a href="index.html">
-                        <img src = "img/logo.svg" alt = "TALL">
-                        <div id="Ton_action_locale_lyonnaise">
-                            <span>Ton action locale lyonnaise</span>
-                        </div>
-                    </a>                            
-                </div> 
-                <nav>
-                    <ul>
-                        <li><a id="accueil" href ="index.php">Accueil</a></li>
-                        <li><a id="connexion" href ="connexion.php">Connexion</a></li>
-                        <li><a id="contact" href ="html/contact.html">Contact</a></li>
-                    </ul>
-                </nav>   
-            </header>
-            <div id="fenetre_principale">                    
-                <aside>
-                    <div id="Tissu_associatif_lyonnais">
-                        <span>Tissu associatif lyonnais</span>
-                    </div>
-                    <div id="search">                           
-                        <input type="text" placeholder="    Recherchez dans TALL..." class="searchbar">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </div>
+  <!-- appel de chart.js -->
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style_utilisateur.css">
 
-                    <form class= "sidebar">
-                        <h1>Les associations</h1>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>    
-
-                        <h2>Les équipements</h2>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>    
-                    
-                        <h3>Les événements</h3>                     
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='amap' >Amap<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='composteur' >Composteur<br>
-                        <input type="checkbox" name="checkbox" class="cm-toggle" id ='gaspillage' >Anti-Gaspillage<br>                            
-                    </form> 
-                </aside>                
-                <div id = "map"></div>
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img src = "img/logo.svg" alt = "logo"></a>
             </div>
-            <footer>
-                <div id="footer_text">
-                    <p> CCBR - Teams enhaced by Virtual scriptor.com - tall@gmail.com</p>
-                </div>                    
-                <div id="lien_footer">                    
-                    <a class="picto-item" aria-label="Site du master Geonum" href="https://mastergeonum.org/" target="_blank">
-                        <img src = img/geonum.png width="2.5%" id ="logo_geonum" alt="geonum">
-                    </a>
-                    <a class="picto-item" aria-label="Site de l'université Lyon 2" href="https://www.univ-lyon2.fr/" target="_blank">
-                        <img src = img/Lyon_2.png width="5%" id ="logo_lyon2" alt="lyon2">
-                    </a>
-                    <a class="picto-item" aria-label="Site de l'ENS" href="http://www.ens-lyon.fr//" target="_blank">
-                        <img src = img/Ens.png width="5%" id ="logo_ens" alt="ens">
-                    </a>
-                    <a class="picto-item" aria-label="Site d'Anciela" href="https://www.anciela.info/" target="_blank">
-                        <img src = img/anciela.jpg width="2.5%" id ="logo_anciela" alt="anciela">
-                    </a>
-                </div>
-            </footer>
-        </div>           
-    </body>
-    <script src ="js/icones.js"></script>
-    <script src ="js/script.js"></script>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                <a class="nav-link" href="#">Accueil
+                <span class="sr-only">(current)</span></a>
+                </li>
+                <li>
+                <a class="nav-link" href="Connexion.php">Connexion</a>
+                </li>
+                <li>
+                <a class="nav-link" href="html/contact.html">Contact</a>
+                </li>
+
+                </li>
+            </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    
+    <ul class="flex-container">
+    <li class="flex-item" id="flex-menu">
+    <div class="row">
+      <div class="col-md-4 col-sm-5">
+        <div class="tabs-left">
+          <ul class="nav nav-tabs">
+              <!-- Onglet 1 = légendes, paragraphe utilisateur -->
+            <li class="active"><a href="#1" data-toggle="tab"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+            <!-- Onglet 2 = buffer distance proche de l'uilisateur --> 
+            <li><a href="#2" data-toggle="tab"><span class="glyphicon glyphicon-tower"></span></a></li>
+            <!-- Onglet 3 = itinéraire -->  
+            <li><a href="#3" data-toggle="tab"><span class="glyphicon glyphicon-road"></span></a></li>
+            <!-- Onglet 4 ! statistiques -->
+            <li><a href="#4" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span></a></li>
+          </ul>
+          <div class="tab-content">
+
+          <!-- Onglet 1 = légendes, paragraphe utilisateur -->
+            <div class="tab-pane active" id="1">
+                <form id="legende_asso">
+                    <p>Les associations</p><br>
+                    <?php
+                    $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
+                    $q->execute();
+                    //récupération du résultat de la requête dans une variable :
+                    $liste_cate= $q->fetchAll();
+
+                    foreach($liste_cate as $value){ 
+                        ?>
+                        <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                        <?php print($value[1]) ?><br>
+                        <?php
+                        }
+                        ?>
+                </form>
+                <form id="legende_equip">
+                    <p>Les équipements</p>
+                    <br>
+                    <?php
+                    $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
+                    $q->execute();
+                    //récupération du résultat de la requête dans une variable :
+                    $liste_equip= $q->fetchAll();
+
+                    foreach($liste_equip as $value){ 
+                        ?>
+                        <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                        <?php print($value[0]) ?><br>
+                        <?php
+                        }
+                        ?>
+            </div>
+
+          <!-- Onglet 2 = buffer distance proche de l'uilisateur -->            
+            <div class="tab-pane" id="2">
+               
+            </div>
+
+            <!-- Onglet 3 = itinéraire -->  
+            <div class="tab-pane" id="3">
+             <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
+                
+            </div>
+
+            <!-- Onglet 4 ! statistiques -->  
+            <div class="tab-pane" id="4">
+               
+            </div>
+          </div><!-- /tab-content -->
+        </div><!-- /tabbable -->
+      </div><!-- /col -->
+    </div><!-- /row -->
+  </li><!-- /container -->
+        <li class="flex-item" id="flex-map">
+            <div id = "map"></div>
+        </li>
+    </ul>  
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+  <script src ="js/icones.js"></script>
+  <script src ="js/script.js"></script>
 </html>

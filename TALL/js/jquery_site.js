@@ -4,7 +4,7 @@ $(document).ready(function(){ // fonction qui permet de lancer les autres foncti
         e.preventDefault(); // on empêche le bouton d'envoie d'envoyer le formulaire
         // récupération de la valeur de la commune choisie
         var commune = $('#choix_commune').val();
-        // console.log(commune)
+        console.log(commune)
         
         $.ajax({
             url : "script_php_jquery/rue_jquery.php", // on donne l'URL du fichier de traitement
