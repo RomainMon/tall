@@ -44,7 +44,7 @@ try{
 
 $("#loading").show(); // affiche l'espace de chargement
 $.ajax({
-    url : "../generateur_potentialite.php", // on donne l'URL du fichier de traitement
+    url : "generateur_potentialite.php", // on donne l'URL du fichier de traitement
     type : 'POST',
     async : 'true',
     data : {'code_insee' : commune,
