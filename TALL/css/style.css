@@ -366,4 +366,19 @@ footer a{
     -o-transform:      translateX(0);
   }
 
+/* bouton PDF */
+ /* Style buttons */
+.btn {
+    background-color: #9ED6C3;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 10px;
+  }
   
+.btn:hover {
+    background-color: #A3BB8E;
+  } 
+

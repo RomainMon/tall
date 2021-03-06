@@ -262,10 +262,9 @@ global $db;
         </div>           
     </body>
     <!-- appel du script qui permet d'executer le script php contenant le script python -->
-    
+    <script src='script_python.js'></script>
     <script src ="js/icones.js"></script>
     <script src ="js/script_association.js"></script>
-    <script src='script_python.js'></script>
     <!-- appel du script qui permet de faire un screen shot de la carte -->
     <script>L.simpleMapScreenshoter().addTo(map)</script>
 </html>
