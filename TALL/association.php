@@ -22,6 +22,16 @@ global $db;
         <script src='js/jquery_stat.js'></script>      
         <!-- appel de chart.js -->
         <script src="js/package/dist/Chart.js"></script>
+        <!-- export pdf library -->
+        <script src="html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
+        <!-- lien vers mon JS PDF -->
+        <script src="js/pdf.js"></script>
+        <!-- appel de screen shooter -->
+        <script src="https://unpkg.com/leaflet-simple-map-screenshoter"></script>
+        <!-- appel du script screen shot js -->
+        <script src='js/screen_shot.js'></script>
+        <!-- ajout d'une library d'icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     </head>    
     <body>
@@ -50,7 +60,7 @@ global $db;
                 <div id="menu-tab"><!----------------tableau-01---------------------------------->
                     <div id="page-wrap">
                         <div class="tabs">
-                        <!----------------onglet-01-accueil-------------------------->
+                            <!----------------onglet-01-accueil-------------------------->
                             <div class="tab"><input id="tab-1" checked="checked" name="tab-group-1" type="radio" /> <label for="tab-1">Accueil</label>
                                 <div class="content">  
                                     <p hidden id="id_asso"><?= $_SESSION['id_asso']; ?></p>
@@ -106,7 +116,7 @@ global $db;
                                         foreach($liste_cate as $value){ 
                                             ?>
                                             <input type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                                            <?php print($value[1]) ?><br>
+                                            <label for = "<?php print($value[0]) ?>"></label><?php print($value[1]) ?><br>
                                             <?php
                                             }
                                             ?>
@@ -130,7 +140,7 @@ global $db;
                                     </form>
                                 </div>
                             </div>
-                        <!----------------onglet-02-Statistiques-------------------------->
+                            <!----------------onglet-02-Statistiques-------------------------->
                             <div class="tab"><input id="tab-2" name="tab-group-1" type="radio" /> <label for="tab-2">Statistiques</label>
                                 <div class="content">                            
                                     <form id="stat">                            
@@ -164,9 +174,9 @@ global $db;
                                         </select><br>
 
                                         <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                                        <!-- <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button> -->
                                         <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
-                                        <input Type="button" value="Nouvelle recherche" onClick="history.go(0)">
+                                        
+                                        <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
                                     </form>
                                     
                                     <!-- les valeurs sont récupérées dans une balise cachée  -->
@@ -176,8 +186,8 @@ global $db;
                                     <canvas id="myChart" width="300" height="300"></canvas>
                                 </div>
                             </div>
-                        <!----------------onglet-03-Potentialite-------------------------->
-                        <div class="tab"><input id="tab-3" name="tab-group-1" type="radio" /> <label for="tab-3">Potentialité</label>
+                            <!----------------onglet-03-Potentialite-------------------------->
+                            <div class="tab"><input id="tab-3" name="tab-group-1" type="radio" /> <label for="tab-3">Potentialité</label>
                                 <div class="content">                            
                                     <form id="potentiel">                            
                                         <label for="choix_commune2">Choix de la commune</label>
@@ -223,20 +233,39 @@ global $db;
                                             ?>
                                         </select>                            
                                         <br>
-
-                                        <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                                        <!-- <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button> -->
-                                        <button name="stat" id="btn_potentiel" type="button">Envoyer le bouzin</button>
-                                        <input Type="button" value="Nouvelle recherche" onClick="history.go(0)">
+                                    <!-- bouton pour le calculateur de potientialité et la création de PDF -->
+                                    <button name="stat" id="btn_potentiel" type="button">Lancer la simulation</button>
                                     </form>
+                                    <div hidden id="loading">
+                                        <p>Calcul de potentialité en cours...</p>
+                                        <img id="img_chargement" src="img/load_animation.gif" alt="Loading" />
+                                    </div>
+                                    <div hidden id="resultat_calcul"><p>Calcul fini !</p></div>
                                 </div>
-                            </div>                    
-                        </div>
-                </div> 
+                                                   
+                            </div>
+                            <!----------------onglet-04-Utilisateur-------------------------->
+                            <div class="tab"><input id="tab-4" name="tab-group-1" type="radio" /> <label for="tab-4">Bénévole</label>
+                                <div class="content">
+                                    <p>Cliquez sur un point de la carte et sélectionnez un rayon en mètres pour voir les utilisateurs potentiels autour de ce point</p>
+                                    0 <input type="range" name="rangeInput" id="rangeInput" min="0" max="2500" step="250" onchange="updateTextInput(this.value);searchBenevole(this.value);"> 2 500
+                                    <p>Distance en mètres : </p><p id="rangeText" value=""></p>
+                                    <p>Nombre de particuliers intéressés par votre domaine</p>
+                                    <p id = "result_popbene"  class = "popbene"></p>                                   
+                                </div>
+                           </div>
+                        </div>                       
+                    </div>
+                </div>
             </aside>                
             <div id = "map"></div>
         </div>           
     </body>
+    <!-- appel du script qui permet d'executer le script php contenant le script python -->
+    
     <script src ="js/icones.js"></script>
     <script src ="js/script_association.js"></script>
+    <script src='script_python.js'></script>
+    <!-- appel du script qui permet de faire un screen shot de la carte -->
+    <script>L.simpleMapScreenshoter().addTo(map)</script>
 </html>

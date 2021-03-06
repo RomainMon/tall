@@ -743,13 +743,13 @@ function makeChart(){
     // création d'un tableau avec toutes les couleurs des icones équipements et associations:
     var paletteFond =[]
     
-    var paletteTotale = ['007070','rgba(39, 90, 25, 0.7)',
-                        '007075','rgba(255, 184, 65, 0.7)',
-                        '020025','rgba(2, 75, 151, 0.7)',
-                        '030050','rgba(247, 170, 28, 0.7)',
-                        '024000','rgba(148, 193, 31, 0.7)',
-                        'AMAP','rgba(233, 78, 27, 0.7)',
-                        'compost','rgba(126, 79, 37, 0.7)']
+    var paletteTotale = ['007070','#4b9e34',
+                        '007075','#234e9c',
+                        '020025','#1ea176',
+                        '030050','#1e6da2',
+                        '024000','#208ca1',
+                        'AMAP','#f08eaa',
+                        'compost','#f5ab92']
     
     // parcours et renvoie de la valeur de couleur en fonction du type 
     for (i = 0; i < typeData.length; i++){
@@ -784,3 +784,72 @@ function makeChart(){
 }
 makeChart();
 });
+
+///////////////////////////
+//   Onglet bénévoles   //
+/////////////////////////
+
+// Récupération des coordonnées au clic pour l'itinéraire
+var lat;
+var lng;
+map.on('click', function(e){
+    lat = e.latlng.lat;
+    lng = e.latlng.lng;
+    // console.log(lat, lng)        
+})
+
+function searchBenevole(distance){
+    // récupération du buffer de recherche :
+    // distance = $('#rangeInput').val();
+    // console.log(lat, lng ,distance,id_cate)
+
+    $.ajax({
+        url : "php/buffer_benevole.php", // on donne l'URL du fichier de traitement
+        type : "POST", // la requête est de type POST
+        dataType : "html",
+        data : 'distance='+distance+'&lat='+lat+'&lng='+lng+'&id_cate'+id_cate,
+        success : function(response, success){
+            buffers.clearLayers();
+            // console.log(response)                         
+            var buffer = L.geoJSON(JSON.parse(response),{
+            //application du style
+            style: bufferStyle,
+            // filter: function(feature,layer) {
+            //     if (feature.properties.nom_com == ville.value) return true
+            // }
+            }).addTo(buffers);
+            buffers.addTo(map);
+            map.fitBounds(buffer.getBounds());
+            // console.log(response)
+            // console.log(bufferJson)
+        },
+        error : function(resultat, statut, error){
+            console.log(error)
+        },
+        complete : function(resultat, statut){
+
+        }
+
+    });
+    $.ajax({
+        url : "php/count_benevole.php", // on donne l'URL du fichier de traitement
+        type : "POST", // la requête est de type POST
+        dataType : "html",
+        data : 'distance='+distance+'&id_cate='+id_cate,
+        success : function(response, success){
+            $("#result_popbene").html(response);            
+            console.log(response);
+        },
+        error : function(resultat, statut, error){
+            console.log(error)
+        },
+        complete : function(resultat, statut){
+
+        }
+
+    });
+};
+
+function updateTextInput(val) {
+    document.getElementById('rangeText').textContent=val; 
+    }
