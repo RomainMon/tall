@@ -11,6 +11,7 @@ global $db;
   <title>TALL</title>
   <script src="leaflet/leaflet.js"></script>      
   <link rel = "stylesheet" href="leaflet/leaflet.css" />
+  <link rel="stylesheet" href="css/style_utilisateur.css">
     <!-- Icônes -->
     <script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
     <!-- Police -->
@@ -24,7 +25,18 @@ global $db;
   <!-- appel de chart.js -->
   <script src="js/package/dist/Chart.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-  <link href="//bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="css/style_utilisateur.css">
+  <link href="//bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet">
+
+  <!-- export pdf library -->
+  <script src="html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
+  <!-- lien vers mon JS PDF -->
+  <script src="js/pdf.js"></script>
+  <!-- appel de screen shooter -->
+  <script src="https://unpkg.com/leaflet-simple-map-screenshoter"></script>
+  <!-- appel du script screen shot js -->
+  <script src='js/screen_shot.js'></script>
+  <!-- ajout d'une library d'icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -226,9 +238,10 @@ global $db;
                   </select><br>
 
                   <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                  <!-- <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button> -->
+
                   <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
-                  <input Type="button" value="Nouvelle recherche" onClick="">
+                  <!-- bouton pour télécharger en PDF le graphique -->
+                  <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
               </form>          
               <!-- les valeurs sont récupérées dans une balise cachée  -->
               <p hidden class ="nom_cate"></p>                        
@@ -248,9 +261,10 @@ global $db;
 
   </ul>  
 <!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
   <script src ="js/icones.js"></script>
   <script src ="js/script_utilisateur.js"></script>
 </body>
+    <!-- appel du script qui permet de faire un screen shot de la carte -->
+    <script>L.simpleMapScreenshoter().addTo(map)</script>
 </html>

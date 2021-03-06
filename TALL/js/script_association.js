@@ -784,3 +784,6 @@ function makeChart(){
 }
 makeChart();
 });
+
+/////// Option screenShot de l'écran ////////
+

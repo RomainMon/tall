@@ -22,6 +22,16 @@ global $db;
         <script src='js/jquery_stat.js'></script>      
         <!-- appel de chart.js -->
         <script src="js/package/dist/Chart.js"></script>
+        <!-- export pdf library -->
+        <script src="html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
+        <!-- lien vers mon JS PDF -->
+        <script src="js/pdf.js"></script>
+        <!-- appel de screen shooter -->
+        <script src="https://unpkg.com/leaflet-simple-map-screenshoter"></script>
+        <!-- appel du script screen shot js -->
+        <script src='js/screen_shot.js'></script>
+        <!-- ajout d'une library d'icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     </head>    
     <body>
@@ -164,9 +174,9 @@ global $db;
                                         </select><br>
 
                                         <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                                        <!-- <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button> -->
                                         <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
-                                        <input Type="button" value="Nouvelle recherche" onClick="history.go(0)">
+                                        
+                                        <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
                                     </form>
                                     
                                     <!-- les valeurs sont récupérées dans une balise cachée  -->
@@ -223,12 +233,14 @@ global $db;
                                             ?>
                                         </select>                            
                                         <br>
-
-                                        <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                                        <!-- <button name="stat" id="stat" onClick="makeChart()" type="button">Envoyer le bouzin</button> -->
-                                        <button name="stat" id="btn_potentiel" type="button">Envoyer le bouzin</button>
-                                        <input Type="button" value="Nouvelle recherche" onClick="history.go(0)">
+                                    <!-- bouton pour le calculateur de potientialité et la création de PDF -->
+                                    <button name="stat" id="btn_potentiel" type="button">Lancer la simulation</button>
                                     </form>
+                                    <div hidden id="loading">
+                                        <p>Calcul de potentialité en cours...</p>
+                                        <img id="img_chargement" src="img/load_animation.gif" alt="Loading" />
+                                    </div>
+                                    <div hidden id="resultat_calcul"><p>Calcul fini !</p></div>
                                 </div>
                             </div>                    
                         </div>
@@ -237,6 +249,10 @@ global $db;
             <div id = "map"></div>
         </div>           
     </body>
+    <!-- appel du script qui permet d'executer le script php contenant le script python -->
+    <script src='js/script_python.js'></script>
     <script src ="js/icones.js"></script>
     <script src ="js/script_association.js"></script>
+    <!-- appel du script qui permet de faire un screen shot de la carte -->
+    <script>L.simpleMapScreenshoter().addTo(map)</script>
 </html>
