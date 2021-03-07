@@ -1,4 +1,4 @@
-# Tutoriel Script python ed création d'utilisateur aléatoires
+# Tutoriel Script python de création d'utilisateur aléatoires
 
 Afin de remplir notre base de données et d'avoir des utilisateurs potentiels nous avons créé un script python qui permet de générer des utilisateurs à partir de la base de données adresse que l'on a disposition.
 
