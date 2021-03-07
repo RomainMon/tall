@@ -29,6 +29,8 @@ global $db;
 
   <!-- export pdf library -->
   <script src="html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
+  <!-- export pdf library -->
+  <script src="html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
   <!-- lien vers mon JS PDF -->
   <script src="js/pdf.js"></script>
   <!-- appel de screen shooter -->
@@ -129,10 +131,13 @@ global $db;
                       foreach($liste_cate as $value){
                           
                               if (in_array($value[0], $liste_cate_util)){
-                                  ?>
-                                  <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                                  <?php print($value[1]) ?><br>
-                              <?php
+                                ?>
+                                <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                                <label for = "<?php print($value[0]) ?>"></label>
+              
+                                <h3 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h3>
+                                <!-- id va être égal à 007070_2 -->
+                                <?php
                               }
                               else {
                                   ?>
@@ -157,9 +162,9 @@ global $db;
                       foreach($liste_equip as $value){ 
                           if (in_array($value[1], $_SESSION['preference'])){
                               ?>
-                              <p hidden class = "typequip"><?php print($value[0]) ?></p>
                               <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                              <?php print($value[0]) ?><br>
+                              <label for = "<?php print($value[0]) ?>"></label>
+                              <h3 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h3>
                               <?php
                           }
                           else {
@@ -239,7 +244,7 @@ global $db;
 
                   <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
 
-                  <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
+                  <button name="stat" id="btn_stat" class="btn" type="button">Envoyer le bouzin</button>
                   <!-- bouton pour télécharger en PDF le graphique -->
                   <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
               </form>          

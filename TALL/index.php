@@ -21,7 +21,7 @@
   <!-- appel de chart.js -->
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="//bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style_utilisateur.css">
+  <link rel="stylesheet" href="css/style_index.css">
 
 </head>
 <body>
@@ -76,56 +76,59 @@
           </ul>
           <div class="tab-content">
 
-          <!-- Onglet 1 = légendes, paragraphe utilisateur -->
-            <div class="tab-pane active" id="1">
-                <form id="legende_asso">
-                    <p>Les associations</p><br>
-                    <?php
-                    $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
-                    $q->execute();
-                    //récupération du résultat de la requête dans une variable :
-                    $liste_cate= $q->fetchAll();
+    <!-- Onglet 1 = légendes, paragraphe utilisateur -->
+      <div class="tab-pane active" id="1">
+          <form id="legende_asso">
+              <p>Les associations</p>
+              <?php
+              $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
+              $q->execute();
+              //récupération du résultat de la requête dans une variable :
+              $liste_cate= $q->fetchAll();
 
-                    foreach($liste_cate as $value){ 
-                        ?>
-                        <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                        <?php print($value[1]) ?><br>
-                        <?php
-                        }
-                        ?>
-                </form>
-                <form id="legende_equip">
-                    <p>Les équipements</p>
-                    <br>
-                    <?php
-                    $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
-                    $q->execute();
-                    //récupération du résultat de la requête dans une variable :
-                    $liste_equip= $q->fetchAll();
+              foreach($liste_cate as $value){ 
+                  ?>
+                  <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                  <label for = "<?php print($value[0]) ?>"></label>
 
-                    foreach($liste_equip as $value){ 
-                        ?>
-                        <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                        <?php print($value[0]) ?><br>
-                        <?php
-                        }
-                        ?>
-            </div>
+                  <h3 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h3>
+                  <!-- id va être égal à 007070_2 -->
+                  <?php
+                  }
+                  ?>
+          </form>
+          <form id="legende_equip">
+              <p>Les équipements</p>
+              
+              <?php
+              $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
+              $q->execute();
+              //récupération du résultat de la requête dans une variable :
+              $liste_equip= $q->fetchAll();
+
+              foreach($liste_equip as $value){ 
+                  ?>
+                  <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                  <label for = "<?php print($value[0]) ?>"></label>
+                  <h3 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h3>
+                  <?php
+                  }
+                  ?>
+      </div>
 
           <!-- Onglet 2 = buffer distance proche de l'uilisateur -->            
             <div class="tab-pane" id="2">
-               
+               <p>Connectez vous pour en savoir plus sur les associations proches de chez vous ! </p>
             </div>
 
             <!-- Onglet 3 = itinéraire -->  
             <div class="tab-pane" id="3">
-             <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
-                
+            <p>Connectez vous pour connaître l'itinéraire vous menant à une association choisie ! </p>                
             </div>
 
             <!-- Onglet 4 ! statistiques -->  
             <div class="tab-pane" id="4">
-               
+            <p>Connectez vous pour en savoir plus sur les associations présentes dans votre quartier ! </p>
             </div>
           </div><!-- /tab-content -->
         </div><!-- /tabbable -->

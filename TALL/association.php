@@ -11,7 +11,7 @@ global $db;
         <title> TALL </title>
         <script src="leaflet/leaflet.js"></script>      
         <link rel = "stylesheet" href="leaflet/leaflet.css" />
-        <link rel = "stylesheet" href="css/style.css" />
+        <link rel = "stylesheet" href="css/style_utilisateur.css" />
         <!-- Icônes -->
 		<script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
 		<!-- Police -->
@@ -32,239 +32,279 @@ global $db;
         <script src='js/screen_shot.js'></script>
         <!-- ajout d'une library d'icon -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- appel bootstrap , appel nécessaire en début de script pour le menu horizontal -->
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
 
     </head>    
     <body>
-    <div id = "bloc_page">
-        <header>                    
-            <div id="logo">
-                <a href="index.php">
-                    <img src = "img/logo.svg" alt = "TALL">
-                    <div id="Ton_action_locale_lyonnaise">
-                        <span>Ton action locale lyonnaise</span>
-                    </div>
-                </a>                            
-            </div> 
-            <nav>
-                <ul>
-                    <li><a id="accueil" href ="index.php">Accueil</a></li>
-                    <li><a id="connexion" href ="deconnexion.php">Déconnexion</a></li>
-                    <li><a id="contact" href ="html/contact.html">Contact</a></li>
-                    <li><a id="profil" href ="profil_asso.php">Profil</a></li>
-                </ul>
-            </nav>   
-        </header>
-        <div id="fenetre_principale">                    
-            <aside>
-                <!-- partial:index.partial.html -->
-                <div id="menu-tab"><!----------------tableau-01---------------------------------->
-                    <div id="page-wrap">
-                        <div class="tabs">
-                            <!----------------onglet-01-accueil-------------------------->
-                            <div class="tab"><input id="tab-1" checked="checked" name="tab-group-1" type="radio" /> <label for="tab-1">Accueil</label>
-                                <div class="content">  
-                                    <p hidden id="id_asso"><?= $_SESSION['id_asso']; ?></p>
-                                    <p hidden id="id_cate"><?= $_SESSION['id_cate']; ?></p>
-                                    
-                                    <h3>Bonjour, <?= $_SESSION['nom_asso']; ?></h3>  
-                                    <?php
-                                        $q = $db->prepare("
-                                        SELECT asso.adrs_numvo, asso.adrs_typev, asso.adrs_libvo, com.code_post, com.nom_com FROM association as asso join commune as com on (asso.adrs_codei = com.insee_com) 
-                                        WHERE id_asso = :id_asso;
-                                        ");
-                                        $q->execute([
-                                            'id_asso'=> $_SESSION['id_asso']
-                                        ]);                   
-                                        //récupération du résultat de la requête dans une variable :
-                                        $adresse_user= $q->fetchAll();
-                                        foreach($adresse_user as $value){                                
-                                        ?>
-                                        <p>Votre adresse : <?= $value['adrs_numvo']; ?> <?= $value['adrs_typev']; ?> <?= $value['code_post']; ?> <?= $value['nom_com']; ?></p>
-                                        <?php
-                                        }
-                                    ?>
-                                    <form>
-                                        <input checked="checked" type="checkbox" class="equipAsso" name="equipAsso" id="equipAsso" value =<?= $_SESSION['id_asso']; ?>> Vos équipements<br>
-                                        <!-- création du select avec envoi de la fonction de zoom sur l'equipement' -->
-                                        <select name ="choix_equipement" id="choix_equipement">
-                                            <option selected="selected">zoom sur un équipement</option>
-                                            <?php
-                                            // récupération des equipement de l'association
-                                            $q = $db->prepare("SELECT nom, id_equip FROM equipement WHERE id_asso = :id_asso ORDER by nom ;");
-                                            $q->execute(['id_asso' => $_SESSION['id_asso']]);                    
-                                            //récupération du résultat de la requête dans une variable :
-                                            $liste_equipement= $q->fetchAll();
-                                            // Iterating through the product array
-                                            foreach($liste_equipement as $value){
-                                            ?>
-                                            <!-- affichage des différentes communes dans le select -->
-                                            <option value="<?php print($value[1]); ?>"><?php print($value[0]); ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </form>                            
-                                    <br>
-                                    <form id="legende_asso">
-                                        <p>Les associations</p><br>
-                                        <?php
-                                        $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
-                                        $q->execute();
-                                        //récupération du résultat de la requête dans une variable :
-                                        $liste_cate= $q->fetchAll();
-
-                                        foreach($liste_cate as $value){ 
-                                            ?>
-                                            <input type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                                            <label for = "<?php print($value[0]) ?>"></label><?php print($value[1]) ?><br>
-                                            <?php
-                                            }
-                                            ?>
-                                    </form>
-                                    <form id="legende_equip">
-                                        <p>Les équipements</p>
-                                        <br>
-                                        <?php
-                                        $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
-                                        $q->execute();
-                                        //récupération du résultat de la requête dans une variable :
-                                        $liste_equip= $q->fetchAll();
-
-                                        foreach($liste_equip as $value){ 
-                                            ?>
-                                            <input type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                                            <?php print($value[0]) ?><br>
-                                            <?php
-                                            }
-                                            ?>
-                                    </form>
-                                </div>
-                            </div>
-                            <!----------------onglet-02-Statistiques-------------------------->
-                            <div class="tab"><input id="tab-2" name="tab-group-1" type="radio" /> <label for="tab-2">Statistiques</label>
-                                <div class="content">                            
-                                    <form id="stat">                            
-                                        <label for="choix_commune">Choix de la commune</label>
-                                        <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
-                                        <select name ="choix_commune" id="choix_commune" onchange="zoomVille(this);">
-                                        <option selected="selected">Commune</option>
-                                        <?php
-                                        // récupération des communes du GL
-                                        $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
-                                        $q->execute();                    
-                                        //récupération du résultat de la requête dans une variable :
-                                        $liste_commune= $q->fetchAll();
-                            
-                                        // Iterating through the product array
-                                        foreach($liste_commune as $value){
-                                        ?>
-                                        <!-- affichage des différentes communes dans le select -->
-                                        <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
-                                        <?php
-                                        }
-                                        ?>
-                                        </select>                            
-                                        <br>
-                                        <!-- liste déroulante pour les associations ou équipements -->
-                                        <label for="choix_asso_equip">Association ou Equipement</label>
-                                        <select name ="choix_asso_equip" id="choix_asso_equip">
-                                            <option value="" selected= "selected">Choississez un des items</option>
-                                            <option value="association">Association</option>
-                                            <option selected="equipement">equipement</option>
-                                        </select><br>
-
-                                        <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                                        <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
-                                        
-                                        <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
-                                    </form>
-                                    
-                                    <!-- les valeurs sont récupérées dans une balise cachée  -->
-                                    <p hidden class ="nom_cate"></p>                        
-                                    <!-- définition de la balise ou sera créé le graph -->
-                                    <div id="suppression"> </div>
-                                    <canvas id="myChart" width="300" height="300"></canvas>
-                                </div>
-                            </div>
-                            <!----------------onglet-03-Potentialite-------------------------->
-                            <div class="tab"><input id="tab-3" name="tab-group-1" type="radio" /> <label for="tab-3">Potentialité</label>
-                                <div class="content">                            
-                                    <form id="potentiel">                            
-                                        <label for="choix_commune2">Choix de la commune</label>
-                                        <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
-                                        <select name ="choix_commune2" id="choix_commune2" onchange="zoomVille(this);">
-                                        <option selected="selected">Commune</option>
-                                        <?php
-                                        // récupération des communes du GL
-                                        $q = $db->prepare("SELECT insee_com, nom_com  FROM commune ORDER by nom_com;");
-                                        $q->execute();                    
-                                        //récupération du résultat de la requête dans une variable :
-                                        $liste_commune= $q->fetchAll();
-                            
-                                        // Iterating through the product array
-                                        foreach($liste_commune as $value){
-                                        ?>
-                                        <!-- affichage des différentes communes dans le select -->
-                                        <option value="<?php print($value[0]); ?>"><?php print($value[1]); ?></option>
-                                        <?php
-                                        }
-                                        ?>
-                                        </select>                            
-                                        <br>
-                                        <!-- liste déroulante pour les équipements -->
-                                        <!-- liste déroulante pour les équipements -->
-                                        <label for="choix_type_equip">Type d'équipement</label>
-                                        <select name ="choix_type_equip" id="choix_type_equip">
-                                            <option value="" selected= "selected">Choississez un des items</option>
-                                            <?php
-                                            // récupération des communes du GL
-                                            $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
-                                            $q->execute();                    
-                                            //récupération du résultat de la requête dans une variable :
-                                            $liste_type_equip= $q->fetchAll();
-                                
-                                            // Iterating through the product array
-                                            foreach($liste_type_equip as $value){
-                                            ?>
-                                            <!-- affichage des différentes communes dans le select -->
-                                            <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>                            
-                                        <br>
-                                    <!-- bouton pour le calculateur de potientialité et la création de PDF -->
-                                    <button name="stat" id="btn_potentiel" type="button">Lancer la simulation</button>
-                                    </form>
-                                    <div hidden id="loading">
-                                        <p>Calcul de potentialité en cours...</p>
-                                        <img id="img_chargement" src="img/load_animation.gif" alt="Loading" />
-                                    </div>
-                                    <div hidden id="resultat_calcul"><p>Calcul fini !</p></div>
-                                </div>
-                                                   
-                            </div>
-                            <!----------------onglet-04-Utilisateur-------------------------->
-                            <div class="tab"><input id="tab-4" name="tab-group-1" type="radio" /> <label for="tab-4">Bénévole</label>
-                                <div class="content">
-                                    <p>Cliquez sur un point de la carte et sélectionnez un rayon en mètres pour voir les utilisateurs potentiels autour de ce point</p>
-                                    0 <input type="range" name="rangeInput" id="rangeInput" min="0" max="2500" step="250" onchange="updateTextInput(this.value);searchBenevole(this.value);"> 2 500
-                                    <p>Distance en mètres : </p><p id="rangeText" value=""></p>
-                                    <p>Nombre de particuliers intéressés par votre domaine</p>
-                                    <p id = "result_popbene"  class = "popbene"></p>                                   
-                                </div>
-                           </div>
-                        </div>                       
-                    </div>
+        <!-- Menu horizontal -->
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src = "img/logo.svg" alt = "logo"></a>
                 </div>
-            </aside>                
-            <div id = "map"></div>
-        </div>           
-    </body>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="nav-link" href="#">Accueil
+                        <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="deconnexion.php">Déconnexion</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="html/contact.html">Contact</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="profil_asso.php">Profil</a>
+                    </li>
+                </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <!-- Onglet menu vertical -->
+        <ul class="flex-container">
+            <li class="flex-item" id="flex-menu">
+            <div class="row">
+            <div class="col-md-4 col-sm-5">
+                <div class="tabs-left">
+                <ul class="nav nav-tabs">
+                <!-- Onglet 1 = légendes, paragraphe utilisateur -->
+                <li class="active"><a href="#1" data-toggle="tab"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                <!-- Onglet 2 = buffer distance proche de l'uilisateur --> 
+                <li><a href="#2" data-toggle="tab"><span class="glyphicon glyphicon-tower"></span></a></li>
+                <!-- Onglet 3 = itinéraire -->  
+                <li><a href="#3" data-toggle="tab"><span class="glyphicon glyphicon-road"></span></a></li>
+                <!-- Onglet 4 ! statistiques -->
+                <li><a href="#4" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span></a></li>
+        </ul>
+
+<!-- Ouverture de la div contenant le menu vertical et la carte -->
+        <div class="tab-content">
+
+        <!-- Onglet 1 --> 
+            <div class="tab-pane active" id="1" onClick ="prefUtilisateur();">
+                <p hidden id="id_asso"><?= $_SESSION['id_asso']; ?></p>
+                <p hidden id="id_cate"><?= $_SESSION['id_cate']; ?></p>
+                
+                <h3>Bonjour, <?= $_SESSION['nom_asso']; ?></h3>  
+                <?php
+                    $q = $db->prepare("
+                    SELECT asso.adrs_numvo, asso.adrs_typev, asso.adrs_libvo, com.code_post, com.nom_com FROM association as asso join commune as com on (asso.adrs_codei = com.insee_com) 
+                    WHERE id_asso = :id_asso;
+                    ");
+                    $q->execute([
+                        'id_asso'=> $_SESSION['id_asso']
+                    ]);                   
+                    //récupération du résultat de la requête dans une variable :
+                    $adresse_user= $q->fetchAll();
+                    foreach($adresse_user as $value){                                
+                    ?>
+                    <p>Votre adresse : <?= $value['adrs_numvo']; ?> <?= $value['adrs_typev']; ?> <?= $value['code_post']; ?> <?= $value['nom_com']; ?></p>
+                    <?php
+                    }
+                ?>
+                <form>
+                    <input checked="checked" type="checkbox" class="equipAsso" name="equipAsso" id="equipAsso" value =<?= $_SESSION['id_asso']; ?>> Vos équipements<br>
+                    <!-- création du select avec envoi de la fonction de zoom sur l'equipement' -->
+                    <select name ="choix_equipement" id="choix_equipement">
+                        <option selected="selected">zoom sur un équipement</option>
+                        <?php
+                        // récupération des equipement de l'association
+                        $q = $db->prepare("SELECT nom, id_equip FROM equipement WHERE id_asso = :id_asso ORDER by nom ;");
+                        $q->execute(['id_asso' => $_SESSION['id_asso']]);                    
+                        //récupération du résultat de la requête dans une variable :
+                        $liste_equipement= $q->fetchAll();
+                        // Iterating through the product array
+                        foreach($liste_equipement as $value){
+                        ?>
+                        <!-- affichage des différentes communes dans le select -->
+                        <option value="<?php print($value[1]); ?>"><?php print($value[0]); ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </form>                            
+                <br>
+                <form id="legende_asso">
+                    <p>Les associations</p><br>
+                    <?php
+                    $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
+                    $q->execute();
+                    //récupération du résultat de la requête dans une variable :
+                    $liste_cate= $q->fetchAll();
+
+                    foreach($liste_cate as $value){ 
+                        ?>
+                        <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                        <label for = "<?php print($value[0]) ?>"></label>
+      
+                        <h3 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h3>
+                        <!-- id va être égal à 007070_2 -->
+                        <?php
+                        }
+                        ?>
+                </form>
+                <form id="legende_equip">
+                    <p>Les équipements</p>
+                    <br>
+                    <?php
+                    $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
+                    $q->execute();
+                    //récupération du résultat de la requête dans une variable :
+                    $liste_equip= $q->fetchAll();
+
+                    foreach($liste_equip as $value){ 
+                        ?>
+                        <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                        <label for = "<?php print($value[0]) ?>"></label>
+                        <h3 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h3>
+                        <?php
+                        }
+                        ?>
+                </form>
+            </div>
+            <!-- Onglet 2 = Statistiques -->            
+            <div class="tab-pane" id="2" onClick ="prefUtilisateur();">                            
+                <form id="stat">                            
+                    <label for="choix_commune">Choix de la commune</label>
+                    <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
+                    <select name ="choix_commune" id="choix_commune" onchange="zoomVille(this);">
+                    <option selected="selected">Commune</option>
+                    <?php
+                    // récupération des communes du GL
+                    $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
+                    $q->execute();                    
+                    //récupération du résultat de la requête dans une variable :
+                    $liste_commune= $q->fetchAll();
+        
+                    // Iterating through the product array
+                    foreach($liste_commune as $value){
+                    ?>
+                    <!-- affichage des différentes communes dans le select -->
+                    <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
+                    <?php
+                    }
+                    ?>
+                    </select>                            
+                    <br>
+                    <!-- liste déroulante pour les associations ou équipements -->
+                    <label for="choix_asso_equip">Association ou Equipement</label>
+                    <select name ="choix_asso_equip" id="choix_asso_equip">
+                        <option value="" selected= "selected">Choississez un des items</option>
+                        <option value="association">Association</option>
+                        <option selected="equipement">equipement</option>
+                    </select><br>
+
+                    <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
+                    <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
+                    
+                    <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
+                </form>
+                
+                <!-- les valeurs sont récupérées dans une balise cachée  -->
+                <p hidden class ="nom_cate"></p>                        
+                <!-- définition de la balise ou sera créé le graph -->
+                <div id="suppression"> </div>
+                <canvas id="myChart" width="300" height="300"></canvas>
+            </div>
+
+            <!----------------onglet-03-Potentialite-------------------------->
+            <div class="tab-pane" id="3" onClick ="prefUtilisateur();">                            
+                <form id="potentiel">                            
+                    <label for="choix_commune2">Choix de la commune</label>
+                    <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
+                    <select name ="choix_commune2" id="choix_commune2" onchange="zoomVille(this);">
+                    <option selected="selected">Commune</option>
+                    <?php
+                    // récupération des communes du GL
+                    $q = $db->prepare("SELECT insee_com, nom_com  FROM commune ORDER by nom_com;");
+                    $q->execute();                    
+                    //récupération du résultat de la requête dans une variable :
+                    $liste_commune= $q->fetchAll();
+        
+                    // Iterating through the product array
+                    foreach($liste_commune as $value){
+                    ?>
+                    <!-- affichage des différentes communes dans le select -->
+                    <option value="<?php print($value[0]); ?>"><?php print($value[1]); ?></option>
+                    <?php
+                    }
+                    ?>
+                    </select>                            
+                    <br>
+                    <!-- liste déroulante pour les équipements -->
+                    <!-- liste déroulante pour les équipements -->
+                    <label for="choix_type_equip">Type d'équipement</label>
+                    <select name ="choix_type_equip" id="choix_type_equip">
+                        <option value="" selected= "selected">Choississez un des items</option>
+                        <?php
+                        // récupération des communes du GL
+                        $q = $db->prepare("SELECT distinct(type_equip) FROM equipement ORDER by type_equip;");
+                        $q->execute();                    
+                        //récupération du résultat de la requête dans une variable :
+                        $liste_type_equip= $q->fetchAll();
+            
+                        // Iterating through the product array
+                        foreach($liste_type_equip as $value){
+                        ?>
+                        <!-- affichage des différentes communes dans le select -->
+                        <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>                            
+                    <br>
+                <!-- bouton pour le calculateur de potientialité et la création de PDF -->
+                <button name="stat" id="btn_potentiel" type="button">Lancer la simulation</button>
+                </form>
+                <div hidden id="loading">
+                    <p>Calcul de potentialité en cours...</p>
+                    <img id="img_chargement" src="img/load_animation.gif" alt="Loading" />
+                </div>
+                <div hidden id="resultat_calcul"><p>Calcul fini !</p></div>
+            </div>
+
+            <!----------------onglet-04-Utilisateur-------------------------->
+            <div class="tab-pane" id="4" onClick ="prefUtilisateur();">
+                    <p>Cliquez sur un point de la carte et sélectionnez un rayon en mètres pour voir les utilisateurs potentiels autour de ce point</p>
+                    0 <input type="range" name="rangeInput" id="rangeInput" min="0" max="2500" step="250" onchange="updateTextInput(this.value);searchBenevole(this.value);"> 2 500
+                    <p>Distance en mètres : </p><p id="rangeText" value=""></p>
+                    <p>Nombre de particuliers intéressés par votre domaine</p>
+                    <p id = "result_popbene"  class = "popbene"></p>                                   
+            </div>
+
+            </div><!-- /tab-content -->
+          </div><!-- /tabbable -->
+        </div><!-- /col -->
+      </div><!-- /row -->
+    </li><!-- /container -->
+
+    <li class="flex-item" id="flex-map">
+      <div id = "map"></div>
+    </li>
+     
+
+    <!-- Appel jquery et bootstrap nécessaire pour le fonctionnement du menu vertical -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
     <!-- appel du script qui permet d'executer le script php contenant le script python -->
     <script src='script_python.js'></script>
     <script src ="js/icones.js"></script>
     <script src ="js/script_association.js"></script>
     <!-- appel du script qui permet de faire un screen shot de la carte -->
     <script>L.simpleMapScreenshoter().addTo(map)</script>
+    </body>
 </html>

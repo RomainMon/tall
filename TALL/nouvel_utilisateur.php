@@ -1,4 +1,3 @@
-
 <?php 
 //Démarrage de la session
 session_start();
@@ -28,9 +27,9 @@ ob_start();
             <!-- création du formulaire d'inscription -->
             <!-- la method dans form définit la méthode d'envoie du formulaire. post : envoie les données d'une page à l'autre (méthode recommandé). get : envoie les infos par URL. -->
             <form method="post" id="container">
-            <h1>Création d'un nouveau compte</h1>
+            <h2>Création d'un nouveau compte</h2>
                 <div id="civilite"> 
-                    <h3>Vos coordonnées</h3>
+                    <h4>Vos coordonnées</h4>
                     <!-- le type text pour le nom d'utilisateur -->
                     <input type="text" name="nom" id="nom" placeholder="Votre nom" required>
                     <!-- le type text pour le prénom d'utilisateur -->
@@ -46,7 +45,7 @@ ob_start();
                 <!-- Commune -->
                 </div>
                 <div id = "adresse">               
-                    <select name ="choix_commune" id="choix">
+                    <select name ="choix_commune" id="choix_commune">
                         <option selected="selected">Commune</option>
                         <?php
                         $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
@@ -66,24 +65,24 @@ ob_start();
                     </select>
                     <br>
                     <!-- adresse -->
-                    <select name ="choix_adresse" id="choix">
+                    <select name ="choix_adresse" id="choix_adresse">
                         <option selected="selected">Rue</option>                    
                     <br>
                     </select>
                     <!-- numero -->
-                    <select name ="choix_numero" id="choix">
+                    <select name ="choix_numero" id="choix_numero">
                         <option selected="selected">Numero</option>                    
                     <br>
                     </select>
                     
-                    <select name ="choix_rep" id="choix">
+                    <select name ="choix_rep" id="choix_rep">
                         <option selected="selected">Complément d'adresse</option>                    
                     <br>
                     </select>
                 </div>    
                 <!-- choix des catégories la liste des catégories est récupérées à partir de la base de données comme ça si on change dans la BD ça changera ici aussi-->
-                <div id="choix_dom"> 
-                    <h3>Quels sont les domaines qui vous intéressent ?</h3>
+                <div id="choix_asso"> 
+                    <h4>Quels sont les domaines qui vous intéressent ?</h4>
                     <?php
                     $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
                     $q->execute();
@@ -91,25 +90,20 @@ ob_start();
                     $liste_cate= $q->fetchAll();                
                     ?>
                     <br>
-                    <input  id="checkbox" type="checkbox" class="cm-toggle" name="cate_1" id="cate_1" value =<?php print($liste_cate[0][0]) ?>><label for="checkbox" ></label>
-                    <p class="reponse_php"><?php print($liste_cate[0][1]) ?></p>
-
-                    <input id="checkbox1" type="checkbox" class="cm-toggle" name="cate_2" id="cate_2" value =<?php print($liste_cate[1][0]) ?>><label for="checkbox1" ></label> 
-                    <p class="reponse_php"><?php print($liste_cate[1][1]) ?></p><br>
-
-                    <input id="checkbox2" type="checkbox" class="cm-toggle" name="cate_3" id="cate_3" value =<?php print($liste_cate[2][0]) ?>><label for="checkbox2" ></label> 
-                    <p class="reponse_php"><?php print($liste_cate[2][1]) ?></p><br>
-
-                    <input id="checkbox3" type="checkbox"class="cm-toggle" name="cate_4" id="cate_4" value =<?php print($liste_cate[3][0]) ?>><label for="checkbox3" ></label> 
-                    <p class="reponse_php"><?php print($liste_cate[3][1]) ?></p><br>
-
-                    <input id="checkbox4" type="checkbox"class="cm-toggle" name="cate_5" id="cate_5" value =<?php print($liste_cate[4][0]) ?>><label for="checkbox4" ></label> 
-                    <p class="reponse_php"><?php print($liste_cate[4][1]) ?></p><br>
-                    </div>
+                    <input type="checkbox" class="cm-toggle" name="cate_1" id="cate_1" value =<?php print($liste_cate[0][0]) ?>> 
+                    <?php print($liste_cate[0][1]) ?><br>
+                    <input type="checkbox" class="cm-toggle" name="cate_2" id="cate_2" value =<?php print($liste_cate[1][0]) ?>> 
+                    <?php print($liste_cate[1][1]) ?><br>
+                    <input type="checkbox" class="cm-toggle" name="cate_3" id="cate_3" value =<?php print($liste_cate[2][0]) ?>> 
+                    <?php print($liste_cate[2][1]) ?><br>
+                    <input type="checkbox" class="cm-toggle" name="cate_4" id="cate_4" value =<?php print($liste_cate[3][0]) ?>> 
+                    <?php print($liste_cate[3][1]) ?><br>
+                    <input type="checkbox" class="cm-toggle" name="cate_5" id="cate_5" value =<?php print($liste_cate[4][0]) ?>> 
+                    <?php print($liste_cate[4][1]) ?><br>
                     
                     <!-- Choix d'une association -->
-                    <p>Êtes-vous membre d'une association ?</p>
-                    <select name ="choix_asso" id="choix">
+                    <p>Etes-vous membre d'une association ?</p>
+                    <select name ="choix_asso" id="choix_asso">
                         <option selected="selected" value="">Sélectionner une valeur</option>
                         <?php
                         $q = $db->prepare("SELECT titre,id_asso FROM association ORDER by titre;");
@@ -238,7 +232,6 @@ ob_start();
                     
                 }
             ?>
-
         </div>
         <script src ="js/jquery_site.js"></script>
     </body>

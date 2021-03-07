@@ -1,0 +1,250 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ffff;
+}
+
+/* .flex-container{
+  -ms-flex-direction: row;
+  flex-flow: row wrap;
+  flex-wrap: wrap;
+} */
+
+
+
+/* Taille du logo */
+.navbar-brand img{
+  height: 30px;
+}
+
+
+#map {
+  height: 100%;
+    width: 100%;
+    order:2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    flex: 3 0 0;
+    z-index: 1;
+  }
+
+
+
+.tabs-left {
+/*     margin-top: 3rem; */
+}
+
+.nav-tabs {
+  float: left;
+  border-bottom: 0;
+}
+.nav-tabs li {
+  float: none;
+  margin: 0;
+}
+.nav-tabs li a {
+  margin-right: 0;
+  border: 0;
+  border-radius: 0;
+  height: 100px;
+  background-color: #333;
+}
+.nav-tabs li a:hover {
+  background-color: #444;
+}
+.nav-tabs .glyphicon {
+  color: rgb(221, 221, 221);
+}
+.nav-tabs .active .glyphicon {
+  color: rgb(87, 146, 39);
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  border: 0;
+  background-color: rgb(207, 207, 207);
+}
+
+.tab-content {
+  width: 300px;
+  margin-left: 45px;
+}
+
+.tab-content .tab-pane {
+  display: none;
+  background-color: rgb(255, 255, 255);
+  size: 500px;
+  padding: 1.6rem;
+/*   overflow-y: auto; */
+}
+
+.tab-content .active {
+  display: block;
+}
+
+.list-group {
+  width: 100%;
+  
+}
+.list-group .list-group-item {
+  height: 50px;
+}
+.list-group .list-group-item h4, .list-group .list-group-item span {
+  line-height: 11px;
+}
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  }
+
+#flex-menu{
+  flex-direction: row;
+  flex-flow: row wrap;
+  flex-wrap: wrap;
+/*       background: rgb(61, 39, 51); */
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  width: 30%;
+  height: 600px;
+  } 
+  
+  #flex-map{
+    flex-direction: row;
+    flex-flow: row wrap;
+    flex-wrap: wrap;
+/*       background: rgb(255, 161, 20); */
+    width: 70%;
+    height: 600px;
+  } 
+
+
+  /* @media (min-width : 500px, max-width: 800px) {
+      .flex-menu, {
+        flex: 100%;
+      }
+    } */
+
+
+
+/* Couleur des checkbox off */
+:root {
+/* font-size: 10px; */
+/* --blue: #8a8a8a;
+--darkblue: #a8a8a8; */
+--fond: rgb(129, 129, 129);
+/* --top: padding-top: 20px; */
+
+}
+
+
+
+input[type = checkbox] {
+    display: none;
+}
+
+input + label {
+    font-size: 1.2rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    position: absolute;
+    vertical-align: middle;
+    /* padding-top: 20px; */
+    justify-content: center;
+    align-items: center;
+    border: .1rem solid var(--fond);
+    border-radius: 50%;
+    background: var(--darkblue);
+    /* padding-top: var(--top); */
+    transition: .1s all;
+    cursor: pointer;
+    z-index: 999 !important;
+}
+
+
+h3{
+  text-transform: uppercase;
+  font-size:xx-small;
+  font-weight: bold ;
+  padding-left: 25px;
+  padding-bottom: 0px;
+  /* position: relative; */
+  /* padding-top: -40px; */
+  color: rgb(75, 75, 75);
+  /* vertical-align: middle; */
+  }
+
+input + label:hover {
+    transform: scale(.95);
+}
+
+/* input + label:after {
+    content: ".";
+    padding-top: 20px;
+} */
+
+input:checked + label {
+    background: var(--fond);
+    transform: scale(1.1);
+    /* vertical-align: middle; */
+    /* padding-top: var(--top); */
+}
+
+input:checked + label:hover {
+    background: var(--fond);
+    transform: scale(1.05);
+    /* vertical-align: middle; */
+    /* padding-top: var(--top); */
+}
+
+
+/* Ajout des picto checkbox in */
+input[id="007070"]:checked + label:after {
+    content: url('../img/007070.png');
+    transform: scale(0.09);
+}
+
+input[id="007075"]:checked + label:after {
+    content: url('../img/007075.png');
+    transform: scale(0.09);
+    }
+
+input[id="020025"]:checked + label:after {
+    content: url('../img/020025.png');
+    transform: scale(0.09);
+    }  
+
+input[id="024000"]:checked + label:after {
+    content: url('../img/024000.png');
+    transform: scale(0.09);
+    }
+    
+input[id="030050"]:checked + label:after {
+    content: url('../img/030050.png');
+    transform: scale(0.09);
+    }  
+    
+    
+input[id="AMAP"]:checked + label:after {
+  content: url('../img/AMAP.png');
+  transform: scale(0.09);
+  }    
+
+input[id="compost"]:checked + label:after {
+  content: url('../img/compost.png');
+  transform: scale(0.09);
+  }
