@@ -119,8 +119,18 @@ h1{
   }
 
 
-/* Couleur des checkbox off */
-:root {
+  .horizontale_input{
+    display: flex;
+    margin-bottom: 20px;
+    }
+    
+    .reponse_php{
+    margin-left: 20px;
+    }
+    
+    
+    /* Couleur des checkbox off */
+    :root {
     font-size: 10px;
     --blue: #8a8a8a;
     --darkblue: #a8a8a8;

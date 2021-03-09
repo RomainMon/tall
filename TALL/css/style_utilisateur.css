@@ -32,50 +32,51 @@ body {
     z-index: 1;
   }
 
-h3 {
-  margin-top: 0;
-}
 
 
-.tabs-left {
-/*     margin-top: 3rem; */
-}
-
-.nav-tabs {
-  float: left;
-  border-bottom: 0;
-}
-.nav-tabs li {
-  float: none;
-  margin: 0;
-}
-.nav-tabs li a {
-  margin-right: 0;
-  border: 0;
-  border-radius: 0;
-  height: 100px;
-  background-color: #333;
-}
-.nav-tabs li a:hover {
-  background-color: #444;
-}
-.nav-tabs .glyphicon {
-  color: rgb(221, 221, 221);
-}
-.nav-tabs .active .glyphicon {
-  color: rgb(87, 146, 39);
-}
-
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  border: 0;
-  background-color: rgb(207, 207, 207);
-}
+  .tabs-left {
+    /*     margin-top: 3rem; */
+    }
+    
+    .nav-tabs {
+      float: left;
+      border-bottom: 0;
+    }
+    .nav-tabs li {
+      float: none;
+      margin: 0;
+    }
+    .nav-tabs li a {
+      margin-right: 0;
+      border: 0;
+      border-radius: 0;
+      height: 100px;
+      background-color: rgb(100, 98, 98);
+    }
+    
+    
+    .nav-tabs li a:hover {
+      background-color: #444;
+    }
+    .nav-tabs .glyphicon {
+      color: rgb(221, 221, 221);
+    }
+    .nav-tabs .active .glyphicon {
+      color: rgb(87, 146, 39);
+    }
+    
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+      border: 0;
+      background-color: rgb(207, 207, 207);
+    }
+    
 
 .tab-content {
   width: 300px;
   margin-left: 45px;
 }
 
+/* Couleur de fond des informations */
 .tab-content .tab-pane {
   display: none;
   background-color: rgb(255, 255, 255);
@@ -90,11 +91,12 @@ h3 {
 
 .list-group {
   width: 100%;
-  
 }
+
 .list-group .list-group-item {
   height: 50px;
 }
+
 .list-group .list-group-item h4, .list-group .list-group-item span {
   line-height: 11px;
 }
@@ -112,7 +114,7 @@ h3 {
   
   -webkit-flex-flow: row wrap;
   justify-content: space-around;
-  }
+ }
 
 #flex-menu{
   flex-direction: row;
@@ -134,7 +136,8 @@ h3 {
   height: 600px;
 } 
 
-/* bouton PDF */
+
+/* bouton PDF
  /* Style buttons */
  .btn {
   background-color: #9ED6C3;
@@ -148,4 +151,123 @@ h3 {
 
 .btn:hover {
   background-color: #A3BB8E;
-} 
+}  
+
+
+/* Couleur des checkbox off */
+:root {
+  /* font-size: 10px; */
+  /* --blue: #8a8a8a;
+  --darkblue: #a8a8a8; */
+  --fond: rgb(129, 129, 129);
+  /* --top: padding-top: 20px; */
+}
+  
+  
+  
+  input[type = checkbox] {
+      display: none;
+  }
+  
+  input + label {
+      font-size: 1.2rem;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      position: absolute;
+      vertical-align: middle;
+      /* padding-top: 20px; */
+      justify-content: center;
+      align-items: center;
+      border: .1rem solid var(--fond);
+      border-radius: 50%;
+      background: var(--fond);
+      /* padding-top: var(--top); */
+      transition: .1s all;
+      cursor: pointer;
+      z-index: 999 !important;
+  }
+  
+  
+  h6{
+    text-transform: uppercase;
+    font-size:xx-small;
+    font-weight: bold ;
+    padding-left: 25px;
+    padding-bottom: 0px;
+    /* position: relative; */
+    /* padding-top: -40px; */
+    color: rgb(75, 75, 75);
+    /* vertical-align: middle; */
+    }
+  
+  input + label:hover {
+      transform: scale(.95);
+  }
+  
+  /* input + label:after {
+      content: ".";
+      padding-top: 20px;
+  } */
+  
+  input:checked + label {
+      background: var(--fond);
+      transform: scale(1.1);
+      /* vertical-align: middle; */
+      /* padding-top: var(--top); */
+  }
+  
+  input:checked + label:hover {
+      background: var(--fond);
+      transform: scale(1.05);
+      /* vertical-align: middle; */
+      /* padding-top: var(--top); */
+  }
+  
+  
+  /* Ajout des picto checkbox in */
+  input[id="007070"]:checked + label:after {
+      content: url('../img/007070.png');
+      transform: scale(0.09);
+  }
+  
+  input[id="007075"]:checked + label:after {
+      content: url('../img/007075.png');
+      transform: scale(0.09);
+      }
+  
+  input[id="020025"]:checked + label:after {
+      content: url('../img/020025.png');
+      transform: scale(0.09);
+      }  
+  
+  input[id="024000"]:checked + label:after {
+      content: url('../img/024000.png');
+      transform: scale(0.09);
+      }
+      
+  input[id="030050"]:checked + label:after {
+      content: url('../img/030050.png');
+      transform: scale(0.09);
+      }  
+      
+      
+input[id="1amap"]:checked + label:after {
+  content: url('../img/1amap.png');
+  transform: scale(0.09);
+  }    
+
+input[id="2compost"]:checked + label:after {
+  content: url('../img/2compost.png');
+  transform: scale(0.09);
+  }
+
+input[id="3boite"]:checked + label:after {
+  content: url('../img/3boite.png');
+  transform: scale(0.09);
+  }
+
+input[id="equipAsso"]:checked + label:after {
+  content: url('../img/equipAsso.png');
+  transform: scale(0.09);
+  }

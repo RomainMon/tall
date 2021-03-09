@@ -43,6 +43,7 @@ console.log(equipAsso);
 id_cate = document.getElementById('id_cate').textContent;
 // console.log(id_asso);
 
+
 // création d'un groupe layer pour pouvoir effacer les données
 var equipements = L.layerGroup();
 var communes = L.layerGroup();
@@ -129,23 +130,15 @@ xhttp2.onreadystatechange = function() {
 
         // Chargement de l'icone en fonction du zoom
         var currentZoom = map.getZoom();
-        equipement.eachLayer(function(calque){
-            var i;
-            for(i = 0 ; i < listeIconEquip.length; i++){                            
-                if(calque.feature.properties.type_equip == listeIconEquip[i])
-                return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
-            }                        
+        equipement.eachLayer(function(calque){            
+            return calque.setIcon(zoomIconAsso(currentZoom))                                    
         });
         // Chargement des différentes icones en fonction du zoom 
         map.on('zoomend', function(){
             // zoom courant
             var currentZoom = map.getZoom();
             equipement.eachLayer(function(calque){
-                var i;
-                for(i = 0 ; i < listeIconEquip.length; i++){                            
-                    if(calque.feature.properties.type_equip == listeIconEquip[i])
-                    return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
-                }                        
+                return calque.setIcon(zoomIconAsso(currentZoom))                        
             });
         });
         equipementsAsso.addTo(map);
@@ -308,7 +301,7 @@ function majCouche(){
                     filter: function(feature,layer) {
                         for (let item of categoriesEquip) {                                                       
                             if (feature.properties.id_asso != id_asso ){
-                                if(feature.properties.type_equip == item) return true 
+                                if(feature.properties.id_type_equip == item) return true 
                             } 
                             }
                         },
@@ -337,7 +330,7 @@ function majCouche(){
                 equipement.eachLayer(function(calque){
                     var i;
                     for(i = 0 ; i < listeIconEquip.length; i++){                            
-                        if(calque.feature.properties.type_equip == listeIconEquip[i])
+                        if(calque.feature.properties.id_type_equip == listeIconEquip[i])
                         return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
                     }                        
                 });
@@ -348,7 +341,7 @@ function majCouche(){
                     equipement.eachLayer(function(calque){
                         var i;
                         for(i = 0 ; i < listeIconEquip.length; i++){                            
-                            if(calque.feature.properties.type_equip == listeIconEquip[i])
+                            if(calque.feature.properties.id_type_equip == listeIconEquip[i])
                             return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
                         }                        
                     });
@@ -615,7 +608,7 @@ function zoomVille(ville){
             equipement.eachLayer(function(calque){
                 var i;
                 for(i = 0 ; i < listeIconEquip.length; i++){                            
-                    if(calque.feature.properties.type_equip == listeIconEquip[i])
+                    if(calque.feature.properties.id_type_equip == listeIconEquip[i])
                     return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
                 }                        
             });
@@ -626,7 +619,7 @@ function zoomVille(ville){
                 equipement.eachLayer(function(calque){
                     var i;
                     for(i = 0 ; i < listeIconEquip.length; i++){                            
-                        if(calque.feature.properties.type_equip == listeIconEquip[i])
+                        if(calque.feature.properties.id_type_equip == listeIconEquip[i])
                         return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
                     }                        
                 });
@@ -743,14 +736,15 @@ function makeChart(){
     // création d'un tableau avec toutes les couleurs des icones équipements et associations:
     var paletteFond =[]
     
-    var paletteTotale = ['007070','#4b9e34',
-                        '007075','#234e9c',
-                        '020025','#1ea176',
-                        '030050','#1e6da2',
-                        '024000','#208ca1',
-                        'AMAP','#f08eaa',
-                        'compost','#f5ab92']
-    
+    var paletteTotale = ['007070','#4eae4f',
+    '007075','#624393',
+    '020025','#a8a800',
+    '030050','#006277',
+    '024000','#8ab7c0',
+    '1amap','#ba7300',
+    '2compost','#833204',
+    '3boite','#af0b2b']
+
     // parcours et renvoie de la valeur de couleur en fonction du type 
     for (i = 0; i < typeData.length; i++){
         console.log(typeData[i])
@@ -776,7 +770,7 @@ function makeChart(){
         options: {
             //cutoutPercentage: 40,
             responsive: false,
-            events : ['click']
+            // events : ['click']
 
         }
         });
@@ -853,3 +847,4 @@ function searchBenevole(distance){
 function updateTextInput(val) {
     document.getElementById('rangeText').textContent=val; 
     }
+

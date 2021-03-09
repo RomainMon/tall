@@ -5,8 +5,8 @@ include '../include/database.php';
 global $db;
 
 // création d'une fonction qui renvoi du texte
-function retourEquipCount($type_cate, $count) {
-    return "{$type_cate}:{$count}:{$type_cate}";
+function retourEquipCount($id_type_equip, $count,$type_equip) {
+    return "{$id_type_equip}:{$count}:{$type_equip}";
 }
 
 $commune = $_POST["commune"];
@@ -14,7 +14,8 @@ $commune = $_POST["commune"];
 $q = $db->prepare("with
 equip_com as (SELECT equipement.*, commune.nom_com, commune.code_post from equipement join commune on (equipement.insee_com = commune.insee_com)
 WHERE nom_com = :nom_com)
-SELECT type_equip, count(*) from equip_com group by type_equip;"
+SELECT type_equip, count(*),id_type_equip from equip_com group by id_type_equip,type_equip
+;"
 );
 $q->execute(['nom_com'=>$commune]);
 

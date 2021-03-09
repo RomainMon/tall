@@ -17,18 +17,7 @@
     <!-- Icones -->
     <script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <!-- JQuery -->    
-<!--     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
- -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.3/css/bootstrap.css'>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
     <link rel="stylesheet" href="css/style_user.css">
 
 </head>
@@ -178,23 +167,25 @@
     <div id="tab-2" class="tab-content">      
             <!-- création du formulaire d'inscription -->
             <!-- la method dans form définit la méthode d'envoie du formulaire. post : envoie les données d'une page à l'autre (méthode recommandé). get : envoie les infos par URL. -->
+        <div id="container">
         <form method="post" id="container">
             <h1>Mes informations</h1>
             <h2> N'hésitez pas à modifier vos coordonnées ci-dessous pour que votre compte TALL soit parfaitement à jour.</h2>
-                <div id="civilite"> 
+            <div id="civilite"> 
+                    <h4>Vos coordonnées</h4>
                     <!-- le type text pour le nom d'utilisateur -->
-                    <h3><br>Nom :</h3><input type="text" name="nom" id="choix" value=<?= $_SESSION['nom']; ?> required>
+                    <input type="text" name="nom" id="nom" value=<?= $_SESSION['nom']; ?> required>
                     <!-- le type text pour le prénom d'utilisateur -->
-                    <h3><br>Prénom :</h3><input type="text" name="prenom" id="choix" value=<?= $_SESSION['prenom']; ?> required>
+                    <input type="text" name="prenom" id="prenom" value=<?= $_SESSION['prenom']; ?> required>
                     <!-- le type email contraint l'utilisateur d'insérer un text avec un @ dedans -->
-                    <h3><br>Adresse e-mail :</h3><input type="email" name="email" id="choix" value=<?= $_SESSION['email']; ?> required>
+                    <input type="email" name="email" id="email" value=<?= $_SESSION['email']; ?> required>
                     <!-- numéro de téléphone -->
-                    <h3><br>Téléphone :</h3><input type="tel" name="telephone" id="choix" value=<?= $_SESSION['telephone']; ?>><br>
+                    <input type="tel" name="telephone" id="telephone" value=<?= $_SESSION['telephone']; ?>><br>
                 <!-- Commune -->
                 </div>
                 <div id = "adresse">   
-                    <h3><br>Commune :</h3>            
-                    <select name ="choix_commune" id="choix">
+                    <h5>Commune</h5>            
+                    <select name ="choix_commune" id="choix_commune">
                         <option selected="selected" value=<?php $nom_com; ?>><?= $nom_com; ?></option>
                         <?php
                         $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
@@ -211,29 +202,30 @@
                         ?>
                     <br>   
                     </select>
-                    <h3><br>Rue :</h3>   
+                    <h5>Nom de rue</h5>   
+                    <br>
                     <!-- adresse -->
                     <!-- une partie de la liste déroulante s'execute avec une requete jquery ajax -->
-                    <select name ="choix_adresse" id="choix">
+                    <select name ="choix_adresse" id="choix_adresse">
                         <option selected="selected" value=<?php $nom_rue; ?>><?= $nom_rue; ?></option>                
                     <br>                    
                     </select>
-                    <h3><br>Numéro :</h3> 
+                    <h5>Numéro de rue</h5> 
                     <!-- numero -->
                     <!-- une partie de la liste déroulante s'execute avec une requete jquery ajax -->
-                    <select name ="choix_numero" id="choix">
+                    <select name ="choix_numero" id="choix_numero">
                         <option selected="selected" value=<?php $num_rue; ?>><?= $num_rue; ?></option>                   
                     <br>
                     </select>
-                    <h3><br>Complément d'adresse :</h3> 
+                    <h5>Complément d'adresse</h5> 
                     <!-- une partie de la liste déroulante s'execute avec une requete jquery ajax -->
-                    <select name ="choix_rep" id="choix">
+                    <select name ="choix_rep" id="choix_rep">
                         <option selected="selected" value=<?php $complement_addresse; ?>><?= $complement_addresse; ?></option>                    
                     <br>
                     </select>
                 </div>
-                    <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
-                    <br><input type="submit" name="formsend" id="formsend" value="Sauvegarder"><br>
+                <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
+                <input type="submit" name="formsend" id="formsend" value="Mettre à jour"><br>
                 
             </form>
 
@@ -323,7 +315,7 @@
                     
                 }
             ?>
-
+        </div>
         <div id='formulaire_adherent_asso'>
                     <form method='post'>
                         <!-- Choix d'une association -->
@@ -500,8 +492,6 @@
 
 <!-- partial -->
 
-<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> -->
-<script  src="js/page_user.js"></script>
 
 
 </body>

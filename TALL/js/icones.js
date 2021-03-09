@@ -14,9 +14,18 @@ function zoomIcon(icon, currentZoom){
 });
 }
 
+function zoomIconAsso(currentZoom){
+    return new L.icon({
+    iconUrl: 'img/equipAsso.png',//Chemin de l'image 
+    iconSize:     zoom[currentZoom].iconSize, // Taille de l'icone
+    iconAnchor:   zoom[currentZoom].iconAnchor, // Point d'insertion de l'icone
+    popupAnchor:  [-3, -15], // Point d'insertion de la popup  
+});
+}
 
 // liste des equipements et des catégories associations (il faudrait les récupérer dans la page html pour renvoyer les listes toujours actualisées)
-var listeIconEquip = ['AMAP','compost','007070','007075','020025','030050','024000']
+var listeIconEquip = ['1amap','2compost','3boite','007070','007075','020025','030050','024000']
+
 var zoom = { 0 :{iconSize : [5, 5],iconAnchor:[2.5, 2.5]},
              1 :{iconSize : [5, 5],iconAnchor:[2.5, 2.5]},
              2 :{iconSize : [5, 5],iconAnchor:[2.5, 2.5]},

@@ -39,7 +39,7 @@ import cgi
 import rtree
 import geoalchemy2
 
-os.chdir('C:\wamp64\www\TALL_V2') #chemin de là où sera écrit le script je dois mettre le raster dans ce dossier là
+os.chdir('C:\wamp64\www\TALL4') #chemin de là où sera écrit le script je dois mettre le raster dans ce dossier là
 
 ###Mise en place de la requête : chargement des données et demande à l'utilisateur
 
@@ -49,8 +49,8 @@ ua_gl = rasterio.open('UrbanAtlas_2012_GL_R.tif') # Chargement de l'Urban Atlas 
 ## Connexion BDD
 HOST = "localhost"
 USER = "postgres"
-PASSWORD = "cmascare"
-DATABASE = "TALL"
+PASSWORD = "Romainduris"
+DATABASE = "TALL2"
 conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
 
 ## Import des données spatiales en gdf
@@ -222,7 +222,7 @@ with rasterio.open('ua_reclass.tif') as src:
     profile['dtype'] = rasterio.float64
 ua_gl_array[numpy.where(ua_gl_array == 0)] = 0
 ua_gl_array[numpy.where(ua_gl_array >= 1)] = 1
-print("Picon?")
+# print("Picon?")
 
 # Exclusion des zones de l'UA égales à 0 (ie non constructibles) via de l'algèbre raster
 criteres_filtre = (criteres*ua_gl_array)
@@ -242,7 +242,7 @@ try:
     os.remove('result_amc.csv'.format(filename))
 except OSError:
     pass
-os.rename('criteres_filtre.xyz'.format(filename), 'result_amc.csv'.format(filename))
+os.rename('criteres_filtre.xyz'.format(filename),'result_amc.csv'.format(filename))
 
 # Du csv au gdf
 df = pandas.read_csv(
@@ -357,7 +357,7 @@ topgdf = topgdf.to_crs("EPSG:4326")
 # D'après https://gis.stackexchange.com/questions/239198/adding-geopandas-dataframe-to-postgis-table
 # CF aussi https://naysan.ca/2020/05/09/pandas-to-postgresql-using-psycopg2-bulk-insert-performance-benchmark/
 # On remplace la table existante = suppression du résultat précédent
-db_connection_url = "postgres://postgres:cmascare@localhost:5432/TALL"
+db_connection_url = "postgres://postgres:Romainduris@localhost:5432/TALL"
 engine = create_engine(db_connection_url)
 topgdf.to_postgis(
     con=engine,

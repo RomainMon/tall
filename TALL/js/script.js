@@ -38,14 +38,14 @@ var categoriesAsso = []
 for (let item of categoriesAssoHTML) {
     categoriesAsso.push(item.value)
     };
-console.log(categoriesAsso);
+// console.log(categoriesAsso);
 
 var categoriesEquipHTML = document.getElementsByClassName('liste_equip');
 var categoriesEquip = []
 for (let item of categoriesEquipHTML) {
     categoriesEquip.push(item.value)
     };
-console.log(categoriesEquip);
+// console.log(categoriesEquip);
 
 // création d'un groupe layer pour pouvoir effacer les données
 var equipements = L.layerGroup();
@@ -107,7 +107,7 @@ function majCouche(){
                 },
                 filter: function(feature,layer) {
                     for (let item of categoriesEquip) {
-                        if (feature.properties.type_equip == item) return true
+                        if (feature.properties.id_type_equip == item) return true
                         }
                     },
                 onEachFeature: function(feature, layer) {
@@ -135,7 +135,7 @@ function majCouche(){
             equipement.eachLayer(function(calque){
                 var i;
                 for(i = 0 ; i < listeIconEquip.length; i++){                            
-                    if(calque.feature.properties.type_equip == listeIconEquip[i])
+                    if(calque.feature.properties.id_type_equip == listeIconEquip[i])
                     return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
                 }                        
             });
@@ -146,7 +146,7 @@ function majCouche(){
                 equipement.eachLayer(function(calque){
                     var i;
                     for(i = 0 ; i < listeIconEquip.length; i++){                            
-                        if(calque.feature.properties.type_equip == listeIconEquip[i])
+                        if(calque.feature.properties.id_type_equip == listeIconEquip[i])
                         return calque.setIcon(zoomIcon(listeIconEquip[i],currentZoom))
                     }                        
                 });

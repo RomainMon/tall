@@ -60,7 +60,36 @@ $.ajax({
         console.log("c'est fini")
         $("#loading").hide(); // cache l'espace de chargement à la fin du process
         $("#resultat_calcul").show(); // fait apparaitre le texte de fin dans l'id resultat_calcul
+        affichageRetourScriptPy();
     }
     });
 
+};
+
+var resultats = L.layerGroup();
+
+function affichageRetourScriptPy() {
+// resultat script
+var xhttpPython = new XMLHttpRequest();
+xhttpPython.onreadystatechange = function() {
+    //lecture de la connexion au fichier php (2 variables cf. biblio)
+    if (this.readyState == 4 && this.status ==200) {
+        //récupération du résultat de la requête sql et parcours de la couche :        
+        let response = JSON.parse(xhttpPython.responseText)     
+        console.log(response)              
+        //transformation du tableau récupéré en couche geojson        
+        resultats.clearLayers();
+        var resultat = L.geoJSON(response,{
+        //application du style
+        style: myStyle,        
+        }).addTo(resultats);
+        layerControl.addOverlay(resultat, "Potentialité trouvé");        
+        resultats.addTo(map);   
+        map.fitBounds(resultat.getBounds()); //indique que les limites de la carte seront de celle de la couche resultat 
+    }
+    };
+//requête du fichier php
+xhttpPython.open("GET", "php/retour_script_python.php",true);
+//envoie de la commande au fichier
+xhttpPython.send();
 };

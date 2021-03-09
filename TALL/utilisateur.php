@@ -29,6 +29,8 @@ global $db;
 
   <!-- export pdf library -->
   <script src="html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
+  <!-- export pdf library -->
+  <script src="html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
   <!-- lien vers mon JS PDF -->
   <script src="js/pdf.js"></script>
   <!-- appel de screen shooter -->
@@ -84,20 +86,20 @@ global $db;
           <div class="tabs-left">
             <ul class="nav nav-tabs">
                 <!-- Onglet 1 = légendes, paragraphe utilisateur -->
-              <li class="active"><a href="#1" data-toggle="tab"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+              <li class="active"><a href="#1" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-eye-open"></span></a></li>
               <!-- Onglet 2 = buffer distance proche de l'uilisateur --> 
-              <li><a href="#2" data-toggle="tab"><span class="glyphicon glyphicon-tower"></span></a></li>
+              <li><a href="#2" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-tower"></span></a></li>
               <!-- Onglet 3 = itinéraire -->  
-              <li><a href="#3" data-toggle="tab"><span class="glyphicon glyphicon-road"></span></a></li>
+              <li><a href="#3" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-road"></span></a></li>
               <!-- Onglet 4 ! statistiques -->
-              <li><a href="#4" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span></a></li>
+              <li><a href="#4" data-toggle="tab"onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-stats"></span></a></li>
             </ul>
             <div class="tab-content">
-
-            <!-- Onglet 1 = légendes, paragraphe utilisateur -->
-              <div class="tab-pane active" id="1" onClick ="prefUtilisateur();">
+              
+              <!-- Onglet 1 = légendes, paragraphe utilisateur -->
+              <div class="tab-pane active" id="1" >
                   <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
-                  <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
+                  
                   <?php 
                   $q = $db->prepare("SELECT id_cate_1,id_cate_2,id_cate_3,id_cate_4,id_cate_5 FROM utilisateur WHERE id_utilisateur = :id_utilisateur ;");
                   $q->execute(['id_utilisateur'=>$_SESSION['id_utilisateur']]);
@@ -118,8 +120,7 @@ global $db;
                   La carte affiche les associations ainsi que les équipements selon les préférences que vous avez remplies lors de votre inscription.
                   Si vous souhaitez afficher les autres éléments vous pouvez cocher les case ci-dessous :<br>
                   <form id="legende_cate">
-                      <p>Les associations</p>
-                      <br>
+                      <p>Les associations</p>                      
                       <?php
                       $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
                       $q->execute();
@@ -129,15 +130,19 @@ global $db;
                       foreach($liste_cate as $value){
                           
                               if (in_array($value[0], $liste_cate_util)){
-                                  ?>
-                                  <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                                  <?php print($value[1]) ?><br>
-                              <?php
+                                ?>
+                                <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
+                                <label for = "<?php print($value[0]) ?>"></label>
+              
+                                <h6 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h6>
+                                <!-- id va être égal à 007070_2 -->
+                                <?php
                               }
                               else {
                                   ?>
                                   <input type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                                  <?php print($value[1]) ?><br>
+                                  <label for = "<?php print($value[0]) ?>"></label>
+                                  <h6 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h6>
                               <?php
                               }
                               
@@ -146,26 +151,28 @@ global $db;
                   </form>
                   </form>
                   <form id="legende_equip">
-                      <p>Les équipements</p>
-                      <br>
+                      <p>Les équipements</p>                      
                       <?php
-                      $q = $db->prepare("SELECT distinct(type_equip),id_cate FROM equipement ORDER by type_equip;");
+                      $q = $db->prepare("SELECT distinct(id_type_equip),type_equip,id_cate FROM equipement ORDER by type_equip;");
                       $q->execute();
                       //récupération du résultat de la requête dans une variable :
                       $liste_equip= $q->fetchAll();
 
                       foreach($liste_equip as $value){ 
-                          if (in_array($value[1], $_SESSION['preference'])){
+                          if (in_array($value[2], $_SESSION['preference'])){
                               ?>
+                              <!-- récupération dans une balise cachée des types d'équipements  -->
                               <p hidden class = "typequip"><?php print($value[0]) ?></p>
                               <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                              <?php print($value[0]) ?><br>
+                              <label for = "<?php print($value[0]) ?>"></label>
+                              <h6 id = "<?php print($value[0]) ?>_2"><?php print($value[0]) ?></h6>
                               <?php
                           }
                           else {
                               ?>
                               <input type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
-                              <?php print($value[0]) ?><br>
+                              <label for = "<?php print($value[0]) ?>"></label>
+                              <h6 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h6>
                           <?php
                           }
                       }
@@ -173,16 +180,16 @@ global $db;
                   </form>
               </div>
 
-            <!-- Onglet 2 = buffer distance proche de l'uilisateur -->            
-              <div class="tab-pane" id="2" onClick ="prefUtilisateur();">
+              <!-- Onglet 2 = buffer distance proche de l'uilisateur -->            
+              <div class="tab-pane" id="2" >
                 <p>Sélectionnez le temps de trajet jusqu'aux associations ou équipements </p>
-                0 <input type="range" name="rangeInput" id="rangeInput" min="0" max="5000" step="500" onchange="updateTextInput(this.value);bufferUtil(this.value);zoomAutour()"> 5 000
+                500 <input type="range" name="rangeInput" id="rangeInput" min="500" max="5000" step="500" onchange="updateTextInput(this.value);bufferUtil(this.value);zoomAutour()"> 5 000
                 <p>Distance en mètres : </p><p id="rangeText" value=""></p>
               </div>
 
               <!-- Onglet 3 = itinéraire -->  
-              <div class="tab-pane" id="3" onClick ="prefUtilisateur();">
-              <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
+              <div class="tab-pane" id="3" >
+                <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
                 <?php
                     $q = $db->prepare("
                     SELECT ad.numero, ad.rep, ad.nom_1, ad.code_post, ad.nom_com FROM vue_adresse AS ad, utilisateur AS u
@@ -206,7 +213,7 @@ global $db;
               </div>
 
               <!-- Onglet 4 ! statistiques -->  
-              <div class="tab-pane" id="4" onClick ="prefUtilisateur();">
+              <div class="tab-pane" id="4" >
                 <form id="stat">                            
                   <label for="choix_commune">Choix de la commune</label>
                   <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
@@ -239,15 +246,15 @@ global $db;
 
                   <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
 
-                  <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
+                  <button name="stat" id="btn_stat" class="btn" type="button">Envoyer le bouzin</button>
                   <!-- bouton pour télécharger en PDF le graphique -->
                   <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
-              </form>          
-              <!-- les valeurs sont récupérées dans une balise cachée  -->
-              <p hidden class ="nom_cate"></p>                        
-              <!-- définition de la balise ou sera créé le graph -->
-              <div id="suppression"> </div>
-              <canvas id="myChart" width="300" height="300"></canvas>
+                </form>          
+                <!-- les valeurs sont récupérées dans une balise cachée  -->
+                <p hidden class ="nom_cate"></p>                        
+                <!-- définition de la balise ou sera créé le graph -->
+                <div id="suppression"> </div>
+                <canvas id="myChart" width="300" height="300"></canvas>
               </div>
             </div><!-- /tab-content -->
           </div><!-- /tabbable -->
