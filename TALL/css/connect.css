@@ -59,7 +59,9 @@ a {
   border: 1px solid rgb(163, 163, 163);
   height: 30px;
   border-radius: 5px;
+  padding: 5px;  
 }
+
 a:hover {
   background-color: white;
   color: #53af57;
@@ -116,6 +118,13 @@ h2{
 /* Textes de formulaire */
 h3{
   text-transform: uppercase;
+  font-size: small;
+  font-weight: bold ;
+  color: rgb(66, 66, 66);
+}
+
+/* Renvoi d'information du formulaire */
+h4{  
   font-size: small;
   font-weight: bold ;
   color: rgb(66, 66, 66);

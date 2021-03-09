@@ -11,8 +11,7 @@ global $db;
         <title> TALL </title>
         <link rel="icon" type="image/png" href="img/logo.png" />
         <script src="leaflet/leaflet.js"></script>      
-        <link rel = "stylesheet" href="leaflet/leaflet.css" />
-        <link rel = "stylesheet" href="css/style_utilisateur.css" />
+        <link rel = "stylesheet" href="leaflet/leaflet.css" />        
         <!-- Icônes -->
 		<script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
 		<!-- Police -->
@@ -35,7 +34,7 @@ global $db;
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- appel bootstrap , appel nécessaire en début de script pour le menu horizontal -->
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
+        <link rel = "stylesheet" href="css/style_index.css" />
 
     </head>    
     <body>
@@ -62,7 +61,7 @@ global $db;
                         <span class="sr-only">(current)</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="deconnexion.php">Déconnexion</a>
+                        <a class="nav-link" href="index.php">Déconnexion</a>
                     </li>
                     <li>
                         <a class="nav-link" href="html/contact.html">Contact</a>
@@ -80,16 +79,17 @@ global $db;
             <li class="flex-item" id="flex-menu">
                 <div class="row">
                     <div class="col-md-4 col-sm-5">
+                    <div id="ensemble_onglets">
                         <div class="tabs-left">
                             <ul class="nav nav-tabs">
                                 <!-- Onglet 1 = légendes, paragraphe utilisateur -->
-                                <li class="active"><a href="#1" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                                <li class="active"><a href="#1" data-toggle="tab" onClick ="equipAssoCouche();"><img src = "img/legende.svg" alt = "logo"></a></li>
                                 <!-- Onglet 2 = buffer distance proche de l'uilisateur --> 
-                                <li><a href="#2" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-tower"></span></a></li>
-                                <!-- Onglet 3 = itinéraire -->  
-                                <li><a href="#3" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-road"></span></a></li>
+                                <li><a href="#2" data-toggle="tab" onClick ="equipAssoCouche();"><img src = "img/stat.svg" alt = "logo"></a></li>
+                                <!-- Onglet 3 = itinéraire -->
+                                <li><a href="#3" data-toggle="tab" onClick ="equipAssoCouche();"><img src = "img/amc.svg" alt = "logo"></a></li>
                                 <!-- Onglet 4 ! statistiques -->
-                                <li><a href="#4" data-toggle="tab"onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-stats"></span></a></li>
+                                <li><a href="#4" data-toggle="tab"onClick ="equipAssoCouche();"><img src = "img/autour.svg" alt = "logo"></span></a></li>
                                 
                             </ul>
                         </div>
@@ -180,7 +180,8 @@ global $db;
                                 </form>
                             </div>
                             <!-- Onglet 2 = Statistiques -->            
-                            <div class="tab-pane" id="2" >                            
+                            <div class="tab-pane" id="2" >
+                                <h3>CONNAÎTRE LE TISSU ASSOCIATIF ET LES ÉQUIPEMENTS D'UNE COMMUNE</h3>                            
                                 <form id="stat">                            
                                     <label for="choix_commune">Choix de la commune</label>
                                     <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
@@ -208,13 +209,13 @@ global $db;
                                     <select name ="choix_asso_equip" id="choix_asso_equip">
                                         <option value="" selected= "selected">Choississez un des items</option>
                                         <option value="association">Association</option>
-                                        <option selected="equipement">equipement</option>
+                                        <option selected="equipement">Équipement</option>
                                     </select><br>
 
                                     <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
-                                    <button name="stat" id="btn_stat" type="button">Envoyer le bouzin</button>
+                                    <button name="stat" class="btn" id="btn_stat" type="button">Calculer</button>
                                     
-                                    <!-- <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button> -->
+                                    <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
                                 </form>
                                 
                                 <!-- les valeurs sont récupérées dans une balise cachée  -->
@@ -225,7 +226,10 @@ global $db;
                             </div>
 
                             <!----------------onglet-03-Potentialite-------------------------->
-                            <div class="tab-pane" id="3" >                            
+                            <div class="tab-pane" id="3" >
+                                <h3>Simuler l'implantation d'un nouvel équipement</h3>
+                                <p class="explication">Cet outil vous permettra de simuler l'implantation d'un nouvel équipement de votre choix dans une commune du Grand-Lyon. La localisation est définie 
+                                    par analyse de plusieurs critères : occupation du sol, distance aux équipements existants et desserte de population</p>                            
                                 <form id="potentiel">                            
                                     <label for="choix_commune2">Choix de la commune</label>
                                     <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
@@ -271,7 +275,7 @@ global $db;
                                     </select>                            
                                     <br>
                                 <!-- bouton pour le calculateur de potientialité et la création de PDF -->
-                                <button name="stat" id="btn_potentiel" type="button">Lancer la simulation</button>
+                                <button class="btn" name="stat" id="btn_potentiel" type="button">Lancer la simulation</button>
                                 </form>
                                 <div hidden id="loading">
                                     <p>Calcul de potentialité en cours...</p>
@@ -282,13 +286,14 @@ global $db;
 
                             <!----------------onglet-04-Utilisateur-------------------------->
                             <div class="tab-pane" id="4" >
-                                    <p>Cliquez sur un point de la carte et sélectionnez un rayon en mètres pour voir les utilisateurs potentiels autour de ce point</p>
-                                    250 <input type="range" name="rangeInput" id="rangeInput" min="250" max="2500" step="250" onchange="updateTextInput(this.value);searchBenevole(this.value);"> 2 500
-                                    <p>Distance en mètres : </p><p id="rangeText" value=""></p>
-                                    <p>Nombre de particuliers intéressés par votre domaine</p>
-                                    <p id = "result_popbene"  class = "popbene"></p>                                   
+                                <h3>Identifier des particuliers intéressés par votre domaine</h3>
+                                <p class = "explication">Cliquez sur un point de la carte et sélectionnez un rayon en mètres pour voir les utilisateurs potentiels autour de ce point</p>
+                                250 <input type="range" name="rangeInput" id="rangeInput" min="250" max="2500" step="250" onchange="updateTextInput(this.value);searchBenevole(this.value);"> 2 500
+                                <p>Distance en mètres : </p><p id="rangeText" value=""></p>
+                                <!-- <p>Le nombre de bénévoles potentiels est de :</p> -->
+                                <p id = "result_popbene"  class = "popbene"></p>                                   
                             </div>
-
+                        </div>
                         </div><!-- /tab-content -->
                     </div><!-- /tabbable -->
                 </div><!-- /col -->

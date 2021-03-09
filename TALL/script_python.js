@@ -81,7 +81,7 @@ xhttpPython.onreadystatechange = function() {
         resultats.clearLayers();
         var resultat = L.geoJSON(response,{
         //application du style
-        style: myStyle,        
+        style: myStyle2,        
         }).addTo(resultats);
         layerControl.addOverlay(resultat, "Potentialité trouvé");        
         resultats.addTo(map);   

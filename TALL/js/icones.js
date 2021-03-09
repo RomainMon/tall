@@ -68,9 +68,11 @@ var bufferStyle = {
 
 //Création d'un style pour les communes
 var myStyle = {
-    "color": "#000000",
+    "color": "#A9A9A9",
     "weight": 2,
-    "opacity": 0.65
+    "opacity": 1,    
+    "fillOpacity":0.2,
+    "fillColor":"#FFFFFF"
 };
 
 //Création d'un style pour la commune zommée

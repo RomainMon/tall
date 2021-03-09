@@ -39,8 +39,7 @@
                 // vérification que l'élément formlogin a été envoyé
                 if(isset($_POST['formlogin']))
                 {
-                    extract($_POST);
-                    print($type_connexion);
+                    extract($_POST);                    
                     //Si connexion utilisateur ou association :
                     if ($type_connexion=="utilisateur"){                    
                         if(!empty($lemail) && !empty($lpassword)){
@@ -85,10 +84,17 @@
                                 };
                                 header('Location: utilisateur.php');
                             }else{
-                                echo "Le mot de passe n'est pas correct";
+                                // echo "Le mot de passe n'est pas correct";
+                                ?>
+                                <h4>Le mot de passe n'est pas correct</h4>
+                                <?php
+                                
                             }
                         }else{
-                            echo "le compte portant l'email ". $lemail." n'existe pas ! ";
+                            // echo "le compte portant l'email ". $lemail." n'existe pas ! ";
+                            ?>
+                            <h4>Email inconnu</h4>
+                            <?php
                         }
                     }
                 }
@@ -107,8 +113,11 @@
                                 console.log($hashpassword);
                                 if (password_verify($lpassword, $hashpassword)){
                                     
-                                    echo "Le mot de passe est bon, connexion en cours";
-                                    sleep(1);
+                                    // echo "Le mot de passe est bon, connexion en cours";
+                                    ?>
+                                    <h4>Le mot de passe est bon, connexion en cours</h4>
+                                    <?php
+                                    // sleep(1);
                                     // récupération d'éléments de session
                                     $_SESSION['nom_asso'] = $result['titre'];                                   
                                     $_SESSION['email'] = $result['email'];
@@ -123,15 +132,24 @@
 
                                     header('Location: association.php');
                                 }else{
-                                    echo "Le mot de passe n'est pas correct";
+                                    // echo "Le mot de passe n'est pas correct";
+                                    ?>
+                                    <h4>Le mot de passe n'est pas correct</h4>
+                                    <?php
                                     }
                                 }else{
-                                    echo "le compte portant l'email ". $lemail." n'existe pas";
+                                    // echo "le compte portant l'email ". $lemail." n'existe pas";
+                                    ?>
+                                    <h4>Email inconnu</h4>
+                                    <?php
                             }
                     }
                 }    
                 }else{
-                    echo "Veuillez complèter l'ensemble des champs";
+                    // echo "Veuillez complèter l'ensemble des champs";
+                    ?>
+                    <h4>Veuillez compléter l'ensemble des champs</h4>
+                    <?php
                 }
                 
 
@@ -141,14 +159,14 @@
                     <p>Votre e-mail : <?= $_SESSION['email']; ?></p>
                     <p>Votre date d'inscription : <?= $_SESSION['date_inscription']; ?></p>
                     <?php   } else {
-                        echo "Veuillez vous entrer l'adresse mail correspondante";
+                        // echo "Veuillez entrer l'adresse mail correspondante";
                 } ?>
 
                 <h2>Créer un compte</h2>        
                 <div class="clic">
-                    <a href ='nouvel_utilisateur.php' id="bouton" > Créer un compte utilisateur </a>
+                    <a href ='nouvel_utilisateur.php' class="bouton" >Créer un compte utilisateur</a>
                     <br>
-                    <br><a href ='nouvelle_association.php' id="bouton" > Créer un compte assocation </a>
+                    <br><a href ='nouvelle_association.php'class="bouton" >Créer un compte assocation</a>
                 </div>
             </form>
         </div>

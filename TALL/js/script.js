@@ -15,18 +15,60 @@ var map = L.map('map', {
     maxZoom: 18,
      });
 
-
+//Vue de base de la carte
 map.setView(center, 12);
+
+
+//barre d'échelle
+L.control.scale().addTo(map);
+
+//////////////////////////////////
+//   Ajout des fonds de plan   //
+////////////////////////////////
 
 //appel osm
 var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 //attribution osm
 var osmAttrib='Map data © OpenStreetMap contributors';
 //création de la couche osm
-var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
-//centrage de la carte
+// var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
+
+var Stamen_Terrain = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	subdomains: 'abcd',
+	minZoom: 0,
+	maxZoom: 18,
+	ext: 'png'
+});
+
+var GeoportailFrance_orthos = L.tileLayer('https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', {
+	attribution: '<a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>',
+	bounds: [[-75, -180], [81, 180]],
+	minZoom: 2,
+	maxZoom: 19,
+	apikey: 'choisirgeoportail',
+	format: 'image/jpeg',
+	style: 'normal'
+});
+
+var CartoDB_Voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	subdomains: 'abcd',
+	maxZoom: 19
+});
+CartoDB_Voyager.addTo(map);
 
 
+
+// création de la variable base layer que l'on rajoute au widget après
+var baseLayers = {
+    "Plan": CartoDB_Voyager, 
+    "Satellite": GeoportailFrance_orthos,
+    "Terrain": Stamen_Terrain 
+};
+
+// Ajout du layer control
+layerControl = L.control.layers(baseLayers).addTo(map);
 
 ///////////////////////////////////////////
 //   Variables en fonction de la page   //
@@ -54,8 +96,7 @@ var associations = L.layerGroup();
 var utilisateurs = L.layerGroup();
 var buffers = L.layerGroup()
     
-// Ajout du layer control
-layerControl = L.control.layers().addTo(map);
+
 
 
 communes.clearLayers();

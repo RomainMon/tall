@@ -6,98 +6,133 @@ body {
   background-color: #ffff;
 }
 
-/* .flex-container{
-  -ms-flex-direction: row;
-  flex-flow: row wrap;
-  flex-wrap: wrap;
-} */
+/*  Titre des différents menus */
+h1{
+  font-size: large;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgb(0, 0, 0);
 
+}
 
+/* Textes informatifs */
+h2{
+font-size: small;
+}
 
+/* Textes de formulaire */
+h3{
+text-align: center;
+text-transform: uppercase;
+font-size: small;
+font-weight: bold ;
+color: rgb(75,75,75);
+line-height: 1.5;
+}
+
+h6{
+  text-transform: uppercase;
+  font-size:x-small;
+  font-weight: bold ;
+  padding-left: 25px;
+  padding-bottom: 0px;
+  line-height: 1.5;
+  /* position: relative; */
+  /* padding-top: -40px; */
+  color: rgb(75, 75, 75);
+  /* vertical-align: middle; */
+}
 /* Taille du logo */
 .navbar-brand img{
   height: 30px;
 }
 
+/* partie qui contient la carte et les onglets */
+.flex-container{
+  display: flex;
+  /* background-color: aqua; */
+}
 
+/* carte leaflet */
 #map {
   height: 100%;
-    width: 100%;
-    order:2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column;
-    flex: 3 0 0;
-    z-index: 1;
-  }
+  width: 100%;
+  border-radius: 5px;
+  border :rgb(75, 75, 75);
 
+}
 
-  .tabs-left {
-    /*     margin-top: 3rem; */
-    }
-    
-    .nav-tabs {
-      float: left;
-      border-bottom: 0;
-    }
-    .nav-tabs li {
-      float: none;
-      margin: 0;
-    }
-    .nav-tabs li a {
-      margin-right: 0;
-      border: 0;
-      border-radius: 0;
-      height: 100px;
-      background-color: rgb(100, 98, 98);
-    }
-    
-    
-    .nav-tabs li a:hover {
-      background-color: #444;
-    }
-    .nav-tabs .glyphicon {
-      color: rgb(221, 221, 221);
-    }
-    .nav-tabs .active .glyphicon {
-      color: rgb(87, 146, 39);
-    }
-    
-    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-      border: 0;
-      background-color: rgb(207, 207, 207);
-    }
-    
+#flex-map{
+  padding-right: 40px;
+  width: 70%;
+  height: 600px;
+
+} 
+/* fin carte leaflet */
+
+#ensemble_onglets{
+  height: 100%;
+  width: 100%;
+  /* background-color: bisque; */
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.nav-tabs {
+  float: left;
+  border-bottom: 0;
+}
+
+.nav-tabs img{
+  height: 20px;
+  vertical-align: middle;  
+}
+
+.nav-tabs li {
+  float: none;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.nav-tabs li a {
+  margin-right: 0;
+  height: 150px;
+  background-color: rgb(207, 207, 207);
+}
+  
+.nav-tabs li a:hover {
+  background-color: rgb(231, 231, 231);
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  background-color: rgb(255, 255, 255);
+  border: 0.05rem solid;
+  border-color : #444;
+}
 
 .tab-content {
-  width: 300px;
-  margin-left: 45px;
+  margin-left: 15px;
+}
+
+.tab-pane{
+  display: flex;
+  align-items: center;
 }
 
 /* Couleur de fond des informations */
 .tab-content .tab-pane {
   display: none;
-  background-color: rgb(255, 255, 255);
-  size: 500px;
+  border: 0.05rem solid;
+  /* background-color: blueviolet; */
+  border-radius: 5px;
+  border-color: #9ED6C3;
+  width: 350px;
+  height: 100%;
   padding: 1.6rem;
-/*   overflow-y: auto; */
 }
 
 .tab-content .active {
   display: block;
-}
-
-.list-group {
-  width: 100%;
-}
-
-.list-group .list-group-item {
-  height: 50px;
-}
-
-.list-group .list-group-item h4, .list-group .list-group-item span {
-  line-height: 11px;
 }
 
 .flex-container {
@@ -124,17 +159,30 @@ body {
   padding-right: 2.5rem;
   width: 30%;
   height: 600px;
-  } 
-  
-#flex-map{
-  flex-direction: row;
-  flex-flow: row wrap;
-  flex-wrap: wrap;
-/*       background: rgb(255, 161, 20); */
-  width: 70%;
-  height: 600px;
-} 
+  }
 
+/* slide bar */
+input [type = "range"]{
+  width : 80%
+}
+
+/* texte explicatif justifié*/
+.explication{
+  text-align: justify
+}
+
+
+/* liste de sélection */
+select{
+  width: 100%;
+  padding: 8px 8px;
+  margin: 10px 0px;    
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  color: rgb(121, 121, 121);
+  border-radius : 5px;     
+}
 
 /* bouton PDF
  /* Style buttons */
@@ -142,10 +190,11 @@ body {
   background-color: #9ED6C3;
   border-radius: 5px;
   border: none;
-  color: white;
-  padding: 12px 30px;
+  color: rgb(255, 255, 255);
+  padding: 12px 12px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 15px;
+  margin: 20px;
 }
 
 .btn:hover {
@@ -164,91 +213,81 @@ body {
   
   
   
-  input[type = checkbox] {
-      display: none;
-  }
+.row [type = checkbox] {
+  display: none;
+}
   
-  input + label {
-      font-size: 1.2rem;
-      width: 2rem;
-      height: 2rem;
-      display: flex;
-      position: absolute;
-      vertical-align: middle;
-      /* padding-top: 20px; */
-      justify-content: center;
-      align-items: center;
-      border: .1rem solid var(--fond);
-      border-radius: 50%;
-      background: var(--fond);
-      /* padding-top: var(--top); */
-      transition: .1s all;
-      cursor: pointer;
-      z-index: 999 !important;
-  }
-  
-  
-  h6{
-    text-transform: uppercase;
-    font-size:xx-small;
-    font-weight: bold ;
-    padding-left: 25px;
-    padding-bottom: 0px;
-    /* position: relative; */
-    /* padding-top: -40px; */
-    color: rgb(75, 75, 75);
+input + label {
+    font-size: 1.2rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    position: absolute;
+    vertical-align: middle;
+    /* padding-top: 20px; */
+    justify-content: center;
+    align-items: center;
+    border: .1rem solid var(--fond);
+    border-radius: 50%;
+    background: var(--fond);
+    /* padding-top: var(--top); */
+    transition: .1s all;
+    cursor: pointer;
+    z-index: 999 !important;
+}
+
+
+
+
+input + label:hover {
+    transform: scale(.95);
+}
+
+/* input + label:after {
+    content: ".";
+    padding-top: 20px;
+} */
+
+input:checked + label {
+    background: var(--fond);
+    transform: scale(1.1);
     /* vertical-align: middle; */
+    /* padding-top: var(--top); */
+}
+
+input:checked + label:hover {
+    background: var(--fond);
+    transform: scale(1.05);
+    /* vertical-align: middle; */
+    /* padding-top: var(--top); */
+}
+
+
+/* Ajout des picto checkbox in */
+input[id="007070"]:checked + label:after {
+    content: url('../img/007070.png');
+    transform: scale(0.09);
+}
+
+input[id="007075"]:checked + label:after {
+    content: url('../img/007075.png');
+    transform: scale(0.09);
     }
-  
-  input + label:hover {
-      transform: scale(.95);
-  }
-  
-  /* input + label:after {
-      content: ".";
-      padding-top: 20px;
-  } */
-  
-  input:checked + label {
-      background: var(--fond);
-      transform: scale(1.1);
-      /* vertical-align: middle; */
-      /* padding-top: var(--top); */
-  }
-  
-  input:checked + label:hover {
-      background: var(--fond);
-      transform: scale(1.05);
-      /* vertical-align: middle; */
-      /* padding-top: var(--top); */
-  }
-  
-  
-  /* Ajout des picto checkbox in */
-  input[id="007070"]:checked + label:after {
-      content: url('../img/007070.png');
-      transform: scale(0.09);
-  }
-  
-  input[id="007075"]:checked + label:after {
-      content: url('../img/007075.png');
-      transform: scale(0.09);
-      }
-  
-  input[id="020025"]:checked + label:after {
-      content: url('../img/020025.png');
-      transform: scale(0.09);
-      }  
-  
-  input[id="024000"]:checked + label:after {
-      content: url('../img/024000.png');
-      transform: scale(0.09);
-      }
-      
-  input[id="030050"]:checked + label:after {
-      content: url('../img/030050.png');
-      transform: scale(0.09);
-      }  
+
+input[id="020025"]:checked + label:after {
+    content: url('../img/020025.png');
+    transform: scale(0.09);
+    }  
+
+input[id="024000"]:checked + label:after {
+    content: url('../img/024000.png');
+    transform: scale(0.09);
+    }
+    
+input[id="030050"]:checked + label:after {
+    content: url('../img/030050.png');
+    transform: scale(0.09);
+    }  
       
       
 input[id="1amap"]:checked + label:after {
@@ -270,3 +309,5 @@ input[id="equipAsso"]:checked + label:after {
   content: url('../img/equipAsso.png');
   transform: scale(0.09);
   }
+
+

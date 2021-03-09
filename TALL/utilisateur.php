@@ -10,8 +10,7 @@ global $db;
   <meta charset="UTF-8">
   <title>TALL</title>
   <script src="leaflet/leaflet.js"></script>      
-  <link rel = "stylesheet" href="leaflet/leaflet.css" />
-  <link rel="stylesheet" href="css/style_utilisateur.css">
+  <link rel = "stylesheet" href="leaflet/leaflet.css" />  
     <!-- Icônes -->
     <script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
     <!-- Police -->
@@ -25,8 +24,7 @@ global $db;
   <!-- appel de chart.js -->
   <script src="js/package/dist/Chart.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-  <link href="//bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet">
-
+  <link href="//bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet">  
   <!-- export pdf library -->
   <script src="html2pdf.js-master/dist/html2pdf.bundle.min.js"></script>
   <!-- export pdf library -->
@@ -39,6 +37,7 @@ global $db;
   <script src='js/screen_shot.js'></script>
   <!-- ajout d'une library d'icon -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/style_utilisateur.css">
 
 </head>
 <body>
@@ -64,7 +63,7 @@ global $db;
           <span class="sr-only">(current)</span></a>
           </li>
           <li>
-          <a class="nav-link" href="deconnexion.php">Déconnexion</a>
+          <a class="nav-link" href="index.php">Déconnexion</a>
           </li>
           <li>
           <a class="nav-link" href="info.html">Contact</a>
@@ -84,16 +83,17 @@ global $db;
       <div class="row">
         <div class="col-md-4 col-sm-5">
           <div class="tabs-left">
-            <ul class="nav nav-tabs">
-                <!-- Onglet 1 = légendes, paragraphe utilisateur -->
-              <li class="active"><a href="#1" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-eye-open"></span></a></li>
-              <!-- Onglet 2 = buffer distance proche de l'uilisateur --> 
-              <li><a href="#2" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-tower"></span></a></li>
-              <!-- Onglet 3 = itinéraire -->  
-              <li><a href="#3" data-toggle="tab" onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-road"></span></a></li>
-              <!-- Onglet 4 ! statistiques -->
-              <li><a href="#4" data-toggle="tab"onClick ="prefUtilisateur();"><span class="glyphicon glyphicon-stats"></span></a></li>
-            </ul>
+            <div id="ensemble_onglets">
+              <ul class="nav nav-tabs">
+                  <!-- Onglet 1 = légendes, paragraphe utilisateur -->
+                <li class="active"><a href="#1" data-toggle="tab" onClick ="prefUtilisateur();"><img src = "img/legende.svg" alt = "logo"></a></li>
+                <!-- Onglet 2 = buffer distance proche de l'uilisateur --> 
+                <li><a href="#2" data-toggle="tab" onClick ="prefUtilisateur();"><img src = "img/autour.svg" alt = "logo"></a></li>
+                <!-- Onglet 3 = itinéraire -->  
+                <li><a href="#3" data-toggle="tab" onClick ="prefUtilisateur();"><img src = "img/itineraire.svg" alt = "logo"></a></li>
+                <!-- Onglet 4 ! statistiques -->
+                <li><a href="#4" data-toggle="tab" onClick ="prefUtilisateur();"><img src = "img/stat.svg" alt = "logo"></a></li>
+              </ul>
             <div class="tab-content">
               
               <!-- Onglet 1 = légendes, paragraphe utilisateur -->
@@ -116,9 +116,9 @@ global $db;
                   ?>
 
                   <p hidden id="id_utilisateur"><?= $_SESSION['id_utilisateur']; ?></p>
-                  <p>Bonjour, <?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></p>
-                  La carte affiche les associations ainsi que les équipements selon les préférences que vous avez remplies lors de votre inscription.
-                  Si vous souhaitez afficher les autres éléments vous pouvez cocher les case ci-dessous :<br>
+                  <h3>Bonjour, <?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>
+                  <p class="explication">La carte affiche les associations ainsi que les équipements selon les préférences que vous avez remplies lors de votre inscription.
+                  Si vous souhaitez afficher les autres éléments vous pouvez cocher les case ci-dessous :</p><br>
                   <form id="legende_cate">
                       <p>Les associations</p>                      
                       <?php
@@ -165,7 +165,7 @@ global $db;
                               <p hidden class = "typequip"><?php print($value[0]) ?></p>
                               <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
                               <label for = "<?php print($value[0]) ?>"></label>
-                              <h6 id = "<?php print($value[0]) ?>_2"><?php print($value[0]) ?></h6>
+                              <h6 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h6>
                               <?php
                           }
                           else {
@@ -182,14 +182,16 @@ global $db;
 
               <!-- Onglet 2 = buffer distance proche de l'uilisateur -->            
               <div class="tab-pane" id="2" >
-                <p>Sélectionnez le temps de trajet jusqu'aux associations ou équipements </p>
-                500 <input type="range" name="rangeInput" id="rangeInput" min="500" max="5000" step="500" onchange="updateTextInput(this.value);bufferUtil(this.value);zoomAutour()"> 5 000
+                <h3>CONNAÎTRE LES STRUCTURES PRES DE CHEZ MOI</h3>
+                200 <input type="range" name="rangeInput" id="rangeInput" min="200" max="5000" step="200" onchange="updateTextInput(this.value);bufferUtil(this.value);zoomAutour()"> 5 000
                 <p>Distance en mètres : </p><p id="rangeText" value=""></p>
               </div>
 
               <!-- Onglet 3 = itinéraire -->  
               <div class="tab-pane" id="3" >
                 <!-- récupération dans une balise cachée des éléments de session pour les catégories d'association et l'id utilisateur  -->
+                <h3>CALCULER UN ITINÉRAIRE</h3>
+
                 <?php
                     $q = $db->prepare("
                     SELECT ad.numero, ad.rep, ad.nom_1, ad.code_post, ad.nom_com FROM vue_adresse AS ad, utilisateur AS u
@@ -206,14 +208,15 @@ global $db;
                     <?php
                     }
                 ?>
-                <span>Calculs d'itinéraire le plus court</span>
-                <p>Cliquer sur un point d'association ou d'équipement sur la carte puis sur le bouton ci-dessous</p>
-                <button id="itineraire_button" onClick="itineraireDisplay()">Lancer le calcul</button>                                            
+                
+                <p class="explication">Pour connaître l'itinéraire vers une association ou un équipement, cliquez à proximité de l'icône puis appuyez sur le bouton ci-dessous</p>
+                <button id="itineraire_button" class="btn" onClick="itineraireDisplay()">Calculer</button>                                            
                 <p id="test_iti" class = "poulpy"></p>
               </div>
 
               <!-- Onglet 4 ! statistiques -->  
               <div class="tab-pane" id="4" >
+                <h3>CONNAÎTRE LE TISSU ASSOCIATIF ET LES ÉQUIPEMENTS D'UNE COMMUNE</h3>
                 <form id="stat">                            
                   <label for="choix_commune">Choix de la commune</label>
                   <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
@@ -246,7 +249,7 @@ global $db;
 
                   <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
 
-                  <button name="stat" id="btn_stat" class="btn" type="button">Envoyer le bouzin</button>
+                  <button name="stat" id="btn_stat" class="btn" type="button">Calculer</button>
                   <!-- bouton pour télécharger en PDF le graphique -->
                   <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
                 </form>          
@@ -256,6 +259,7 @@ global $db;
                 <div id="suppression"> </div>
                 <canvas id="myChart" width="300" height="300"></canvas>
               </div>
+            </div>
             </div><!-- /tab-content -->
           </div><!-- /tabbable -->
         </div><!-- /col -->

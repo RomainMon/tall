@@ -29,7 +29,7 @@ ob_start();
             <form method="post" id="container">
             <h2>Création de votre compte</h2>            
                 <h4>Sélectionner votre association</h4>
-                    <select name ="choix_asso" id="choix_asso">
+                    <select name ="choix_asso" id="choix_asso" required>
                         <option selected="selected">Sélectionner une valeur</option>
                         <?php
                         $q = $db->prepare("SELECT titre,id_asso FROM association ORDER by titre;");
@@ -106,10 +106,19 @@ ob_start();
                                 echo "Cette association possède déjà un compte";
                             }
 
+                        }else{
+                            // echo "les champs ne sont pas tous remplis";
+                            ?>                            
+                            <h4>Les mots de passe sont différents</h4>
+                            <?php                        
                         }
-                    }else{
-                        echo "les champs ne sont pas tous remplis";
                     }
+                    else{
+                        // echo "les champs ne sont pas tous remplis";
+                        ?>                        
+                        <h4>les champs ne sont pas tous remplis</h4>
+                        <?php 
+                    } 
                     
                 }
             ?>

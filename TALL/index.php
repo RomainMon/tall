@@ -29,32 +29,32 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"><img src = "img/logo.svg" alt = "logo"></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#"><img src = "img/logo.svg" alt = "logo"></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                <a class="nav-link" href="#">Accueil
-                <span class="sr-only">(current)</span></a>
-                </li>
-                <li>
-                <a class="nav-link" href="Connexion.php">Connexion</a>
-                </li>
-                <li>
-                <a class="nav-link" href="html/contact.html">Contact</a>
-                </li>
+              <ul class="nav navbar-nav navbar-right">
+                  <li>
+                  <a class="nav-link" href="#">Accueil
+                  <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li>
+                  <a class="nav-link" href="Connexion.php">Connexion</a>
+                  </li>
+                  <li>
+                  <a class="nav-link" href="html/contact.html">Contact</a>
+                  </li>
 
-                </li>
-            </ul>
+                  </li>
+              </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
@@ -64,22 +64,23 @@
     <div class="row">
       <div class="col-md-4 col-sm-5">
         <div class="tabs-left">
+        <div id="ensemble_onglets">
           <ul class="nav nav-tabs">
               <!-- Onglet 1 = légendes, paragraphe utilisateur -->
-            <li class="active"><a href="#1" data-toggle="tab"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+            <li class="active"><a href="#1" data-toggle="tab"><img src = "img/legende.svg" alt = "logo"></a></li>
             <!-- Onglet 2 = buffer distance proche de l'uilisateur --> 
-            <li><a href="#2" data-toggle="tab"><span class="glyphicon glyphicon-tower"></span></a></li>
+            <li><a href="#2" data-toggle="tab"><img src = "img/autour.svg" alt = "logo"></a></li>
             <!-- Onglet 3 = itinéraire -->  
-            <li><a href="#3" data-toggle="tab"><span class="glyphicon glyphicon-road"></span></a></li>
+            <li><a href="#3" data-toggle="tab"><img src = "img/itineraire.svg" alt = "logo"></a></li>
             <!-- Onglet 4 ! statistiques -->
-            <li><a href="#4" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span></a></li>
+            <li><a href="#4" data-toggle="tab"><img src = "img/stat.svg" alt = "logo"></span></a></li>
           </ul>
           <div class="tab-content">
 
-    <!-- Onglet 1 = légendes, paragraphe utilisateur -->
+      <!-- Onglet 1 = légendes, paragraphe utilisateur -->
       <div class="tab-pane active" id="1">
           <form id="legende_asso">
-              <p>Les associations</p>
+              <h3>Les associations</h3>
               <?php
               $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
               $q->execute();
@@ -91,14 +92,14 @@
                   <input checked="checked" type="checkbox" class="liste_cate" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
                   <label for = "<?php print($value[0]) ?>"></label>
 
-                  <h3 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h3>
+                  <h6 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h6>
                   <!-- id va être égal à 007070_2 -->
                   <?php
                   }
                   ?>
           </form>
           <form id="legende_equip">
-              <p>Les équipements</p>
+              <h3>Les équipements</h3>
               
               <?php
               $q = $db->prepare("SELECT distinct(id_type_equip),type_equip FROM equipement ORDER by type_equip;");
@@ -110,7 +111,7 @@
                   ?>
                   <input checked="checked" type="checkbox" class="liste_equip" name="<?php print($value[0]) ?>" id="<?php print($value[0]) ?>" value =<?php print($value[0]) ?>> 
                   <label for = "<?php print($value[0]) ?>"></label>
-                  <h3 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h3>
+                  <h6 id = "<?php print($value[0]) ?>_2"><?php print($value[1]) ?></h6>
                   <?php
                   }
                   ?>
@@ -118,17 +119,18 @@
 
           <!-- Onglet 2 = buffer distance proche de l'uilisateur -->            
             <div class="tab-pane" id="2">
-               <p>Connectez vous pour en savoir plus sur les associations proches de chez vous ! </p>
+               <p>Connectez vous pour en savoir plus sur les associations et les équipements proches de chez vous ! </p>
             </div>
 
             <!-- Onglet 3 = itinéraire -->  
             <div class="tab-pane" id="3">
-            <p>Connectez vous pour connaître l'itinéraire vous menant à une association choisie ! </p>                
+            <p>Connectez vous pour connaître l'itinéraire vous menant à une association ou un équipement choisi ! </p>                
             </div>
 
             <!-- Onglet 4 ! statistiques -->  
             <div class="tab-pane" id="4">
-            <p>Connectez vous pour en savoir plus sur les associations présentes dans votre quartier ! </p>
+            <p>Connectez vous pour en savoir plus sur les associations et les équipements présents dans votre quartier ! </p>
+            </div>
             </div>
           </div><!-- /tab-content -->
         </div><!-- /tabbable -->

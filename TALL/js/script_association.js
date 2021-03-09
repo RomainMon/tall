@@ -15,16 +15,60 @@ var map = L.map('map', {
     maxZoom: 18,
      });
 
-
+//Vue de base de la carte
 map.setView(center, 12);
+
+
+//barre d'échelle
+L.control.scale().addTo(map);
+
+//////////////////////////////////
+//   Ajout des fonds de plan   //
+////////////////////////////////
 
 //appel osm
 var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 //attribution osm
 var osmAttrib='Map data © OpenStreetMap contributors';
 //création de la couche osm
-var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
-//centrage de la carte
+// var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib}).addTo(map);
+
+var Stamen_Terrain = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	subdomains: 'abcd',
+	minZoom: 0,
+	maxZoom: 18,
+	ext: 'png'
+});
+
+var GeoportailFrance_orthos = L.tileLayer('https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', {
+	attribution: '<a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>',
+	bounds: [[-75, -180], [81, 180]],
+	minZoom: 2,
+	maxZoom: 19,
+	apikey: 'choisirgeoportail',
+	format: 'image/jpeg',
+	style: 'normal'
+});
+
+var CartoDB_Voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	subdomains: 'abcd',
+	maxZoom: 19
+});
+CartoDB_Voyager.addTo(map);
+
+
+
+// création de la variable base layer que l'on rajoute au widget après
+var baseLayers = {
+    "Plan": CartoDB_Voyager, 
+    "Satellite": GeoportailFrance_orthos,
+    "Terrain": Stamen_Terrain 
+};
+
+// Ajout du layer control
+layerControl = L.control.layers(baseLayers).addTo(map);
 
 ///////////////////////////////////////////
 //   Variables en fonction de la page   //
@@ -50,12 +94,9 @@ var communes = L.layerGroup();
 var associations = L.layerGroup();
 var utilisateurs = L.layerGroup();
 var buffers = L.layerGroup();
+var communesZoom = L.layerGroup();
 // Création d'un layer groupe équipements asso
 var equipementsAsso =L.layerGroup();
-
-// Ajout du layer control
-layerControl = L.control.layers().addTo(map);
-
 
 /////////////////////////
 //   Couche Commune   //
@@ -81,13 +122,21 @@ xhttp.open("GET", "php/commune.php",true);
 //envoie de la commande au fichier
 xhttp.send();
 
+/////////////////////////////////////////////////////////////////////////////
+//   Fonction au démarrage de l'application et quand on change d'onglet   //
+///////////////////////////////////////////////////////////////////////////
+
+function equipAssoCouche(){
+
+// Supression des couches des communes et buffers
+communesZoom.clearLayers();
+buffers.clearLayers();
+
 /////////////////////////////////////////////////////////////////
 //   Couche Equipement filtrée sur les équipements de l'asso  //
 ///////////////////////////////////////////////////////////////
 
 //Appel de la couche equipement
-
-function equipAssoCouche(){
 var xhttp2 = new XMLHttpRequest();
 //lecture de la connexion au fichier php (2 variables cf. biblio)
 xhttp2.onreadystatechange = function() {
@@ -147,6 +196,53 @@ xhttp2.onreadystatechange = function() {
     };
 xhttp2.open("GET", "php/equipement.php",true);
 xhttp2.send();
+
+////////////////////////////////////////////////////////////////////
+//    Couche Association Filtrée avec le seul point de l'asso    //
+//////////////////////////////////////////////////////////////////
+
+// création d'un groupe layer pour pouvoir effacer les données
+var associationFiltre = L.layerGroup()
+// fonction d'appel de la couche en filtrant sur les paramètres utilisateurs
+
+//Appel de la couche association
+var xhttp4 = new XMLHttpRequest();
+//lecture de la connexion au fichier php (2 variables cf. biblio)
+xhttp4.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status ==200) {
+        //récupération du résultat de la requête sql et parcours de la couche :
+        let response = JSON.parse(xhttp4.responseText)
+        //appel de la couche
+        var association = L.geoJSON(response, {
+            //application du style
+            pointToLayer : utilisateurStile,
+            //application du filtre
+            filter: function(feature,layer) {
+                if (feature.properties.id_asso == id_asso) return true
+            },
+            //appel de popup
+            onEachFeature: function(feature, layer) {
+                var popup_content = ""
+                popup_content += '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
+                "<br>Nom : " + feature.properties.titre+
+                "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
+                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
+                "<br>Objet : " + feature.properties.objet
+                // les données suivantes ne sont ajoutées que si elles existent elle ne sont pas nulle ou = #N/A
+                if (feature.properties.siteweb != '#N/A'){
+                    popup_content +=  "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">'+feature.properties.siteweb+'</a>'}
+                if (feature.properties.courriel){
+                    popup_content += "<br>Mail : " + feature.properties.courriel}                                 
+                layer.bindPopup(popup_content)
+            }
+        }).addTo(associationFiltre)
+        associationFiltre.addTo(map)
+        // map.setView(association.getBounds().getCenter(), 14);           
+    }
+    };
+xhttp4.open("GET", "php/association.php",true);
+xhttp4.send();
+
 }
 
 equipAssoCouche();
@@ -223,52 +319,6 @@ $('#choix_equipement').change(function(){
     xhttp2.open("GET", "php/equipement.php",true);
     xhttp2.send();
 });
-
-////////////////////////////////////////////////////////////////////
-//    Couche Association Filtrée avec le seul point de l'asso    //
-//////////////////////////////////////////////////////////////////
-
-// création d'un groupe layer pour pouvoir effacer les données
-var associationFiltre = L.layerGroup()
-// fonction d'appel de la couche en filtrant sur les paramètres utilisateurs
-
-//Appel de la couche association
-var xhttp4 = new XMLHttpRequest();
-//lecture de la connexion au fichier php (2 variables cf. biblio)
-xhttp4.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status ==200) {
-        //récupération du résultat de la requête sql et parcours de la couche :
-        let response = JSON.parse(xhttp4.responseText)
-        //appel de la couche
-        var association = L.geoJSON(response, {
-            //application du style
-            pointToLayer : utilisateurStile,
-            //application du filtre
-            filter: function(feature,layer) {
-                if (feature.properties.id_asso == id_asso) return true
-            },
-            //appel de popup
-            onEachFeature: function(feature, layer) {
-                var popup_content = ""
-                popup_content += '<b>' + "Type : "+ feature.properties.nom_cate + '</b>' + // le <b> permet de mettre en gras
-                "<br>Nom : " + feature.properties.titre+
-                "<br>Adresse : "+ feature.properties.adrs_numvo + " " + feature.properties.adrs_typev + " " + feature.properties.adrs_libvo +
-                "<br>Commune : " +feature.properties.code_post + " " + feature.properties.nom_com +
-                "<br>Objet : " + feature.properties.objet
-                // les données suivantes ne sont ajoutées que si elles existent elle ne sont pas nulle ou = #N/A
-                if (feature.properties.siteweb != '#N/A'){
-                    popup_content +=  "<br>"+'<a href="' + feature.properties.siteweb + '" target="_blank">'+feature.properties.siteweb+'</a>'}
-                if (feature.properties.courriel){
-                    popup_content += "<br>Mail : " + feature.properties.courriel}                                 
-                layer.bindPopup(popup_content)
-            }
-        }).addTo(associationFiltre)
-        associationFiltre.addTo(map)
-        // map.setView(association.getBounds().getCenter(), 14);           
-    }
-    };
-xhttp4.open("GET", "php/association.php",true);
-xhttp4.send();
 
 
 //////////////////////////////////////
@@ -440,7 +490,7 @@ $('#legende_asso :checkbox').change(function(){
         }}
     
     console.log(categoriesAsso);
-    map.setView([45.761833, 4.833546], 10);
+    
 majCouche();
 });
 
@@ -458,13 +508,9 @@ $('#legende_equip :checkbox').change(function(){
         }}
     
     console.log(categoriesEquip);
-    map.setView([45.761833, 4.833546], 10);
+    
 majCouche();
 });
-
-
-
-
 
 /////////////////////////////////////////////////////////////
 //   Fonction Zoom sur la commune pour les statistiques   //

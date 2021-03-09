@@ -45,7 +45,7 @@ ob_start();
                 <!-- Commune -->
                 </div>
                 <div id = "adresse">               
-                    <select name ="choix_commune" id="choix_commune">
+                    <select name ="choix_commune" id="choix_commune" required>
                         <option selected="selected">Commune</option>
                         <?php
                         $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
@@ -65,12 +65,12 @@ ob_start();
                     </select>
                     <br>
                     <!-- adresse -->
-                    <select name ="choix_adresse" id="choix_adresse">
+                    <select name ="choix_adresse" id="choix_adresse" required>
                         <option selected="selected">Rue</option>                    
                     <br>
                     </select>
                     <!-- numero -->
-                    <select name ="choix_numero" id="choix_numero">
+                    <select name ="choix_numero" id="choix_numero" required>
                         <option selected="selected">Numero</option>                    
                     <br>
                     </select>
@@ -167,7 +167,7 @@ ob_start();
                     }
 
                     if (!empty($password) && !empty($cpassword) && !empty($email)){
-                        // vérification que le mdp corresponde en à la confirmation du mdp
+                        // vérification que le mdp corresponde à la confirmation du mdp
                         if($password == $cpassword){
                             // cryptage des mots de passe
                             $options = [
@@ -218,27 +218,28 @@ ob_start();
                                     'id_asso' => $choix_asso,
                                     'id_adresse'=> $adresse[0],
                                     'geom' => $adresse[1]                                    
-                                ]);
-                                //affichage d'un message pour dire que le compte a été créé
-                                //echo "Le compte a été créée";
-                                // $message='Le compte a été créé';                                
-                                // echo '<script>alert("Le compte a été créé") ; </script>';                                
-                                // Récupération des données de la session
-                                // $_SESSION['nom'] = $nom;
-                                // $_SESSION['prenom'] = $prenom;
-                                // $_SESSION['email'] = $email;
-                                // sleep(1);
+                                ]);                                
                                 //Renvoi vers la page utilisateur :
                                 header('Location: connexion.php',TRUE);
                             }else{
-                                echo "Cet email existe déjà";
+                                // echo "Cet email existe déjà";
+                                ?>
+                                <h4>Cet email existe déjà</h4>
+                                <?php
                             }
-
+                        }else{
+                            // echo "les champs ne sont pas tous remplis";
+                            ?>                            
+                            <h4>Les mots de passe sont différents</h4>
+                            <?php                        
                         }
-                    }else{
-                        echo "les champs ne sont pas tous remplis";
                     }
-                    
+                    else{
+                        // echo "les champs ne sont pas tous remplis";
+                        ?>                        
+                        <h4>les champs ne sont pas tous remplis</h4>
+                        <?php 
+                    }                
                 }
             ?>
         </div>

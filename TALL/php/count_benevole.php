@@ -37,8 +37,6 @@ $percent = round(($resultBene[0]/$poparrondi) * 100,2) . " %";
 
 
 ?>
-<p class = "popbene">Le nombre de potentiels bénévoles est : <?php print($resultBene[0]) ?> </p>
-<p class = "popbene">La population totale est de : <?php print($poparrondi) ?> </p>
-<p class = "popbene">Soit un pourcentage de : <?php print($percent) ?> </p>
+<p class = "popbene">Le nombre de particuliers intéressés par votre domaine est de : <?php print($resultBene[0]) ?> </p>
 <?php
 ?>

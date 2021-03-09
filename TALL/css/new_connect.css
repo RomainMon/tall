@@ -161,9 +161,9 @@ h1{
       transform: scale(.95);
     }
     
-    input + label:after {
+    /* input + label:after {
       content: ".";
-    }
+    } */
     
     input:checked + label {
       background: var(--blue);

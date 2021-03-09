@@ -290,7 +290,7 @@ input + label {
   font-size: 1.2rem;
   width: 2rem;
   height: 2rem;
-  display: flex;
+  display: flex;  
   justify-content: center;
   align-items: center;
   border: .1rem solid var(--blue);
@@ -305,9 +305,9 @@ input + label:hover {
   transform: scale(.95);
 }
 
-input + label:after {
+/* input + label:after {
   content: ".";
-}
+} */
 
 input:checked + label {
   background: var(--blue);

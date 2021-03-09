@@ -186,7 +186,7 @@
                 <div id = "adresse">   
                     <h5>Commune</h5>            
                     <select name ="choix_commune" id="choix_commune">
-                        <option selected="selected" value=<?php $nom_com; ?>><?= $nom_com; ?></option>
+                        <option selected="selected" value="<?php =$nom_com); ?>"><?= $nom_com; ?></option>
                         <?php
                         $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
                         $q->execute();                    
