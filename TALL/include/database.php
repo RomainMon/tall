@@ -1,7 +1,7 @@
 <?php
 // paramètrage de la connexion vers la DB
     $host = 'localhost';
-    $dbname = 'TALL';
+    $dbname = 'TALL2';
     $username = 'postgres';
     $password = 'Romainduris';
     $port = '5432';
