@@ -49,8 +49,8 @@ var zoom = { 0 :{iconSize : [5, 5],iconAnchor:[2.5, 2.5]},
 function utilisateurStile(feature, latlng) {    
     var utilisateurIcon = new L.icon({
         iconUrl: 'img/utilisateur.png',//Chemin de l'image 
-        iconSize:     [25, 25], // Taille de l'icone
-        iconAnchor:   [12.5, 12.5], // Point d'insertion de l'icone
+        iconSize:     [20, 25], // Taille de l'icone
+        iconAnchor:   [10, 25], // Point d'insertion de l'icone
         popupAnchor:  [-3, -15], // Point d'insertion de la popup
         shadowAnchor: [15,30], //Point d'insertion de l'image d'ombre
         shadowUrl: 'img/marker-shadow.png'//Chemin de l'image d'ombre

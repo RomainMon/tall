@@ -6,7 +6,8 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Profil User</title>
+    <title>TALL</title>
+  <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>   
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- appel de l'api google jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -34,20 +35,21 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="utilisateur.php">Accueil
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="deconnexion.php">Déconnexion</a>
+                        <a class="nav-link active" href="#">Profil</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="info.html">Contact</a>
+                        <a class="nav-link" href="accueil.php">Déconnexion</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">Profil</a>
+                        <a class="nav-link" href="html/contact_utilisateur.html">Contact</a>
                     </li>
+
                 </ul>
             </div>    
         </div>
@@ -61,7 +63,7 @@
     global $db;
     ?> 
 <!-- Menu profil -->
-
+<div id = "ensemble_des_fenêtres">
 <div id="tabs-container">   
             
             <ul class="tabs-menu">
@@ -80,8 +82,9 @@
 <!-- TAB 1 Mon profil -->
 
     <div id="tab-1" class="tab-content current">
-            <h1>Mon profil <br></h1>
-            <p><br><?= $_SESSION['nom']; ?> <?= $_SESSION['prenom']; ?></p>
+        <div id="informations_profil">
+            <h1 class="titre_onglet">Mon profil</h1>
+            <p><?= $_SESSION['nom']; ?> <?= $_SESSION['prenom']; ?></p>
             <p><?= $_SESSION['email']; ?></p>
             <p><?= $_SESSION['telephone']; ?></p>
             <?php
@@ -123,7 +126,7 @@
             foreach($association_user as $value_asso){
                 // var_dump($value_asso);
             ?>
-            <p>Je suis membre de l'association <?php if (isset($value_asso['titre'])){echo$value_asso['titre'];} ?></p>
+            <p><h3><b>Je suis membre de l'association : </b></h3><?php if (isset($value_asso['titre'])){echo$value_asso['titre'];} ?></p>
             <?php
             }
             ?>
@@ -151,7 +154,7 @@
             //récupération du résultat de la requête dans une variable : en utilisant la fonction retour_cate
             $cate_user= $q->fetchAll(PDO::FETCH_FUNC, "retour_cate");
             ?>
-                <h3>Préférences sélectionnées : </h3>
+                <h3><b>Préférences choisies : </b></h3>
             <?php
 
             foreach($cate_user as $value_cate){
@@ -160,6 +163,7 @@
             <?php
             }
             ?>
+        </div>
     </div>
 
 <!-- TAB 2 Mes informations -->
@@ -168,25 +172,30 @@
             <!-- création du formulaire d'inscription -->
             <!-- la method dans form définit la méthode d'envoie du formulaire. post : envoie les données d'une page à l'autre (méthode recommandé). get : envoie les infos par URL. -->
         <div id="container">
-        <form method="post" id="container">
-            <h1>Mes informations</h1>
+        <form method="post">
+            <h1 class="titre_onglet">Mes informations</h1>
             <h2> N'hésitez pas à modifier vos coordonnées ci-dessous pour que votre compte TALL soit parfaitement à jour.</h2>
             <div id="civilite"> 
-                    <h4>Vos coordonnées</h4>
+                    <h3><b>Vos coordonnées</b></h3>
+                    <h3>Nom</h3>
                     <!-- le type text pour le nom d'utilisateur -->
                     <input type="text" name="nom" id="nom" value=<?= $_SESSION['nom']; ?> required>
                     <!-- le type text pour le prénom d'utilisateur -->
+                    <h3>Prénom</h3>
                     <input type="text" name="prenom" id="prenom" value=<?= $_SESSION['prenom']; ?> required>
                     <!-- le type email contraint l'utilisateur d'insérer un text avec un @ dedans -->
+                    <h3>Courriel</h3>
                     <input type="email" name="email" id="email" value=<?= $_SESSION['email']; ?> required>
                     <!-- numéro de téléphone -->
+                    <h3>Numéro de téléphone</h3>
                     <input type="tel" name="telephone" id="telephone" value=<?= $_SESSION['telephone']; ?>><br>
                 <!-- Commune -->
-                </div>
-                <div id = "adresse">   
-                    <h5>Commune</h5>            
+            </div>
+            <div id = "adresse">
+                <h3><b>Adresse</b></h3>   
+                    <h3>Commune</h3>            
                     <select name ="choix_commune" id="choix_commune">
-                        <option selected="selected" value="<?php =$nom_com); ?>"><?= $nom_com; ?></option>
+                        <option selected="selected" value="<?= $nom_com; ?>"><?= $nom_com; ?></option>
                         <?php
                         $q = $db->prepare("SELECT distinct(nom_com) FROM vue_adresse ORDER by nom_com;");
                         $q->execute();                    
@@ -199,33 +208,28 @@
                         <option value="<?php print($value[0]); ?>"><?php print($value[0]); ?></option>
                         <?php
                         }
-                        ?>
-                    <br>   
+                        ?>  
                     </select>
-                    <h5>Nom de rue</h5>   
-                    <br>
+                    <h3>Nom de rue</h3>   
                     <!-- adresse -->
                     <!-- une partie de la liste déroulante s'execute avec une requete jquery ajax -->
                     <select name ="choix_adresse" id="choix_adresse">
-                        <option selected="selected" value=<?php $nom_rue; ?>><?= $nom_rue; ?></option>                
-                    <br>                    
+                        <option selected="selected" value="<?= $nom_rue; ?>"><?= $nom_rue; ?></option>                              
                     </select>
-                    <h5>Numéro de rue</h5> 
+                    <h3>Numéro de rue</h3> 
                     <!-- numero -->
                     <!-- une partie de la liste déroulante s'execute avec une requete jquery ajax -->
                     <select name ="choix_numero" id="choix_numero">
-                        <option selected="selected" value=<?php $num_rue; ?>><?= $num_rue; ?></option>                   
-                    <br>
+                        <option selected="selected" value="<?= $num_rue; ?>"><?= $num_rue; ?></option>                   
                     </select>
-                    <h5>Complément d'adresse</h5> 
+                    <h3>Complément d'adresse</h3> 
                     <!-- une partie de la liste déroulante s'execute avec une requete jquery ajax -->
                     <select name ="choix_rep" id="choix_rep">
-                        <option selected="selected" value=<?php $complement_addresse; ?>><?= $complement_addresse; ?></option>                    
-                    <br>
+                        <option selected="selected" value="<?= $complement_addresse; ?>"><?= $complement_addresse; ?></option>                    
                     </select>
                 </div>
                 <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
-                <input type="submit" name="formsend" id="formsend" value="Mettre à jour"><br>
+                <input type="submit" class="btn" name="formsend" id="formsend" value="Mettre à jour"><br>
                 
             </form>
 
@@ -337,7 +341,7 @@
                                 ?>
                             </select>
                         <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
-                        <input type="submit" name="formsend_2" id="formsend" value="Sauvegarder"><br>
+                        <input class="btn" type="submit" name="formsend_2" id="formsend" value="Sauvegarder"><br>
                         
                         
                     </form>
@@ -366,7 +370,7 @@
         <div id="tab-3" class="tab-content">
             <div id='formulaire_cate_asso'>
                 <form method="post">
-                <h1>Mes préférences</h1>
+                <h1 class="titre_onglet">Mes préférences</h1>
                 <h2> N'hésitez pas à modifier vos préférences ci-dessous pour que votre compte TALL soit parfaitement à jour.</h2>
                 <h2> <br> <h/2>
                         <?php
@@ -377,26 +381,26 @@
                         ?>
                         <div class="horizontale_input">
                         <input  id="checkbox" type="checkbox" class="cm-toggle" name="cate_1" id="cate_1" value =<?php print($liste_cate[0][0]) ?>><label for="checkbox" ></label>
-                        <p class="reponse_php"><?php print($liste_cate[0][1]) ?></p><br>
+                        <h6 class="reponse_php"><?php print($liste_cate[0][1]) ?></h6><br>
                         </div>
                         <div class="horizontale_input">
                         <input id="checkbox1" type="checkbox" class="cm-toggle" name="cate_2" id="cate_2" value =<?php print($liste_cate[1][0]) ?>><label for="checkbox1" ></label> 
-                        <p class="reponse_php"><?php print($liste_cate[1][1]) ?></p><br>
+                        <h6 class="reponse_php"><?php print($liste_cate[1][1]) ?></h6><br>
                         </div>
                         <div class="horizontale_input">
                         <input id="checkbox2" type="checkbox" class="cm-toggle" name="cate_3" id="cate_3" value =<?php print($liste_cate[2][0]) ?>><label for="checkbox2" ></label> 
-                        <p class="reponse_php"><?php print($liste_cate[2][1]) ?></p><br>
+                        <h6 class="reponse_php"><?php print($liste_cate[2][1]) ?></h6><br>
                         </div>
                         <div class="horizontale_input">
                         <input id="checkbox3" type="checkbox"class="cm-toggle" name="cate_4" id="cate_4" value =<?php print($liste_cate[3][0]) ?>><label for="checkbox3" ></label> 
-                        <p class="reponse_php"><?php print($liste_cate[3][1]) ?></p><br>
+                        <h6 class="reponse_php"><?php print($liste_cate[3][1]) ?></h6><br>
                         </div>
                         <div class="horizontale_input">
                         <input id="checkbox4" type="checkbox"class="cm-toggle" name="cate_5" id="cate_5" value =<?php print($liste_cate[4][0]) ?>><label for="checkbox4" ></label> 
-                        <p class="reponse_php"><?php print($liste_cate[4][1]) ?></p><br>
+                        <h6 class="reponse_php"><?php print($liste_cate[4][1]) ?></h6><br>
                         </div>
                     <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
-                    <input type="submit" name="formsend_1" id="formsend" value="Sauvegarder"><br>
+                    <input class="btn" type="submit" name="formsend_1" id="formsend" value="Sauvegarder"><br>
                     
                 </form>
 
@@ -455,7 +459,7 @@
             <div id="tab-4" class="tab-content">        
                 <form method='post'>
                     <!-- Choix d'une association -->
-                    <h1>Quitter TALL</h1>
+                    <h1 class="titre_onglet">Quitter TALL</h1>
                     <h2> Si vous souhaiter supprimer votre compte, merci d'indiquer votre mot de passe, la suppression sera automatique et votre compte définitivement supprimé de notre base de données.</h2>
                     <h2> Attention cette action est définitive, si vous changez d'avis, il faudra recréer un compte.</h2>
                     <!-- ici on a un type password -->

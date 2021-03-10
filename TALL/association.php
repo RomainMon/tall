@@ -9,6 +9,7 @@ global $db;
     <head>
         <meta charset = "utf-8" />
         <title> TALL </title>
+        <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>
         <link rel="icon" type="image/png" href="img/logo.png" />
         <script src="leaflet/leaflet.js"></script>      
         <link rel = "stylesheet" href="leaflet/leaflet.css" />        
@@ -34,7 +35,7 @@ global $db;
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- appel bootstrap , appel nécessaire en début de script pour le menu horizontal -->
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-        <link rel = "stylesheet" href="css/style_index.css" />
+        <link rel = "stylesheet" href="css/style_utilisateur.css" />
 
     </head>    
     <body>
@@ -61,14 +62,15 @@ global $db;
                         <span class="sr-only">(current)</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="index.php">Déconnexion</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="html/contact.html">Contact</a>
-                    </li>
-                    <li>
                         <a class="nav-link" href="profil_asso.php">Profil</a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="accueil.php">Déconnexion</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="html/contact_asso.html">Contact</a>
+                    </li>
+
                 </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -140,10 +142,9 @@ global $db;
                                         }
                                         ?>
                                     </select>
-                                </form>                            
-                                <br>
+                                </form>     
                                 <form id="legende_asso">
-                                    <p>Les associations</p>
+                                    <h3>Les associations</h3>
                                     <?php
                                     $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
                                     $q->execute();
@@ -162,7 +163,7 @@ global $db;
                                         ?>
                                 </form>
                                 <form id="legende_equip">
-                                    <p>Les équipements</p>                    
+                                    <h3>Les équipements</h3>                    
                                     <?php
                                     $q = $db->prepare("SELECT distinct(id_type_equip),type_equip FROM equipement ORDER by type_equip;");
                                     $q->execute();
@@ -215,7 +216,7 @@ global $db;
                                     <!-- bouton qui lance la production du graphique : appel de la fonction dans le script js -->
                                     <button name="stat" class="btn" id="btn_stat" type="button">Calculer</button>
                                     
-                                    <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
+                                    <button name="PDF" type="button" class="btn" id="telecharge" onclick="generatePDF()"><i class="fa fa-download"></i></button>
                                 </form>
                                 
                                 <!-- les valeurs sont récupérées dans une balise cachée  -->
@@ -228,8 +229,9 @@ global $db;
                             <!----------------onglet-03-Potentialite-------------------------->
                             <div class="tab-pane" id="3" >
                                 <h3>Simuler l'implantation d'un nouvel équipement</h3>
-                                <p class="explication">Cet outil vous permettra de simuler l'implantation d'un nouvel équipement de votre choix dans une commune du Grand-Lyon. La localisation est définie 
-                                    par analyse de plusieurs critères : occupation du sol, distance aux équipements existants et desserte de population</p>                            
+                                <h2 class="explication">Cet outil vous permet de simuler l'implantation d'un nouvel équipement de votre choix dans une commune du Grand-Lyon.<br><br> La localisation est définie 
+                                    par analyse de plusieurs critères : occupation du sol, distance aux équipements existants et desserte de population</h2>                            
+                                
                                 <form id="potentiel">                            
                                     <label for="choix_commune2">Choix de la commune</label>
                                     <!-- création du select avec envoi de la fonction de zoom sur la ville choisie -->
@@ -275,23 +277,30 @@ global $db;
                                     </select>                            
                                     <br>
                                 <!-- bouton pour le calculateur de potientialité et la création de PDF -->
-                                <button class="btn" name="stat" id="btn_potentiel" type="button">Lancer la simulation</button>
+                                <button class="btn" name="stat" id="btn_potentiel" type="button">Exécuter</button>
                                 </form>
                                 <div hidden id="loading">
-                                    <p>Calcul de potentialité en cours...</p>
+                                    <h2>Le calcul est en cours... Python travaille, prends un Picon</h2>
                                     <img id="img_chargement" src="img/load_animation.gif" alt="Loading" />
                                 </div>
-                                <div hidden id="resultat_calcul"><p>Calcul fini !</p></div>
+                                <div hidden id="resultat_calcul">
+                                <h2>Calcul fini !</h2>
+                                <br>
+                                <h2>Une zone de 15m² vous est proposée</h2>
+                                </div>
                             </div>
 
                             <!----------------onglet-04-Utilisateur-------------------------->
                             <div class="tab-pane" id="4" >
                                 <h3>Identifier des particuliers intéressés par votre domaine</h3>
-                                <p class = "explication">Cliquez sur un point de la carte et sélectionnez un rayon en mètres pour voir les utilisateurs potentiels autour de ce point</p>
-                                250 <input type="range" name="rangeInput" id="rangeInput" min="250" max="2500" step="250" onchange="updateTextInput(this.value);searchBenevole(this.value);"> 2 500
-                                <p>Distance en mètres : </p><p id="rangeText" value=""></p>
+                                <h2 class = "explication">Compter le nombre d'intéressés autour d'un point sur la carte.<br>
+                                <br>
+                                Sélectionner un point sur la carte et une distance allant de 250 m à 2,5 km
+                                </h2 >
+                                <input type="range" name="rangeInput" id="rangeInput" min="250" max="2500" step="250" onchange="updateTextInput(this.value);searchBenevole(this.value);">
+                                <h2>Distance en mètres : </p><p id="rangeText" value=""></h2>
                                 <!-- <p>Le nombre de bénévoles potentiels est de :</p> -->
-                                <p id = "result_popbene"  class = "popbene"></p>                                   
+                                <h2 id = "result_popbene"  class = "popbene"></h2>                                   
                             </div>
                         </div>
                         </div><!-- /tab-content -->

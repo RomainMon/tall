@@ -1,7 +1,7 @@
 body{
     background: #f5f7f6;;
     font-family: 'Quicksand', Arial,sans-serif;
-    /* background: url("../png/bellecour.jpg") center no-repeat; */
+    /* background: url("../img/lyon_2.png") center; */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -42,7 +42,8 @@ input[type=text], input[type=password], input[type=email], input[type=tel]{
     border: 1px solid #ccc;
     box-sizing: border-box;
     color: rgb(121, 121, 121);
-    border-radius : 5px; 
+    border-radius : 5px;
+    font-size:small; 
 }
 
 select{
@@ -53,13 +54,9 @@ select{
     border: 1px solid #ccc;
     box-sizing: border-box;
     color: rgb(121, 121, 121);
-    border-radius : 5px;     
+    border-radius : 5px;
+    font-size:small;     
 }
-
-#formsend{    
-    /* justify-content : center */
-}
-
 
 
 .clic{
@@ -77,19 +74,33 @@ h1{
   
   }
   
-  /* Textes informatifs */
-  h2{
-    font-size: small;
-  }
+/* Textes informatifs */
+h2{
+  font-size: small;
+}
   
-  /* Textes de formulaire */
-  h3{
-    text-transform: uppercase;
-    font-size: small;
-    font-weight: bold ;
-    color: rgb(66, 66, 66);
-  }
-  
+/* Textes de formulaire */
+h3{
+  text-transform: uppercase;
+  font-size: small;
+  font-weight: bold ;
+  color: rgb(66, 66, 66);
+}
+
+h6{
+  text-transform: uppercase;
+  font-size:x-small;
+  font-weight: bold ;
+  /* padding-left: 25px; */
+  padding-bottom: 0px;
+  line-height: 1.5;
+  /* position: relative; */
+  /* padding-top: -40px; */
+  color: rgb(75, 75, 75);
+  /* vertical-align: middle; */
+}
+
+
   /* Choix formulaire */
   #choix{
     border: 1px solid rgb(163, 163, 163);
@@ -101,24 +112,6 @@ h1{
   }
   
   
-  /* Bouton sauvegarder */
-  #formsend{
-    text-transform: uppercase;
-    color: #ffffff;
-    font-weight: bold;
-    background-color: rgb(175, 175, 175);
-    border: 1px solid rgb(163, 163, 163);
-    height: 30px;
-    border-radius: 5px;
-  }
-  
-  #formsend:hover {
-    background-color: white;
-    color: #53af57;
-    border: 1px solid #53af57;
-  }
-
-
   .horizontale_input{
     display: flex;
     margin-bottom: 20px;
@@ -129,75 +122,152 @@ h1{
     }
     
     
-    /* Couleur des checkbox off */
-    :root {
-    font-size: 10px;
-    --blue: #8a8a8a;
-    --darkblue: #a8a8a8;
-    }
+/* Couleur des checkbox off */
+:root {
+font-size: 10px;
+--blue: #8a8a8a;
+--darkblue: #a8a8a8;
+}
+
+
+
+input[type = checkbox] {
+  display: none;
+}
+
+input + label {
+  font-size: 1.2rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: .1rem solid var(--blue);
+  border-radius: 50%;
+  background: var(--darkblue);
+  transition: .1s all;
+  cursor: pointer;
+  z-index: 999 !important;
+}
+
+input + label:hover {
+  transform: scale(.95);
+}
+
+/* input + label:after {
+  content: ".";
+} */
+
+input:checked + label {
+  background: var(--blue);
+  transform: scale(1.1);
+}
+
+input:checked + label:hover {
+  background: var(--blue);
+  transform: scale(1.05);
+}
+
+
+/* Ajout des picto checkbox in */
+input:checked + label:after {
+  content: url('../img/007070.png');
+  transform: scale(0.09);
+}
+
+input[id="checkbox1"]:checked + label:after {
+  content: url('../img/007075.png');
+  transform: scale(0.09);
+  }
+
+input[id="checkbox2"]:checked + label:after {
+  content: url('../img/020025.png');
+  transform: scale(0.09);
+  }  
+
+input[id="checkbox3"]:checked + label:after {
+  content: url('../img/024000.png');
+  transform: scale(0.09);
+  }
     
-    
-    
-    input[type = checkbox] {
-      display: none;
-    }
-    
-    input + label {
-      font-size: 1.2rem;
-      width: 2rem;
-      height: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: .1rem solid var(--blue);
-      border-radius: 50%;
-      background: var(--darkblue);
-      transition: .1s all;
-      cursor: pointer;
-      z-index: 999 !important;
-    }
-    
-    input + label:hover {
-      transform: scale(.95);
-    }
-    
-    /* input + label:after {
-      content: ".";
-    } */
-    
-    input:checked + label {
-      background: var(--blue);
-      transform: scale(1.1);
-    }
-    
-    input:checked + label:hover {
-      background: var(--blue);
-      transform: scale(1.05);
-    }
-    
-    
-    /* Ajout des picto checkbox in */
-    input:checked + label:after {
-      content: url('../img/007070.png');
-      transform: scale(0.09);
-    }
-    
-    input[id="checkbox1"]:checked + label:after {
-      content: url('../img/007075.png');
-      transform: scale(0.09);
-      }
-    
-    input[id="checkbox2"]:checked + label:after {
-      content: url('../img/020025.png');
-      transform: scale(0.09);
-      }  
-    
-    input[id="checkbox3"]:checked + label:after {
-      content: url('../img/024000.png');
-      transform: scale(0.09);
-      }
-        
-    input[id="checkbox4"]:checked + label:after {
-      content: url('../img/030050.png');
-      transform: scale(0.09);
-      }
+input[id="checkbox4"]:checked + label:after {
+  content: url('../img/030050.png');
+  transform: scale(0.09);
+  }
+
+#cgu_text{
+  margin-top: 50px;
+  border: 0.05rem solid;
+  /* background-color: blueviolet; */
+  border-radius: 5px;
+  border-color: rgb(207, 207, 207);
+  padding : 10px;
+}  
+
+
+a{
+  font-size: x-small;
+  font-weight: bold ;
+  color: rgb(66, 66, 66);  
+  text-decoration:none; 
+}
+
+#cgu_retour a{
+  /* text-transform: uppercase; */
+  font-size: small;
+  font-weight: bold ;
+  color: rgb(66, 66, 66);
+  margin-left: 20px;
+  text-decoration:none; 
+}
+
+#cgu_fin a{
+  text-transform: uppercase;
+  font-size: small;
+  font-weight: bold ;
+  color: rgb(66, 66, 66);
+  margin-left: 20px;
+  text-decoration:none; 
+}
+
+a:hover{
+  color:darkslateblue;
+}
+
+#cgu_fin  a:hover{
+  color:darkslateblue;
+}
+
+#cgu_retour a:hover{
+  color:darkslateblue;
+}
+
+#choix_asso{
+  margin-top:20px;
+}
+
+#membre_asso{
+  margin-top:10px;
+}
+
+#civilite{
+  margin-top:20px;
+}
+
+/* Style buttons */
+.btn {
+  width: 25%;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: rgb(175, 175, 175);
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 5px;
+  padding: 5px;
+  }
+
+.btn:hover {
+  background-color: white;
+  color: #a7f8ab;
+  border: 1px solid #a7f8ab;
+  }

@@ -11,13 +11,13 @@ $("#btn_potentiel").on("click", function(){
     console.log(assoEquip)
 
     function testContenu(){
-        if( commune === null || commune ==='' || commune ==='Commune' && assoEquip === null || assoEquip ==='' || assoEquip ==='Choississez un des items'){
+        if(( commune === null || commune ==='' || commune ==='Commune') || (assoEquip === null || assoEquip ==='' || assoEquip ==='Choississez un des items')){
             console.log("le champ est vide");
             // si un des champs est mal rempli un message d'avertissement s'affiche
-            $("#potentiel").after("<div id='avertissement_message'>Un des champs est mal renseigné. Veuillez recommencer.</div>")
+            $("#potentiel").after("<div class='avertissement_message'>Un des champs est mal renseigné. Veuillez recommencer.</div>")
         }else{
             // si les champs sont bien remplis, on supprime l'avertissement.
-            $("#avertissement_message").remove();
+            $(".avertissement_message").remove();
             console.log("Le champ est rempli");
             executionScriptPython()
         }
@@ -83,7 +83,7 @@ xhttpPython.onreadystatechange = function() {
         //application du style
         style: myStyle2,        
         }).addTo(resultats);
-        layerControl.addOverlay(resultat, "Potentialité trouvé");        
+        layerControl.addOverlay(resultat, "Zone identifiée");        
         resultats.addTo(map);   
         map.fitBounds(resultat.getBounds()); //indique que les limites de la carte seront de celle de la couche resultat 
     }

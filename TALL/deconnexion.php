@@ -7,6 +7,8 @@
 <html>
     <head>
        <meta charset="utf-8">
+       <title>TALL</title>
+        <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="css/connect.css" media="screen" type="text/css" />
     </head>

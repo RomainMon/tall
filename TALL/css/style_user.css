@@ -23,72 +23,6 @@ font-weight: 200;
   height: 40px;
 }
 
-
-
-/*  
-#menu-tab {
-  font-family: 'Quicksand', Arial,sans-serif; 
-font-size: 11pt;
-color:black;
-}
-
-#menu-tab a {
-color: rgb(255, 255, 255);
-font-weight: normal;
-font-style: normal;
-text-decoration: none;
-font-variant: normal;
-}
-#menu-tab a:hover{
-color: rgb(255, 255, 255);
-
-}
-
-main {
-  max-width: 100%;
-}
-
-.container {
-  height: 100px;
-  margin:0 auto;
-  max-width: 100%;
-  display:flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-article {
-  width:200px;
-  background:white;
-  margin:5px;
-  border-radius:16px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.16);
-  overflow: hidden;
-  transition:transform .4s;
-}
-
-
-
-
-
-article .article-content {
-  padding:16px;
-}
-
-
-article .article-description {
-  color:#666;
-}
-
-
-article:hover {
-  cursor:pointer;
-  transform:scale(1.08);
-}
-*/
-
-
 /* Menu */
 .tabs-menu {
 height: 100%;
@@ -194,6 +128,20 @@ font-weight: bold ;
 color: rgb(66, 66, 66);
 }
 
+h6{
+  text-transform: uppercase;
+  font-size:x-small;
+  font-weight: bold ;
+  /* padding-left: 15px; */
+  padding-top: 5px;
+  line-height: 1.5;
+  /* position: relative; */
+  /* padding-top: -40px; */
+  color: rgb(75, 75, 75);
+  /* vertical-align: middle; */
+}
+
+
 /* Choix formulaire */
 #choix{
 border: 1px solid rgb(163, 163, 163);
@@ -202,65 +150,6 @@ border-radius: 5px;
 /* box-sizing: border-box; */
 width:300px;
 }
-
-
-/* Bouton sauvegarder */
-#formsend{
-text-transform: uppercase;
-color: #ffffff;
-font-weight: bold;
-background-color: rgb(175, 175, 175);
-border: 1px solid rgb(163, 163, 163);
-border-radius: 5px;
-}
-
-#formsend:hover {
-background-color: white;
-color: #53af57;
-border: 1px solid #53af57;
-}
-
-/* Bouton suppression */
-#formsend2{
-text-transform: uppercase;
-color: #ffffff;
-font-weight: bold;
-background-color: rgb(175, 175, 175);
-border: 1px solid rgb(163, 163, 163);
-border-radius: 5px;
-}
-
-#formsend2:hover {
-background-color: white;
-color: #ad0505;
-border: 1px solid #ad0505;
-}
-
-/* 
-@media screen and (max-width:500px) {
-
-header .logo img {width: 40px;  }
-
-header nav ul{  width: 60%;}
-header nav ul li{ 
-width: 20px;height:20px;
-border-radius:50%;
-}
-
-#cont_box a {display :block; line-height:30px; margin:5px 0;} 
-
-.tabs-menu li {
-  overflow: hidden;
-  height: 40px;
-  line-height: 25px;
-}
-
-.tabs-menu li a i{font-size:25px; margin:0 14px}
-
-
-}
-
-} */
 
 
 .horizontale_input{
@@ -290,7 +179,7 @@ input + label {
   font-size: 1.2rem;
   width: 2rem;
   height: 2rem;
-  display: flex;  
+  display: flex;
   justify-content: center;
   align-items: center;
   border: .1rem solid var(--blue);
@@ -304,10 +193,6 @@ input + label {
 input + label:hover {
   transform: scale(.95);
 }
-
-/* input + label:after {
-  content: ".";
-} */
 
 input:checked + label {
   background: var(--blue);
@@ -344,4 +229,81 @@ input[id="checkbox3"]:checked + label:after {
 input[id="checkbox4"]:checked + label:after {
   content: url('../img/030050.png');
   transform: scale(0.09);
+  }
+
+
+/* gestion de informations */
+
+#civilite{
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+#adresse{
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin-bottom: 20px;
+}
+
+#choix{
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 400px;
+}
+
+.titre_onglet{
+  margin-bottom: 15px;
+}
+
+#ensemble_des_fenêtres{
+  margin-top: 3%;
+}
+
+/* liste de sélection */
+select{
+  width: 100%;
+  padding: 8px 8px;
+  margin: 10px 0px;    
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  color: rgb(121, 121, 121);
+  border-radius : 5px;     
+}
+
+/* liste de sélection */
+input{
+  width: 100%;
+  padding: 8px 8px;
+  margin: 10px 0px;    
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  color: rgb(121, 121, 121);
+  border-radius : 5px;     
+}
+
+/* Style buttons */
+.btn {
+  width: 25%;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: rgb(175, 175, 175);
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 5px;
+  }
+
+.btn:hover {
+  background-color: white;
+  color: #a7f8ab;
+  border: 1px solid #a7f8ab;
+  }
+
+  #formsend2:hover {
+  background-color: white;
+  color: #ad0505;
+  border: 1px solid #ad0505;
   }

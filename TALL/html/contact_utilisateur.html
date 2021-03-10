@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Contact</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- appel de l'api google jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- appel du script js jquery -->
+    <script src='../js/jquery_site.js'></script>
+    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script> -->
+    <!-- Icones -->
+    <script src="https://kit.fontawesome.com/3b2bc082a4.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style_contact.css">
+
+</head>
+<body>    
+<!-- Menu du haut navigation  -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"> <!-- On utilise le template light = couleur -->     
+        <div class="container-fluid"> <!-- le conteneur "fluide" utilise toute la page -->
+            <a class="navbar-brand" href="#"><img src = "../img/logo.svg" alt = "logo"></a> <!-- On ajoute le logo et on gère sa taille dans le css -->
+            <!-- Devient responsive : Permet d'avoir un bouton lorsqu'on replie la page (smartphone, tablette) --> 
+            <button class="navbar-toggler" type="button" data-toggle="collapse" 
+            data-target="#navbarResponsive" aria-controls="navbarResponsive"
+            aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../utilisateur.php">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../profil_user.php">Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../accueil.php">Déconnexion</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+
+                </ul>
+            </div>    
+        </div>
+    </nav>
+
+<!-- Menu profil -->
+
+<div id="tabs-container">   
+            
+            <ul class="tabs-menu">
+                <li class="current"><a href="#tab-1"><i class="fas fa-user mr-3"></i>Le projet</a></li>
+                <li><a href="#tab-2"><i class="fas fa-address-card mr-3"></i>Contact</a></li>
+                <li><a href="#tab-3"><i class="fas fa-map-pin mr-3"></i>Tutoriel</a></li>
+
+            </ul> 
+        </div>    
+</div>
+
+
+
+<div class="tab">
+<!-- TAB 1 Mon profil -->
+
+    <div id="tab-1" class="tab-content current">
+            <h1>Le projet <br></h1>
+            <h2>
+                Le projet TALL a été élaboré par 4 étudiants du <a href="https://mastergeonum.org/">Master "Géographie Numérique"</a>, l'équipe pédagogique de ce master ainsi que l'association
+                <a href="https://www.anciela.info/">Anciela</a>. <br><br>La thématique de ce projet géonumérique est l’Anthropocène. Dans ce cadre, nous avons souhaité
+                nous intéresser à l’environnementalisme ordinaire et à leurs porteurs, associations
+                et autres collectifs en premier lieu. Bénéficiant d’une certaine proximité géographique, ces
+                derniers effectuent des actions pragmatiques sur les territoires du quotidien, y compris la
+                mise en place de dispositifs de soin et d’attention à l’environnement (composteurs, etc.),
+                couplées à des routines personnelles vécues comme une modalité de contestation de l’agir
+                anthropocénique destructeur (tri des déchets, mobilités douces, etc.).
+                Conscients de l’importance de ces actions, nous souhaitons les promouvoir et les encourager
+                via une application cartographique dédiée. <br>
+                <br>
+                TALL (Trouve ton Association-Action Locale Lyonnaise) est née puisqu'il n'existe pas de telle application actuellement.
+            </h2>
+            
+    </div>
+
+<!-- TAB 2 Mes informations -->
+
+    <div id="tab-2" class="tab-content">      
+            <!-- création du formulaire d'inscription -->
+            <h1>Nous contacter</h1>
+            <form class="cf">
+                <div class="half left cf">
+                  <input type="text" id="input-name" placeholder="Nom">
+                  <input type="email" id="input-email" placeholder="Adresse e-mail">
+                  <input type="text" id="input-subject" placeholder="Sujet">
+                </div>
+                <div class="half right cf">
+                  <textarea name="message" type="text" id="input-message" placeholder="Message"></textarea>
+                </div>  
+                <input class="btn" type="submit" value="Envoyer" id="input-submit">
+              </form>
+    
+    </div> 
+
+<!-- TAB 3 Mes préférences -->
+
+        <div id="tab-3" class="tab-content">
+            <div id='formulaire_cate_asso'>
+                <form method="post">
+                <h1>Utiliser TALL</h1>
+                <h2> Tutoriel vidéo.</h2>
+                <h2> <br> <h/2>
+
+
+                </div> 
+        </div>
+
+</div> 
+
+<!-- partial -->
+
+
+
+</body>
+</html>

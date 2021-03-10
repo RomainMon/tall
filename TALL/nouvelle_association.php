@@ -8,6 +8,8 @@ ob_start();
 
     <head>
        <meta charset="utf-8">
+       <title>TALL</title>
+        <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="css/new_connect.css" media="screen" type="text/css" />
         <!-- appel de l'api google jquery -->
@@ -27,8 +29,8 @@ ob_start();
             <!-- création du formulaire d'inscription -->
             <!-- la method dans form définit la méthode d'envoie du formulaire. post : envoie les données d'une page à l'autre (méthode recommandé). get : envoie les infos par URL. -->
             <form method="post" id="container">
-            <h2>Création de votre compte</h2>            
-                <h4>Sélectionner votre association</h4>
+            <h1>Création de votre compte</h1>            
+                <h3>Sélectionner votre association</h3>
                     <select name ="choix_asso" id="choix_asso" required>
                         <option selected="selected">Sélectionner une valeur</option>
                         <?php
@@ -45,17 +47,17 @@ ob_start();
                         }
                         ?>
                     </select> 
-                <h4>Rentrez votre email</h4>
+                <h3>Rentrez votre email</h3>
                 <!-- le type email contraint l'utilisateur d'insérer un text avec un @ dedans -->
                 <input type="email" name="email" id="email" placeholder="Votre email" required>
 
-                <h4>Choisissez un mot de passe</h4> 
+                <h3>Choisissez un mot de passe</h3> 
                     <input type="password" name="password" id="password" placeholder="Votre mot de passe" required>
                     <!-- confirmation du MDP -->
                     <input type="password" name="cpassword" id="cpassword" placeholder="Confirmer votre mot de passe" required>
            
                 <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
-                <input type="submit" name="formsend" id="formsend" value="S'inscrire"><br>
+                <input class="btn" type="submit" name="formsend" id="formsend" value="S'inscrire"><br>
                 
             </form>
 

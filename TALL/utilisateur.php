@@ -8,7 +8,8 @@ global $db;
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>TALL</title>
+  <title>TALL</title>  
+  <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>
   <script src="leaflet/leaflet.js"></script>      
   <link rel = "stylesheet" href="leaflet/leaflet.css" />  
     <!-- Icônes -->
@@ -57,20 +58,21 @@ global $db;
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-        <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right">
           <li>
           <a class="nav-link" href="utilisateur.php">Accueil
           <span class="sr-only">(current)</span></a>
           </li>
           <li>
-          <a class="nav-link" href="index.php">Déconnexion</a>
-          </li>
-          <li>
-          <a class="nav-link" href="info.html">Contact</a>
-          </li>
-          <li>
           <a class="nav-link" href="profil_user.php">Profil</a>
           </li>
+          <li>
+          <a class="nav-link" href="accueil.php">Déconnexion</a>
+          </li>
+          <li>
+          <a class="nav-link" href="html/contact_utilisateur.html">Contact</a>
+          </li>
+
 
           </li>
         </ul>
@@ -117,10 +119,10 @@ global $db;
 
                   <p hidden id="id_utilisateur"><?= $_SESSION['id_utilisateur']; ?></p>
                   <h3>Bonjour, <?= $_SESSION['prenom']; ?> <?= $_SESSION['nom']; ?></h3>
-                  <p class="explication">La carte affiche les associations ainsi que les équipements selon les préférences que vous avez remplies lors de votre inscription.
-                  Si vous souhaitez afficher les autres éléments vous pouvez cocher les case ci-dessous :</p><br>
+                  <h2 class="explication">La carte affiche les associations ainsi que les équipements selon les préférences que vous avez remplies lors de votre inscription.
+                  Si vous souhaitez afficher les autres éléments vous pouvez cocher les cases ci-dessous :</h2><br>
                   <form id="legende_cate">
-                      <p>Les associations</p>                      
+                      <h3>Les associations</h3>                      
                       <?php
                       $q = $db->prepare("SELECT * FROM CATEGORIE ORDER by id_cate;");
                       $q->execute();
@@ -151,7 +153,7 @@ global $db;
                   </form>
                   </form>
                   <form id="legende_equip">
-                      <p>Les équipements</p>                      
+                      <h3>Les équipements</h3>                      
                       <?php
                       $q = $db->prepare("SELECT distinct(id_type_equip),type_equip,id_cate FROM equipement ORDER by type_equip;");
                       $q->execute();
@@ -182,9 +184,11 @@ global $db;
 
               <!-- Onglet 2 = buffer distance proche de l'uilisateur -->            
               <div class="tab-pane" id="2" >
-                <h3>CONNAÎTRE LES STRUCTURES PRES DE CHEZ MOI</h3>
-                200 <input type="range" name="rangeInput" id="rangeInput" min="200" max="5000" step="200" onchange="updateTextInput(this.value);bufferUtil(this.value);zoomAutour()"> 5 000
-                <p>Distance en mètres : </p><p id="rangeText" value=""></p>
+                <h3>Connaître les associations ou équipements près de chez moi</h3>
+                <h2>Sélectionner une distance allant de 200 m à 5 km</h2>
+                <input type="range" name="rangeInput" id="rangeInput" min="200" max="5000" step="200" onchange="updateTextInput(this.value);bufferUtil(this.value);zoomAutour()">
+                <br>
+                <h2>Distance en mètres : </h2><h2 id="rangeText" value=""></h2>
               </div>
 
               <!-- Onglet 3 = itinéraire -->  
@@ -209,7 +213,7 @@ global $db;
                     }
                 ?>
                 
-                <p class="explication">Pour connaître l'itinéraire vers une association ou un équipement, cliquez à proximité de l'icône puis appuyez sur le bouton ci-dessous</p>
+                <h2 class="explication">Pour connaître l'itinéraire vers une association ou un équipement, cliquez à proximité de l'icône puis appuyez sur le bouton ci-dessous</h2>
                 <button id="itineraire_button" class="btn" onClick="itineraireDisplay()">Calculer</button>                                            
                 <p id="test_iti" class = "poulpy"></p>
               </div>
@@ -251,7 +255,7 @@ global $db;
 
                   <button name="stat" id="btn_stat" class="btn" type="button">Calculer</button>
                   <!-- bouton pour télécharger en PDF le graphique -->
-                  <button name="PDF" type="button" class="btn" onclick="generatePDF()"><i class="fa fa-download"></i> Télécharger</button>
+                  <button name="PDF" type="button" class="btn" id="telecharge" onclick="generatePDF()"><i class="fa fa-download"></i></button>
                 </form>          
                 <!-- les valeurs sont récupérées dans une balise cachée  -->
                 <p hidden class ="nom_cate"></p>                        

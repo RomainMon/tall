@@ -6,7 +6,8 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Profil Asso</title>
+    <title>TALL</title>
+  <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- appel de l'api google jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -28,7 +29,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.3/css/bootstrap.css'>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'><link rel="stylesheet" href="css/style_asso.css">
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="css/style_asso.css">
 
 </head>
 <body>    
@@ -44,28 +46,33 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="association.php">Accueil
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="deconnexion.php">Déconnexion</a>
+                        <a class="nav-link active" href="#">Profil</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="info.html">Contact</a>
+                        <a class="nav-link" href="accueil.php">Déconnexion</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">Profil</a>
+                        <a class="nav-link" href="html/contact_asso.html">Contact</a>
                     </li>
                 </ul>
             </div>    
         </div>
     </nav>
 
-   
+<?php
+    // connexion à la db
+    include 'include/database.php';
+    //  recupération de la varibable db pour faire des requêtes
+    global $db;
+    ?> 
 <!-- Menu profil -->
-
+<div id = "ensemble_des_fenêtres">
 <div id="tabs-container">   
             
             <ul class="tabs-menu">
@@ -78,14 +85,6 @@
             </ul> 
         </div>    
 </div>
-
-
-        <?php
-        // connexion à la db
-        include 'include/database.php';
-        //  recupération de la varibable db pour faire des requêtes
-        global $db;
-        ?> 
             <!-- récupération des éléments de session utilisateur pour les afficher  -->
         <!-- TAB 1  -->
     <div class="tab">
@@ -145,11 +144,12 @@
     
     <!-- TAB 2 -->
 
-        <div id="tab-2" class="tab-content">   
+        <div id="tab-2" class="tab-content">
+        <div id="content-info">   
         <h1>Mes informations</h1>
         <h2> N'hésitez pas à modifier vos coordonnées ci-dessous pour que votre compte TALL soit parfaitement à jour.</h2>
             
-        <form method='post'>
+        <form method='post' id="form-info">
             <!-- les variables d'adresse restent en commentaire pour le moment -->
 
             <!-- <input type="number" name="num_rue" id="num_rue" value=<?= $num_rue; ?> required>
@@ -164,18 +164,27 @@
 
 
             <!-- le type text pour le nom d'utilisateur -->
-            <input type="text" name="nom" id="nom" value=<?= $_SESSION['nom_asso']; ?> required>
+            <h6><b>Nom : </b></h6>
+            <input type="text" name="nom" id="nom" value="<?= $_SESSION['nom_asso']; ?>" required>
             <!-- le type email contraint l'utilisateur d'insérer un text avec un @ dedans -->
-            <input type="email" name="email" id="email" value=<?= $_SESSION['email']; ?> required>
+            <h6><b>Courriel : </b></h6>
+            <input type="email" name="email" id="email" value="<?= $_SESSION['email']; ?>" required>
             <!-- descriptif de l'asso -->
-            <label for="descriptif">Description (300 caractères max):</label>
-            <input type="text" name="descriptif" id="descriptif1" size="50" maxlength="300" spellcheck="true" value='<?= $_SESSION['description']; ?>' required>
+            <h6><b>Descriptif : </b></h6>
+            <label for="descriptif">Description (300 caractères max)</label>
+            <!-- <input type="text" name="descriptif" id="descriptif1" size="50" maxlength="300" spellcheck="true" value='<?= $_SESSION['description']; ?>' width="48" height="48" required> -->
+            <textarea id="descriptif1" name="descriptif" rows="5" cols="100" maxlength="300" form="form-info" spellcheck="true" wrap="hard">
+            <?= $_SESSION['description']; ?>
+            </textarea>
             <!-- descriptif de l'asso -->
-            <input type="text" name="site_web" id="site_web" value=<?= $_SESSION['site_web']; ?>>
+            <h6><b>Site web : </b></h6>
+            <input type="text" name="site_web" id="site_web" value="<?= $_SESSION['site_web']; ?>">
             <!-- courriel visible pas les particuliers-->
-            <input type="email" name="courriel_for_user" id="courriel_for_user" value=<?= $_SESSION['courriel']; ?>>
+            <h6><b>Courriel visible par les utilisateurs : </b></h6>
+            <input type="email" name="courriel_for_user" id="courriel_for_user" value="<?= $_SESSION['courriel']; ?>">
             <!-- numéro de téléphone -->
-            <input type="tel" name="telephone" id="telephone" value=<?= $_SESSION['telephone']; ?>><br>
+            <h6><b>Téléphone : </b></h6>
+            <input type="tel" name="telephone" id="telephone" value="<?= $_SESSION['telephone']; ?>"><br>
 
             <!-- le type submit permet de soumettre le formulaire, génère un bouton envoyer -->
             <input type="submit" name="formsend" id="formsend" value="Sauvegarder"><br>
@@ -258,6 +267,7 @@
                     
                 }
             ?>
+        </div>
         </div>    
 
     <!-- TAB 4 -->
@@ -297,10 +307,9 @@
                       
             ?>
         </div>
-    </div>    
+    </div>
+</div>
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="js/page_user.js"></script>
-
-
 </body>
 </html>

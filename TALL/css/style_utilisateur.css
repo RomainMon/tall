@@ -23,7 +23,6 @@ font-size: small;
 
 /* Textes de formulaire */
 h3{
-text-align: center;
 text-transform: uppercase;
 font-size: small;
 font-weight: bold ;
@@ -125,7 +124,7 @@ h6{
   border: 0.05rem solid;
   /* background-color: blueviolet; */
   border-radius: 5px;
-  border-color: #9ED6C3;
+  border-color: rgb(207, 207, 207);
   width: 350px;
   height: 100%;
   padding: 1.6rem;
@@ -175,7 +174,7 @@ input [type = "range"]{
 /* liste de sélection */
 select{
   width: 100%;
-  padding: 8px 8px;
+  padding: 5px 5px;
   margin: 10px 0px;    
   display: inline-block;
   border: 1px solid #ccc;
@@ -185,22 +184,27 @@ select{
 }
 
 /* bouton PDF
- /* Style buttons */
- .btn {
-  background-color: #9ED6C3;
+/* Style buttons */
+.btn {
+  width: 50%;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: rgb(175, 175, 175);
+  border: 1px solid rgb(163, 163, 163);
   border-radius: 5px;
-  border: none;
-  color: rgb(255, 255, 255);
-  padding: 12px 12px;
-  cursor: pointer;
-  font-size: 15px;
-  margin: 20px;
-}
+  margin : 5px;
+  }
 
 .btn:hover {
-  background-color: #A3BB8E;
-}  
+  background-color: white;
+  color: #a7f8ab;
+  border: 1px solid #a7f8ab;
+  }
 
+#telecharge{
+  width: 15%;
+}
 
 /* Couleur des checkbox off */
 :root {
@@ -309,5 +313,6 @@ input[id="equipAsso"]:checked + label:after {
   content: url('../img/equipAsso.png');
   transform: scale(0.09);
   }
+
 
 

@@ -26,7 +26,7 @@ HOST = "localhost"
 
 USER = "postgres"
 
-PASSWORD = "******"
+PASSWORD = "Romainduris"
 
 DATABASE = "TALL"
 
@@ -75,12 +75,12 @@ conn.close()
 #lecture des fichiers shape de base avec la bibliothèque géopandas pour créer des tableaux.
 adresse = 'data_travail/ADRESSE_GL_QUARTIER_4326.shp'
 #chemin vers le fichier shp déjà créé si il existe (test par la suite)
-adresse_1 = 'data_travail/ADRESSE_GL_QUARTIER_1_4326.shp'
+adresse_1 = 'data_travail/ADRESSE_GL_QUARTIER_10_4326.shp'
 
 #Création du fichier shape de 1 % aléatoire des adresses si il n'existe pas déjà :
 if path.exists(adresse_1) :
     print("c'est moins long")
-    gdf_adresse_1 = gpd.read_file(adresse_1,encoding = 'UTF-8')
+    gdf_adresse_10 = gpd.read_file(adresse_1,encoding = 'UTF-8')
     #print(gdf_adresse_1.head())
     #print(gdf_adresse_1.shape)
     #print(gdf_adresse_1.shape[0])
@@ -89,32 +89,36 @@ else :
     #création de 1% d'adresse :
     print("c'est plus long")
     gdf_adresse = gpd.read_file(adresse,encoding = 'UTF-8')    
-    gdf_adresse_1 = gdf_adresse.sample(frac = 0.01) #Sélection aléatoire de 1% d'individu.
+    gdf_adresse_10 = gdf_adresse.sample(frac = 0.10) #Sélection aléatoire de 10% d'individu.
     #print(gdf_adresse_1.head())
     #print(gdf_adresse_1.shape)
     #print(gdf_adresse_1.shape[0])
     #print(gdf_adresse_1.index)
-    gdf_adresse_1.to_file('data_travail/ADRESSE_GL_QUARTIER_1_4326.shp')
+    gdf_adresse_10.to_file('data_travail/ADRESSE_GL_QUARTIER_10_4326.shp')
 
 #remplissage des champs de la table utilisateurs création de liste qui corresponde au nombre d'utilisateurs généré aléatoirement plus haut.
 #Création du prénom sous la forme UtiliN°_utilisateur
-liste_prenom = ["Utili"+str(i) for i in gdf_adresse_1.index]
+liste_prenom = ["Utili"+str(i) for i in gdf_adresse_10.index]
 #Création du prénom sous la forme SateurN°_utilisateur
-liste_nom = ["Sateur"+str(i) for i in gdf_adresse_1.index]
+liste_nom = ["Sateur"+str(i) for i in gdf_adresse_10.index]
 #Mail sous la forme prenom.nomN°_utilisateur@tallmail.com
-liste_mail = ["Utili.Sateur"+str(i)+"@tallmail.com" for i in gdf_adresse_1.index]
+liste_mail = ["Utili.Sateur"+str(i)+"@tallmail.com" for i in gdf_adresse_10.index]
 #Date d'inscription : heure locale sous le format timestamp finalement pas utilisé.
-#liste_date_inscription = [datetime.timestamp(datetime.now()) for i in gdf_adresse_1.index]
+#interesse pour être benevole ou non:
+dix_pourcentok = ['null','null','null','null','null','null','null','null','oui']
+liste_benevole =[random.choice(dix_pourcentok) for i in gdf_adresse_10.index]
+#contact association même ligne que ci-dessus pour être cohérent
+# liste_contact_asso = [random.choice(dix_pourcentok) for i in gdf_adresse_1.index]
 # creation des associations des utilisateurs
-liste_association_par_utilisateur = [random.choice(liste_association) for i in gdf_adresse_1.index]
+liste_association_par_utilisateur = [random.choice(liste_association) for i in gdf_adresse_10.index]
 #Création d'un mot de passe aléatoire pour chaque utilisateur afin de bien remplir la base de données.
 def getPassword(length):
     #Générer une chaîne aléatoire de longueur fixe
     stri = string.ascii_lowercase
     return ''.join(random.choice(stri) for i in range(length))
-liste_mdp = [getPassword(10) for i in gdf_adresse_1.index]
+liste_mdp = [getPassword(10) for i in gdf_adresse_10.index]
 #Numéro de téléphone laissé nul pour ne pas créer aléatoirement des numéros qui existent.
-liste_tel = ['null' for i in gdf_adresse_1.index]
+liste_tel = ['null' for i in gdf_adresse_10.index]
 #Liste des id utilisateurs : equivalent à un serial pas utilisé
 #liste_id_utilisateur = [i for i in gdf_adresse_1.index]
 
@@ -152,7 +156,7 @@ def liste_cate(liste) :
 #Création d'une liste des listes pour chaque utilisateur :
 liste_cate_total_utilisateur = []
 #itération sur le nombre de rangée du tableau :
-for i in gdf_adresse_1.index :    
+for i in gdf_adresse_10.index :    
     i = liste_cate(liste_categorie)
     liste_cate_total_utilisateur.append(i)
 
@@ -160,38 +164,40 @@ for i in gdf_adresse_1.index :
 df_cate_utilisateur = pd.DataFrame(liste_cate_total_utilisateur,columns = ["id_cate_1","id_cate_2","id_cate_3","id_cate_4","id_cate_5"])
 
 #gdf_adresse_1['id_utilisateur']=liste_id_utilisateur
-gdf_adresse_1['prenom']=liste_prenom
-gdf_adresse_1['nom']=liste_nom
-gdf_adresse_1['email']=liste_mail
-gdf_adresse_1['mdp']=liste_mdp
-gdf_adresse_1['telephone']=liste_tel
-#gdf_adresse_1['date_inscription']=liste_date_inscription
-gdf_adresse_1['id_asso'] = liste_association_par_utilisateur
+gdf_adresse_10['prenom']=liste_prenom
+gdf_adresse_10['nom']=liste_nom
+gdf_adresse_10['email']=liste_mail
+gdf_adresse_10['mdp']=liste_mdp
+gdf_adresse_10['telephone']=liste_tel
+#gdf_adresse_10['date_inscription']=liste_date_inscription
+gdf_adresse_10['id_asso'] = liste_association_par_utilisateur
+gdf_adresse_10['benevole'] = liste_benevole
+gdf_adresse_10['contact_asso'] = liste_benevole
 
 #Concaténation des deux tableaux :
-gdf_adresse_1 = pd.concat([gdf_adresse_1, df_cate_utilisateur], axis = 1) #axis = 1 pour que la juxtaposition se fasse par colonnes
+gdf_adresse_10 = pd.concat([gdf_adresse_10, df_cate_utilisateur], axis = 1) #axis = 1 pour que la juxtaposition se fasse par colonnes
   
 #Vérification que le tableau est bon :
-print(gdf_adresse_1)
+print(gdf_adresse_10)
 
 
-gdf_adresse_1.rename(columns={'ID':'id_adresse'},inplace = True)
+gdf_adresse_10.rename(columns={'ID':'id_adresse'},inplace = True)
 
-print(gdf_adresse_1.iloc[0])
+print(gdf_adresse_10.iloc[0])
 
-print(gdf_adresse_1.columns)
+print(gdf_adresse_10.columns)
 
-#gdf_adresse_1.rename(columns={'geometry':'geom'},inplace = True)
+#gdf_adresse_10.rename(columns={'geometry':'geom'},inplace = True)
 
-gdf_adresse_1.drop(gdf_adresse_1.iloc[:,1:11],1,inplace=True)
+gdf_adresse_10.drop(gdf_adresse_10.iloc[:,1:11],1,inplace=True)
 
-print(gdf_adresse_1.columns)
+print(gdf_adresse_10.columns)
 
 #export du tableau géopandas vers la base de données :
-db_connection_url = "postgres://postgres:******@localhost:5432/TALL"
+db_connection_url = "postgres://postgres:Romainduris@localhost:5432/TALL"
 engine = create_engine(db_connection_url)
 #export au format postgis du tableau
-gdf_adresse_1.to_postgis(name="utilisateur", con=engine)
+gdf_adresse_10.to_postgis(name="utilisateur", con=engine)
 
 #Reprise de la table pour ajouter le champs id_utilisateur serial et le champs date_inscription en timestamp et les contraintes non null sur les bonnes colonnes:
 conn2 = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))

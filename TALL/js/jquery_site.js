@@ -1,4 +1,5 @@
 $(document).ready(function(){ // fonction qui permet de lancer les autres fonction jquery si la page c'est chargé correctement
+$("#tab-2").hide();
 
     $('#choix_commune').on('change',function(e){
         e.preventDefault(); // on empêche le bouton d'envoie d'envoyer le formulaire
@@ -87,9 +88,11 @@ $(document).ready(function(){ // fonction qui permet de lancer les autres foncti
 
 // Fonction permettant la navigation entre les onglets du menu vertical
 // Spoiler
+
 $(document).ready(function() {
     $("#config").click(function() {
         $("#confignav").slideToggle("normal");
+        $("#tab-2").show();
     });
 });
 
@@ -107,6 +110,7 @@ $("#abrir_box").click(function(){
 $(document).ready(function() {
     $(".tabs-menu a").click(function(event) {
         event.preventDefault();
+        $("#tab-2").show();
         $(this).parent().addClass("current");
         $(this).parent().siblings().removeClass("current");
         var tab = $(this).attr("href");

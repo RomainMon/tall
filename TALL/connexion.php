@@ -4,6 +4,8 @@
 <html>
     <head>
        <meta charset="utf-8">
+       <title>TALL</title>
+        <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="css/connect.css" media="screen" type="text/css" />
     </head>
@@ -110,7 +112,7 @@
                                 // le compte existe
                                 // vérification que le mdp entrée correspond au mdp crypté
                                 $hashpassword = $result['mdp'];
-                                console.log($hashpassword);
+                                // console.log($hashpassword);
                                 if (password_verify($lpassword, $hashpassword)){
                                     
                                     // echo "Le mot de passe est bon, connexion en cours";
