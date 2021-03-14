@@ -9,7 +9,7 @@ de tels équipements à tel lieu renseignés par l'utilisateur lui-même. Nous n
 sur les méthods d'AMC-SIG classiques : création de couches rasters constituant les
 différents critères, standardisation, calculatrice raster ; la méthode d'agrégation est ici
 la somme pondérée"""
-print("<h5>Encore un effort Romis</h5>")
+
 
 #__author__ = "AUBERT Clarisse, DUVERNEUIL Bruno, MASCARELL Clément, MONASSIER Romain"
 
@@ -49,7 +49,7 @@ ua_gl = rasterio.open('UrbanAtlas_2012_GL_R.tif') # Chargement de l'Urban Atlas 
 ## Connexion BDD
 HOST = "localhost"
 USER = "postgres"
-PASSWORD = "Romainduris"
+PASSWORD = "******"
 DATABASE = "TALL"
 conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
 
@@ -228,7 +228,7 @@ with rasterio.open('ua_reclass.tif') as src:
     profile['dtype'] = rasterio.float64
 ua_gl_array[numpy.where(ua_gl_array == 0)] = 0
 ua_gl_array[numpy.where(ua_gl_array >= 1)] = 1
-# print("Picon?")
+
 
 # Exclusion des zones de l'UA égales à 0 (ie non constructibles) via de l'algèbre raster
 criteres_filtre = (criteres*ua_gl_array)
@@ -363,7 +363,7 @@ topgdf = topgdf.to_crs("EPSG:4326")
 # D'après https://gis.stackexchange.com/questions/239198/adding-geopandas-dataframe-to-postgis-table
 # CF aussi https://naysan.ca/2020/05/09/pandas-to-postgresql-using-psycopg2-bulk-insert-performance-benchmark/
 # On remplace la table existante = suppression du résultat précédent
-db_connection_url = "postgres://postgres:Romainduris@localhost:5432/TALL"
+db_connection_url = "postgres://postgres:******@localhost:5432/TALL"
 engine = create_engine(db_connection_url)
 topgdf.to_postgis(
     con=engine,
