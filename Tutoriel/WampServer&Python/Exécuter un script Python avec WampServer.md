@@ -82,7 +82,7 @@ Après avoir créé un "Virtual Host" pour l'occasion, on met un script python d
         #!C:/Python3.8.6/python.exe
 
         print("content-type: text/html\n\n" ) # je crée un contenu html
-        print("<br><B>hello la team</B>") #j'affiche hello la team en HTML
+        print("<br>hello la team") #j'affiche hello la team en HTML
 
 Si vous excutez le script en double cliquant dessus, ou en mettant directement le lien vers celui ci dans votre barre de recherche, votre page web affichera "hello la team".
 
